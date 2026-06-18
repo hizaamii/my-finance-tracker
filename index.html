@@ -85,7 +85,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <div>
                         <p class="text-xs text-slate-400 font-semibold uppercase tracking-widest">Net Wealth Balance</p>
-                        <h2 id="total-balance" class="text-4xl font-black text-white mt-1 tracking-tight">$0.00</h2>
+                        <h2 id="total-balance" class="text-4xl font-black text-white mt-1 tracking-tight">RM0.00</h2>
                     </div>
                     <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-500/30 uppercase tracking-wider">
                         Live Sync
@@ -100,7 +100,7 @@
                         </div>
                         <div>
                             <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Income</p>
-                            <p id="total-income" class="text-sm font-semibold text-emerald-400">$0.00</p>
+                            <p id="total-income" class="text-sm font-semibold text-emerald-400">RM0.00</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-2.5">
@@ -109,7 +109,7 @@
                         </div>
                         <div>
                             <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Expenses</p>
-                            <p id="total-expense" class="text-sm font-semibold text-rose-400">$0.00</p>
+                            <p id="total-expense" class="text-sm font-semibold text-rose-400">RM0.00</p>
                         </div>
                     </div>
                 </div>
@@ -118,15 +118,15 @@
                 <div class="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-slate-800/80">
                     <div class="bg-slate-950/40 rounded-2xl p-2.5 border border-slate-800/45 text-center">
                         <p class="text-[8px] text-slate-400 uppercase font-extrabold tracking-wider">RHB Bank</p>
-                        <p id="bal-rhb" class="text-xs font-bold text-emerald-400 mt-0.5">$0.00</p>
+                        <p id="bal-rhb" class="text-xs font-bold text-emerald-400 mt-0.5">RM0.00</p>
                     </div>
                     <div class="bg-slate-950/40 rounded-2xl p-2.5 border border-slate-800/45 text-center">
                         <p class="text-[8px] text-slate-400 uppercase font-extrabold tracking-wider">Bank Islam</p>
-                        <p id="bal-islam" class="text-xs font-bold text-emerald-400 mt-0.5">$0.00</p>
+                        <p id="bal-islam" class="text-xs font-bold text-emerald-400 mt-0.5">RM0.00</p>
                     </div>
                     <div class="bg-slate-950/40 rounded-2xl p-2.5 border border-slate-800/45 text-center">
                         <p class="text-[8px] text-slate-400 uppercase font-extrabold tracking-wider">Cash</p>
-                        <p id="bal-cash" class="text-xs font-bold text-emerald-400 mt-0.5">$0.00</p>
+                        <p id="bal-cash" class="text-xs font-bold text-emerald-400 mt-0.5">RM0.00</p>
                     </div>
                 </div>
             </div>
@@ -454,7 +454,7 @@ function doPost(e) {
                 <div class="bg-slate-950 rounded-2xl p-4 border border-slate-800 text-center relative">
                     <label class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Amount</label>
                     <div class="flex items-center justify-center gap-1.5 mt-1">
-                        <span class="text-xl font-bold text-slate-400">$</span>
+                        <span class="text-xl font-bold text-slate-400">RM</span>
                         <input type="number" step="0.01" inputmode="decimal" id="tx-amount" placeholder="0.00" class="bg-transparent text-white text-3xl font-black focus:outline-none w-48 text-center placeholder-slate-800">
                     </div>
                 </div>
@@ -463,7 +463,7 @@ function doPost(e) {
                 <div class="space-y-3">
                     <div>
                         <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Title / Vendor</label>
-                        <input type="text" id="tx-title" placeholder="e.g. Starbucks, Uber, Paycheck" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 placeholder-slate-600 focus:outline-none focus:border-emerald-500 transition-all">
+                        <input type="text" id="tx-title" placeholder="e.g. Starbucks, Paycheck, John's Loan" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 placeholder-slate-600 focus:outline-none focus:border-emerald-500 transition-all">
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
@@ -477,15 +477,8 @@ function doPost(e) {
                         </div>
                         <div>
                             <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Category</label>
+                            <!-- Dynamically populated via JS based on Expense/Income selection -->
                             <select id="tx-category" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-emerald-500 transition-all appearance-none cursor-pointer">
-                                <option value="Food">🍔 Food & Dining</option>
-                                <option value="Transport">🚗 Transportation</option>
-                                <option value="Utilities">⚡ Utilities & Bills</option>
-                                <option value="Entertainment">🎬 Entertainment</option>
-                                <option value="Shopping">🛍️ Shopping</option>
-                                <option value="Salary">💰 Income / Salary</option>
-                                <option value="Investment">📈 Investments</option>
-                                <option value="Other">📦 Other</option>
                             </select>
                         </div>
                     </div>
@@ -526,6 +519,7 @@ function doPost(e) {
                         <option value="Utilities">⚡ Utilities & Bills</option>
                         <option value="Entertainment">🎬 Entertainment</option>
                         <option value="Shopping">🛍️ Shopping</option>
+                        <option value="Loan Given">💸 Loan Given</option>
                         <option value="Other">📦 Other</option>
                     </select>
                 </div>
@@ -533,7 +527,7 @@ function doPost(e) {
                 <div>
                     <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Monthly Maximum Cap</label>
                     <div class="flex items-center bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3">
-                        <span class="text-xs font-bold text-slate-500 mr-1.5">$</span>
+                        <span class="text-xs font-bold text-slate-500 mr-1.5">RM</span>
                         <input type="number" id="budget-amount" placeholder="e.g. 500" class="bg-transparent text-xs text-slate-300 focus:outline-none w-full">
                     </div>
                 </div>
@@ -607,6 +601,7 @@ function doPost(e) {
         let unsubscribeTx = null;
         let unsubscribeBudgets = null;
         let activeEditTxId = null; // tracking if editing
+        let deleteConfirmTimer = null; // safe state validation
 
         // DETECT GLOBAL SYSTEM CONFIGS OR DEFAULT
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'personal-finance-tracker';
@@ -615,6 +610,36 @@ function doPost(e) {
         let db = null;
         let auth = null;
         let firebaseApp = null;
+
+        // DYNAMIC CATEGORY OPTIONS BASED ON TRANSACTION TYPE
+        const categoryOptions = {
+            expense: [
+                { value: 'Food', label: '🍔 Food & Dining' },
+                { value: 'Transport', label: '🚗 Transportation' },
+                { value: 'Utilities', label: '⚡ Utilities & Bills' },
+                { value: 'Entertainment', label: '🎬 Entertainment' },
+                { value: 'Shopping', label: '🛍️ Shopping' },
+                { value: 'Loan Given', label: '💸 Loan Given' },
+                { value: 'Other', label: '📦 Other' }
+            ],
+            income: [
+                { value: 'Salary', label: '💰 Income / Salary' },
+                { value: 'Investment', label: '📈 Investments' },
+                { value: 'Loan Repaid', label: '🤝 Loan Repaid' },
+                { value: 'Other', label: '📦 Other' }
+            ]
+        };
+
+        function updateCategoryDropdown(type) {
+            const select = document.getElementById('tx-category');
+            select.innerHTML = '';
+            categoryOptions[type].forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.value;
+                option.textContent = cat.label;
+                select.appendChild(option);
+            });
+        }
 
         // Standard Mock Data with local bank accounts (RHB, Bank Islam, Cash)
         const defaultMockTransactions = [
@@ -1051,11 +1076,11 @@ function doPost(e) {
             }
         }
 
-        // Format Currency Helper
+        // Format Currency Helper changed to MYR
         function formatCurrency(num) {
-            return new Intl.NumberFormat('en-US', {
+            return new Intl.NumberFormat('en-MY', {
                 style: 'currency',
-                currency: 'USD',
+                currency: 'MYR',
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }).format(num);
@@ -1109,7 +1134,7 @@ function doPost(e) {
             });
         }
 
-        // Get matching Emojis
+        // Get matching Emojis including Loan functionality
         function getCategoryEmoji(cat) {
             switch(cat) {
                 case 'Food': return '🍔';
@@ -1119,6 +1144,8 @@ function doPost(e) {
                 case 'Shopping': return '🛍️';
                 case 'Salary': return '💰';
                 case 'Investment': return '📈';
+                case 'Loan Given': return '💸';
+                case 'Loan Repaid': return '🤝';
                 default: return '📦';
             }
         }
@@ -1197,6 +1224,7 @@ function doPost(e) {
                 'Utilities': '#3b82f6', // blue-500
                 'Entertainment': '#a855f7', // purple-500
                 'Shopping': '#ec4899', // pink-500
+                'Loan Given': '#0ea5e9', // sky-500
                 'Other': '#64748b' // slate-500
             };
 
@@ -1425,6 +1453,10 @@ function doPost(e) {
             document.getElementById('tx-title').value = '';
             document.getElementById('tx-amount').value = '';
             document.getElementById('tx-account').selectedIndex = 0;
+            
+            // Set Default Type explicitly to update dynamic categories
+            expenseBtn.click();
+            
             document.getElementById('tx-category').selectedIndex = 0;
             document.getElementById('tx-date').valueAsDate = new Date();
             
@@ -1455,6 +1487,7 @@ function doPost(e) {
             expenseBtn.className = "py-2 text-xs font-bold rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/25";
             incomeBtn.className = "py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white";
             document.getElementById('modal-indicator').className = "w-2.5 h-2.5 rounded-full bg-rose-500";
+            updateCategoryDropdown('expense');
         });
 
         incomeBtn.addEventListener('click', () => {
@@ -1462,6 +1495,7 @@ function doPost(e) {
             incomeBtn.className = "py-2 text-xs font-bold rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/25";
             expenseBtn.className = "py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white";
             document.getElementById('modal-indicator').className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
+            updateCategoryDropdown('income');
         });
 
         function openModal(modal) {
@@ -1620,10 +1654,28 @@ function doPost(e) {
                 document.body.removeChild(textarea);
             });
 
-            // Purge wallet logs
-            document.getElementById('purge-wallet-btn').addEventListener('click', async () => {
-                const confirmPurge = confirm("Are you absolute certain you wish to purge all cloud transaction ledgers associated with this address?");
-                if (!confirmPurge) return;
+            // Purge wallet logs - UPGRADED TO SAFE DOUBLE-TAP SYSTEM (NO CONFIRM WINDOWS)
+            const purgeBtn = document.getElementById('purge-wallet-btn');
+            purgeBtn.addEventListener('click', async () => {
+                if (!deleteConfirmTimer) {
+                    // Set temporary confirmation hold state
+                    deleteConfirmTimer = setTimeout(() => {
+                        deleteConfirmTimer = null;
+                        purgeBtn.innerHTML = `<i class="fa-solid fa-trash-can text-xs mr-1"></i> Clear & Start Anew`;
+                        purgeBtn.className = "active-scale transition-all-custom w-full bg-rose-500/10 hover:bg-rose-500/15 border border-rose-500/20 text-rose-400 text-xs font-bold py-2.5 rounded-2xl";
+                    }, 5000); // 5 second reset window
+
+                    purgeBtn.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-xs mr-1"></i> Tap Again to Purge Ledger (5s)`;
+                    purgeBtn.className = "active-scale transition-all-custom w-full bg-rose-500 hover:bg-rose-600 text-slate-950 text-xs font-black py-2.5 rounded-2xl shadow-lg shadow-rose-500/10";
+                    showToast("Tap again within 5 seconds to confirm complete reset", "error");
+                    return;
+                }
+
+                // Execute action on double-tap
+                clearTimeout(deleteConfirmTimer);
+                deleteConfirmTimer = null;
+                purgeBtn.innerHTML = `<i class="fa-solid fa-trash-can text-xs mr-1"></i> Clear & Start Anew`;
+                purgeBtn.className = "active-scale transition-all-custom w-full bg-rose-500/10 hover:bg-rose-500/15 border border-rose-500/20 text-rose-400 text-xs font-bold py-2.5 rounded-2xl";
 
                 if (db && currentUserId) {
                     updateSyncWidget('syncing', 'Purging...');
@@ -1662,16 +1714,18 @@ function doPost(e) {
             document.getElementById('modal-title-text').textContent = "Modify Transaction";
             document.getElementById('tx-title').value = target.title;
             document.getElementById('tx-amount').value = target.amount;
-            document.getElementById('tx-category').value = target.category;
             document.getElementById('tx-account').value = target.account || 'Cash';
             document.getElementById('tx-date').value = target.date;
             
-            // Set toggle buttons visually
+            // Set toggle buttons visually (This also populates the dropdowns)
             if (target.type === 'income') {
                 incomeBtn.click();
             } else {
                 expenseBtn.click();
             }
+
+            // Sync dynamic value selection
+            document.getElementById('tx-category').value = target.category;
 
             openModal(modalTx);
         };
