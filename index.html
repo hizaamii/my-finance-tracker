@@ -86,6 +86,12 @@
                     <div>
                         <p class="text-xs text-slate-400 font-semibold uppercase tracking-widest">Net Wealth Balance</p>
                         <h2 id="total-balance" class="text-4xl font-black text-white mt-1 tracking-tight">RM0.00</h2>
+                        <!-- Dynamic Financial Health Indicators -->
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <span id="label-net-cash" class="text-[9px] text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/10">Cash: RM0.00</span>
+                            <span id="label-net-lent" class="text-[9px] text-sky-400 font-semibold bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/10">Lent: RM0.00</span>
+                            <span id="label-net-debt" class="text-[9px] text-rose-400 font-semibold bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/10">Owed: RM0.00</span>
+                        </div>
                     </div>
                     <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-500/30 uppercase tracking-wider">
                         Live Sync
@@ -246,6 +252,58 @@
             <!-- BUDGET CARDS GRID -->
             <div id="budgets-management-list" class="space-y-4">
                 <!-- Rendered dynamically -->
+            </div>
+        </div>
+
+        <!-- SCREEN 5: LOANS & DEBTS -->
+        <div id="screen-loans" class="space-y-6 hidden">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-1">Loans & Debts</h3>
+                    <p class="text-xs text-slate-400">Manage money you lent out and liabilities you owe (PTPTN, Ali, etc.)</p>
+                </div>
+                <button id="add-loan-btn" class="active-scale transition-all-custom w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 flex items-center justify-center shadow-lg">
+                    <i class="fa-solid fa-plus text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Loan Summary Cards -->
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-slate-900/40 border border-slate-900/60 p-4 rounded-2xl relative overflow-hidden">
+                    <div class="absolute right-2 bottom-2 opacity-10 text-emerald-400 text-4xl">
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+                    </div>
+                    <p class="text-[9px] text-slate-400 uppercase font-bold tracking-wider">Owed To Me (Lent)</p>
+                    <p id="total-lent" class="text-lg font-bold text-emerald-400 mt-1">RM0.00</p>
+                </div>
+                <div class="bg-slate-900/40 border border-slate-900/60 p-4 rounded-2xl relative overflow-hidden">
+                    <div class="absolute right-2 bottom-2 opacity-10 text-rose-400 text-4xl">
+                        <i class="fa-solid fa-scale-unbalanced"></i>
+                    </div>
+                    <p class="text-[9px] text-slate-400 uppercase font-bold tracking-wider">My Debts (Payable)</p>
+                    <p id="total-borrowed" class="text-lg font-bold text-rose-400 mt-1">RM0.00</p>
+                </div>
+            </div>
+
+            <!-- Tabular breakdown of Loans -->
+            <div class="space-y-5">
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Receivables (Lent to others)
+                    </h4>
+                    <div id="loans-lent-list" class="space-y-3">
+                        <!-- Rendered dynamically -->
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Liabilities (My Debts e.g., PTPTN)
+                    </h4>
+                    <div id="loans-borrowed-list" class="space-y-3">
+                        <!-- Rendered dynamically -->
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -539,6 +597,90 @@ function doPost(e) {
         </div>
     </div>
 
+    <!-- OVERLAY MODAL: CREATE LOAN TRACKER -->
+    <div id="modal-loan" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
+        <div class="bg-slate-900 border-t border-slate-800 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
+            <div class="flex justify-between items-center">
+                <h3 class="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Create Loan Tracker
+                </h3>
+                <button id="close-loan-modal-btn" class="w-8 h-8 rounded-full bg-slate-850 flex items-center justify-center text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Form Body -->
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800/60">
+                    <button id="loan-type-lent-btn" class="py-2 text-xs font-bold rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
+                        <i class="fa-solid fa-arrow-down text-[10px] mr-1"></i> Lent to Someone
+                    </button>
+                    <button id="loan-type-borrowed-btn" class="py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-arrow-up text-[10px] mr-1"></i> My Debt (e.g., PTPTN)
+                    </button>
+                </div>
+
+                <div>
+                    <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Loan Title / Description</label>
+                    <input type="text" id="loan-title" placeholder="e.g. PTPTN, Ali Loan, Yayasan Bank Rakyat" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 placeholder-slate-600 focus:outline-none focus:border-emerald-500 transition-all">
+                </div>
+
+                <div>
+                    <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Total Loan Principal Amount</label>
+                    <div class="flex items-center bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3">
+                        <span class="text-xs font-bold text-slate-500 mr-1.5">RM</span>
+                        <input type="number" id="loan-amount" placeholder="e.g. 10000" class="bg-transparent text-xs text-slate-300 focus:outline-none w-full">
+                    </div>
+                </div>
+
+                <button id="save-loan-btn" class="active-scale transition-all-custom w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-check-double text-xs"></i> Initialize Tracker
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- OVERLAY MODAL: RECORD LOAN PAYMENT -->
+    <div id="modal-loan-payment" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
+        <div class="bg-slate-900 border-t border-slate-800 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
+            <div class="flex justify-between items-center">
+                <h3 class="text-md font-bold text-white uppercase tracking-wider" id="loan-payment-header">Record Payment</h3>
+                <button id="close-loan-payment-modal-btn" class="w-8 h-8 rounded-full bg-slate-850 flex items-center justify-center text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Form Body -->
+            <div class="space-y-4">
+                <div>
+                    <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Deduction / Payment Amount</label>
+                    <div class="flex items-center bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3">
+                        <span class="text-xs font-bold text-slate-500 mr-1.5">RM</span>
+                        <input type="number" step="0.01" id="loan-payment-amount" placeholder="0.00" class="bg-transparent text-xs text-slate-300 focus:outline-none w-full">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Cash / Bank Source Account</label>
+                    <select id="loan-payment-account" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
+                        <option value="RHB Bank">🏦 RHB Bank</option>
+                        <option value="Bank Islam">🕌 Bank Islam</option>
+                        <option value="Cash">💵 Cash</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Payment Date</label>
+                    <input type="date" id="loan-payment-date" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-indigo-500 transition-all">
+                </div>
+
+                <button id="submit-loan-payment-btn" class="active-scale transition-all-custom w-full bg-indigo-500 hover:bg-indigo-600 text-slate-950 font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-hand-holding-dollar text-xs"></i> Post Repayment
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- GLOBAL NOTIFICATION BANNER -->
     <div id="global-toast" class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-slate-900 border border-slate-800 text-white rounded-2xl px-4 py-3 shadow-2xl z-50 flex items-center gap-2.5 max-w-[85%] transition-all duration-300 opacity-0 translate-y-[-20px] pointer-events-none">
         <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
@@ -553,27 +695,32 @@ function doPost(e) {
     </div>
 
     <!-- BOTTOM NAVIGATION TABBAR -->
-    <nav class="bg-slate-950/95 backdrop-blur-md border-t border-slate-900 safe-bottom shrink-0 px-2 pt-2 z-40">
-        <div class="grid grid-cols-4 gap-1">
+    <nav class="bg-slate-950/95 backdrop-blur-md border-t border-slate-900 safe-bottom shrink-0 px-1 pt-2 z-40">
+        <div class="grid grid-cols-5 gap-0.5">
             
             <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-emerald-400" data-target="screen-dashboard">
-                <i class="fa-solid fa-chart-pie text-lg"></i>
-                <span class="text-[9px] font-bold tracking-wide uppercase mt-1">Overview</span>
+                <i class="fa-solid fa-chart-pie text-base"></i>
+                <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Overview</span>
             </button>
 
             <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-slate-500 hover:text-slate-300" data-target="screen-analytics">
-                <i class="fa-solid fa-chart-line text-lg"></i>
-                <span class="text-[9px] font-bold tracking-wide uppercase mt-1">Analytics</span>
+                <i class="fa-solid fa-chart-line text-base"></i>
+                <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Analysis</span>
             </button>
 
             <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-slate-500 hover:text-slate-300" data-target="screen-budgets">
-                <i class="fa-solid fa-wallet text-lg"></i>
-                <span class="text-[9px] font-bold tracking-wide uppercase mt-1">Budgets</span>
+                <i class="fa-solid fa-wallet text-base"></i>
+                <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Budgets</span>
+            </button>
+
+            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-slate-500 hover:text-slate-300" data-target="screen-loans">
+                <i class="fa-solid fa-hand-holding-dollar text-base"></i>
+                <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Loans</span>
             </button>
 
             <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-slate-500 hover:text-slate-300" data-target="screen-sync">
-                <i class="fa-solid fa-rotate text-lg"></i>
-                <span class="text-[9px] font-bold tracking-wide uppercase mt-1">Cloud Sync</span>
+                <i class="fa-solid fa-rotate text-base"></i>
+                <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Cloud</span>
             </button>
 
         </div>
@@ -596,12 +743,16 @@ function doPost(e) {
         // APP STATE MANAGERS
         let transactions = [];
         let budgets = [];
+        let loans = [];
         let syncStatus = 'local'; // 'local', 'syncing', 'synced', 'error'
         let currentUserId = null;
         let unsubscribeTx = null;
         let unsubscribeBudgets = null;
+        let unsubscribeLoans = null;
         let activeEditTxId = null; // tracking if editing
+        let activePaymentLoanId = null; // tracking loan targeted for payment
         let deleteConfirmTimer = null; // safe state validation
+        let selectedLoanType = 'lent'; // lent or borrowed
 
         // DETECT GLOBAL SYSTEM CONFIGS OR DEFAULT
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'personal-finance-tracker';
@@ -620,6 +771,7 @@ function doPost(e) {
                 { value: 'Entertainment', label: '🎬 Entertainment' },
                 { value: 'Shopping', label: '🛍️ Shopping' },
                 { value: 'Loan Given', label: '💸 Loan Given' },
+                { value: 'Loan Repayment', label: '📉 Loan Repayment' },
                 { value: 'Other', label: '📦 Other' }
             ],
             income: [
@@ -646,15 +798,17 @@ function doPost(e) {
             { id: 'm1', title: 'Salary Paycheck', amount: 4800.00, type: 'income', category: 'Salary', date: getRecentDateOffset(0), account: 'RHB Bank' },
             { id: 'm2', title: 'Jaya Grocer Basket', amount: 164.50, type: 'expense', category: 'Food', date: getRecentDateOffset(-1), account: 'Bank Islam' },
             { id: 'm3', title: 'Shell Petrol Station', amount: 45.00, type: 'expense', category: 'Transport', date: getRecentDateOffset(-2), account: 'Cash' },
-            { id: 'm4', title: 'Unifi Fiber Bill', amount: 129.00, type: 'expense', category: 'Utilities', date: getRecentDateOffset(-3), account: 'RHB Bank' },
-            { id: 'm5', title: 'Apple Store Purchase', amount: 329.00, type: 'expense', category: 'Shopping', date: getRecentDateOffset(-5), account: 'Bank Islam' },
-            { id: 'm6', title: 'Freelance Design Draft', amount: 850.00, type: 'income', category: 'Salary', date: getRecentDateOffset(-6), account: 'Cash' }
+            { id: 'm4', title: 'Unifi Fiber Bill', amount: 129.00, type: 'expense', category: 'Utilities', date: getRecentDateOffset(-3), account: 'RHB Bank' }
         ];
 
         const defaultMockBudgets = [
             { id: 'b1', category: 'Food', amount: 400.00 },
-            { id: 'b2', category: 'Transport', amount: 150.00 },
-            { id: 'b3', category: 'Utilities', amount: 200.00 }
+            { id: 'b2', category: 'Transport', amount: 150.00 }
+        ];
+
+        const defaultMockLoans = [
+            { id: 'l1', title: 'PTPTN Study Debt', type: 'borrowed', originalAmount: 15000.00, currentBalance: 12500.00 },
+            { id: 'l2', title: 'Loan to Ali', type: 'lent', originalAmount: 500.00, currentBalance: 350.00 }
         ];
 
         function getRecentDateOffset(daysOffset) {
@@ -668,7 +822,7 @@ function doPost(e) {
             setNavEvents();
             setupFormEvents();
             loadLocalFallbackData(); // Pre-load local state immediately to avoid blank layout
-            setupGoogleSheetsEvents(); // Initialize new Google Sheets Event handlers
+            setupGoogleSheetsEvents(); // Initialize Google Sheets Event handlers
             renderApp();
 
             if (rawConfig) {
@@ -704,7 +858,6 @@ function doPost(e) {
                     updateSyncWidget('error', 'Sync offline');
                 }
             } else {
-                // No firebase parameters defined, fallback fully to active Client-side memory with virtual key
                 currentUserId = 'offline-user-identity';
                 document.getElementById('sync-user-id').textContent = 'offline-user-key';
                 updateSyncWidget('local', 'Local Ledger Only');
@@ -744,12 +897,11 @@ function doPost(e) {
                 document.body.removeChild(textarea);
             });
 
-            // Save URL to persistent storage on typing
             document.getElementById('gsheet-url').addEventListener('input', (e) => {
                 localStorage.setItem('apex_gsheet_url', e.target.value.trim());
             });
 
-            // PULL FROM SHEETS IMPLEMENTATION
+            // PULL FROM SHEETS
             document.getElementById('pull-sheet-btn').addEventListener('click', async () => {
                 const url = document.getElementById('gsheet-url').value.trim();
                 if (!url) {
@@ -766,7 +918,6 @@ function doPost(e) {
                     const rawData = await response.json();
 
                     if (Array.isArray(rawData)) {
-                        // Translate spreadsheet records back to local structure
                         transactions = rawData.map(item => ({
                             id: item.id ? String(item.id) : 'tx_' + Math.random().toString(36).substr(2, 9),
                             date: item.date ? item.date.split('T')[0] : getRecentDateOffset(0),
@@ -790,7 +941,7 @@ function doPost(e) {
                 }
             });
 
-            // PUSH TO SHEETS IMPLEMENTATION
+            // PUSH TO SHEETS
             document.getElementById('push-sheet-btn').addEventListener('click', async () => {
                 const url = document.getElementById('gsheet-url').value.trim();
                 if (!url) {
@@ -802,13 +953,11 @@ function doPost(e) {
                 showToast('Pushing transaction database...', 'success');
 
                 try {
-                    // We send payload as a string
                     const response = await fetch(url, {
                         method: 'POST',
                         body: JSON.stringify(transactions)
                     });
 
-                    // Apps Script returns JSON upon successful writing
                     const result = await response.json();
                     if (result.status === 'success') {
                         showToast(`Overwrote Spreadsheet with ${result.count} records!`, 'success');
@@ -817,7 +966,6 @@ function doPost(e) {
                         throw new Error(result.message || 'Apps script rejected writes');
                     }
                 } catch (err) {
-                    // Handle CORS warning fallback (Google redirects occasionally trigger CORS blocks but execute successfully)
                     console.warn("Apps Script post returned status. Retrying verification...", err);
                     showToast('Push completed! Verify Spreadsheet output.', 'success');
                     updateSyncWidget('synced', 'Sheets updated');
@@ -829,10 +977,10 @@ function doPost(e) {
         async function setupCloudListeners(uid) {
             if (unsubscribeTx) unsubscribeTx();
             if (unsubscribeBudgets) unsubscribeBudgets();
+            if (unsubscribeLoans) unsubscribeLoans();
 
             updateSyncWidget('syncing', 'Pulling Vault...');
 
-            // Setup real-time listeners with error callbacks to prevent silent crash
             unsubscribeTx = onSnapshot(collection(db, `artifacts`, appId, `users`, uid, `transactions`), (snapshot) => {
                 const fetchedTxs = [];
                 snapshot.forEach(doc => {
@@ -840,7 +988,6 @@ function doPost(e) {
                 });
                 
                 if (fetchedTxs.length === 0 && transactions.length > 0) {
-                    // Initialize cloud records with current memory states so user doesn't lose existing data
                     pushLocalDataToCloud();
                 } else {
                     transactions = fetchedTxs;
@@ -867,29 +1014,44 @@ function doPost(e) {
             }, (error) => {
                 console.error("Error watching budgets: ", error);
             });
+
+            unsubscribeLoans = onSnapshot(collection(db, `artifacts`, appId, `users`, uid, `loans`), (snapshot) => {
+                const fetchedLoans = [];
+                snapshot.forEach(doc => {
+                    fetchedLoans.push({ id: doc.id, ...doc.data() });
+                });
+
+                if (fetchedLoans.length === 0 && loans.length > 0) {
+                    pushLoansToCloud();
+                } else {
+                    loans = fetchedLoans;
+                    renderApp();
+                }
+            }, (error) => {
+                console.error("Error watching loans: ", error);
+            });
         }
 
         // Pre-populates layout instantly for seamless load performance
         function loadLocalFallbackData() {
             const cachedTxs = localStorage.getItem('apex_local_txs');
             const cachedBudgets = localStorage.getItem('apex_local_budgets');
+            const cachedLoans = localStorage.getItem('apex_local_loans');
 
-            if (cachedTxs) {
-                transactions = JSON.parse(cachedTxs);
-            } else {
-                transactions = [...defaultMockTransactions];
-            }
+            if (cachedTxs) transactions = JSON.parse(cachedTxs);
+            else transactions = [...defaultMockTransactions];
 
-            if (cachedBudgets) {
-                budgets = JSON.parse(cachedBudgets);
-            } else {
-                budgets = [...defaultMockBudgets];
-            }
+            if (cachedBudgets) budgets = JSON.parse(cachedBudgets);
+            else budgets = [...defaultMockBudgets];
+
+            if (cachedLoans) loans = JSON.parse(cachedLoans);
+            else loans = [...defaultMockLoans];
         }
 
         function saveLocalData() {
             localStorage.setItem('apex_local_txs', JSON.stringify(transactions));
             localStorage.setItem('apex_local_budgets', JSON.stringify(budgets));
+            localStorage.setItem('apex_local_loans', JSON.stringify(loans));
         }
 
         // PUSH current local memory down to Firestore instances
@@ -922,6 +1084,22 @@ function doPost(e) {
                 }
             } catch (err) {
                 console.error("Failed uploading budgets sync: ", err);
+            }
+        }
+
+        async function pushLoansToCloud() {
+            if (!db || !currentUserId) return;
+            try {
+                for (let l of loans) {
+                    await setDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `loans`, l.id), {
+                        title: l.title,
+                        type: l.type,
+                        originalAmount: Number(l.originalAmount),
+                        currentBalance: Number(l.currentBalance)
+                    });
+                }
+            } catch (err) {
+                console.error("Failed uploading loans sync: ", err);
             }
         }
 
@@ -959,23 +1137,20 @@ function doPost(e) {
         // Tab-bar logic
         function setNavEvents() {
             const tabs = document.querySelectorAll('.nav-tab');
-            const screens = ['screen-dashboard', 'screen-analytics', 'screen-budgets', 'screen-sync'];
+            const screens = ['screen-dashboard', 'screen-analytics', 'screen-budgets', 'screen-loans', 'screen-sync'];
 
             tabs.forEach(tab => {
                 tab.addEventListener('click', (e) => {
                     const target = tab.getAttribute('data-target');
                     
-                    // Hide all screens
                     screens.forEach(s => {
                         const elem = document.getElementById(s);
                         if (elem) elem.classList.add('hidden');
                     });
 
-                    // Show selected screen
                     const targetScreen = document.getElementById(target);
                     if (targetScreen) targetScreen.classList.remove('hidden');
 
-                    // Style tabs accordingly
                     tabs.forEach(t => {
                         t.classList.remove('text-emerald-400');
                         t.classList.add('text-slate-500');
@@ -985,7 +1160,6 @@ function doPost(e) {
                 });
             });
 
-            // Quick View Redirection Shortcuts
             document.getElementById('view-budgets-shortcut').addEventListener('click', () => {
                 triggerTabRedirect('screen-budgets');
             });
@@ -1004,7 +1178,6 @@ function doPost(e) {
 
         // Re-generates views and dynamically computes SVG charts
         function renderApp() {
-            // Sort transactions by date descending
             const sortedTxs = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
 
             // Compute Financial Balances
@@ -1037,31 +1210,54 @@ function doPost(e) {
                 }
             });
 
-            const netBalance = totalIncome - totalExpense;
+            // Calculate outstanding loan pools
+            let outstandingLentSum = 0;
+            let outstandingBorrowedSum = 0;
 
-            // Apply to UI Elements
+            loans.forEach(l => {
+                const bal = Number(l.currentBalance) || 0;
+                if (l.type === 'lent') {
+                    outstandingLentSum += bal;
+                } else {
+                    outstandingBorrowedSum += bal;
+                }
+            });
+
+            const totalLiquidCash = balRHB + balIslam + balCash;
+            // Net wealth = cash accounts + money owed to me - my debts
+            const netBalance = totalLiquidCash + outstandingLentSum - outstandingBorrowedSum;
+
+            // Apply to Header Card
             document.getElementById('total-balance').textContent = formatCurrency(netBalance);
             document.getElementById('total-income').textContent = formatCurrency(totalIncome);
             document.getElementById('total-expense').textContent = formatCurrency(totalExpense);
+
+            // Display cash, receivables and liabilities labels
+            document.getElementById('label-net-cash').textContent = `Cash: ${formatCurrency(totalLiquidCash)}`;
+            document.getElementById('label-net-lent').textContent = `Lent: ${formatCurrency(outstandingLentSum)}`;
+            document.getElementById('label-net-debt').textContent = `Debts: -${formatCurrency(outstandingBorrowedSum)}`;
 
             // Set individual wallet values
             document.getElementById('bal-rhb').textContent = formatCurrency(balRHB);
             document.getElementById('bal-islam').textContent = formatCurrency(balIslam);
             document.getElementById('bal-cash').textContent = formatCurrency(balCash);
 
-            // Style individual wallet indicator colors (dim if negative)
             styleWalletText('bal-rhb', balRHB);
             styleWalletText('bal-islam', balIslam);
             styleWalletText('bal-cash', balCash);
 
-            // Populate dashboard quick lists
+            // Set Loan Summary Panels
+            document.getElementById('total-lent').textContent = formatCurrency(outstandingLentSum);
+            document.getElementById('total-borrowed').textContent = formatCurrency(outstandingBorrowedSum);
+
+            // Render sub panels
             renderDashboardTxs(sortedTxs.slice(0, 4));
             renderDashboardBudgets();
             renderDonutAllocation(sortedTxs);
-            renderAnalyticsPeriod('all'); // default visual period
+            renderAnalyticsPeriod('all'); 
             renderBudgetsPage();
+            renderLoansDashboard();
 
-            // Store in LocalStorage fallback
             saveLocalData();
         }
 
@@ -1076,7 +1272,6 @@ function doPost(e) {
             }
         }
 
-        // Format Currency Helper changed to MYR
         function formatCurrency(num) {
             return new Intl.NumberFormat('en-MY', {
                 style: 'currency',
@@ -1106,7 +1301,6 @@ function doPost(e) {
                 const colorClass = isIncome ? 'text-emerald-400' : 'text-slate-100';
                 const iconBgClass = isIncome ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-slate-800/80 text-slate-400 border border-slate-700/50';
                 
-                // Set appropriate Category Emoji icon
                 const iconHtml = getCategoryEmoji(tx.category);
                 const walletTag = tx.account ? tx.account : 'Cash';
 
@@ -1134,7 +1328,6 @@ function doPost(e) {
             });
         }
 
-        // Get matching Emojis including Loan functionality
         function getCategoryEmoji(cat) {
             switch(cat) {
                 case 'Food': return '🍔';
@@ -1145,6 +1338,7 @@ function doPost(e) {
                 case 'Salary': return '💰';
                 case 'Investment': return '📈';
                 case 'Loan Given': return '💸';
+                case 'Loan Repayment': return '📉';
                 case 'Loan Repaid': return '🤝';
                 default: return '📦';
             }
@@ -1154,7 +1348,6 @@ function doPost(e) {
             const container = document.getElementById('dashboard-budgets');
             container.innerHTML = '';
 
-            // Calculate category subtotals
             const categorySums = {};
             transactions.filter(t => t.type === 'expense').forEach(tx => {
                 categorySums[tx.category] = (categorySums[tx.category] || 0) + Number(tx.amount);
@@ -1170,7 +1363,6 @@ function doPost(e) {
                 return;
             }
 
-            // Slice top 3 dynamic items to showcase
             budgets.slice(0, 3).forEach(b => {
                 const spent = categorySums[b.category] || 0;
                 const percent = Math.min((spent / b.amount) * 100, 100);
@@ -1204,28 +1396,26 @@ function doPost(e) {
             let totalExpenseSum = expenses.reduce((sum, tx) => sum + Number(tx.amount), 0);
 
             if (totalExpenseSum === 0) {
-                // Return default empty state
                 svgChart.innerHTML = `<circle cx="18" cy="18" r="15.915" fill="none" stroke="#1e293b" stroke-width="3"></circle>`;
                 percentageText.textContent = "0%";
                 legendContainer.innerHTML = `<p class="text-[10px] text-slate-500 italic">No allocation logs registered yet</p>`;
                 return;
             }
 
-            // Group by category
             const categoriesSum = {};
             expenses.forEach(tx => {
                 categoriesSum[tx.category] = (categoriesSum[tx.category] || 0) + Number(tx.amount);
             });
 
-            // Map color palette dynamically
             const categoryColors = {
-                'Food': '#f43f5e', // rose-500
-                'Transport': '#f59e0b', // amber-500
-                'Utilities': '#3b82f6', // blue-500
-                'Entertainment': '#a855f7', // purple-500
-                'Shopping': '#ec4899', // pink-500
-                'Loan Given': '#0ea5e9', // sky-500
-                'Other': '#64748b' // slate-500
+                'Food': '#f43f5e', 
+                'Transport': '#f59e0b', 
+                'Utilities': '#3b82f6', 
+                'Entertainment': '#a855f7', 
+                'Shopping': '#ec4899', 
+                'Loan Given': '#0ea5e9', 
+                'Loan Repayment': '#ef4444',
+                'Other': '#64748b' 
             };
 
             let svgContent = `<circle cx="18" cy="18" r="15.915" fill="none" stroke="#0f172a" stroke-width="3.5"></circle>`;
@@ -1236,7 +1426,7 @@ function doPost(e) {
             categoryEntries.forEach(([cat, val]) => {
                 const sharePercent = (val / totalExpenseSum) * 100;
                 const strokeDasharray = `${sharePercent} ${100 - sharePercent}`;
-                const strokeDashoffset = 100 - cumulativePercent + 25; // 25 standard offset to start from top
+                const strokeDashoffset = 100 - cumulativePercent + 25; 
                 const color = categoryColors[cat] || '#22c55e';
 
                 svgContent += `
@@ -1249,7 +1439,6 @@ function doPost(e) {
 
                 cumulativePercent += sharePercent;
 
-                // Legend layout
                 const li = document.createElement('div');
                 li.className = "flex justify-between items-center text-[10px] font-semibold text-slate-400";
                 li.innerHTML = `
@@ -1287,7 +1476,6 @@ function doPost(e) {
             container.innerHTML = '';
             rankContainer.innerHTML = '';
 
-            // Compute range filter
             let filteredTxs = [...transactions];
             const now = new Date();
 
@@ -1302,8 +1490,6 @@ function doPost(e) {
                 filteredTxs = transactions.filter(tx => new Date(tx.date) >= oneWeekAgo);
             }
 
-            // Group transactions into days/weeks/months bucket (let's do days/categories)
-            // Generate visual periodic bar chart dynamically
             const limit = 6;
             const chronologically = [...filteredTxs].sort((a,b) => new Date(a.date) - new Date(b.date));
             const lastN = chronologically.slice(-limit);
@@ -1311,19 +1497,16 @@ function doPost(e) {
             if (lastN.length === 0) {
                 container.innerHTML = `<div class="text-xs text-slate-500 italic w-full text-center pb-8">Insufficient data points to generate visual bars</div>`;
             } else {
-                // Find maximum amount for scale calculations
                 const maxVal = Math.max(...lastN.map(t => Number(t.amount)), 1);
 
                 lastN.forEach(tx => {
                     const pct = (Number(tx.amount) / maxVal) * 100;
-                    const height = Math.max(pct, 12); // minimum height visual
+                    const height = Math.max(pct, 12); 
                     const color = tx.type === 'income' ? 'bg-emerald-500' : 'bg-rose-500';
-                    const icon = getCategoryEmoji(tx.category);
 
                     const div = document.createElement('div');
                     div.className = "flex flex-col items-center flex-1 group relative h-full justify-end";
                     div.innerHTML = `
-                        <!-- Hover info tooltip -->
                         <div class="absolute bottom-full mb-1 bg-slate-900 border border-slate-800 text-slate-100 text-[9px] px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-250 pointer-events-none z-50 whitespace-nowrap shadow-xl">
                             ${tx.title}: ${formatCurrency(tx.amount)}
                         </div>
@@ -1334,7 +1517,6 @@ function doPost(e) {
                 });
             }
 
-            // Populate category ranking on analytics page
             const totalsByCategory = {};
             let totalOutlays = 0;
 
@@ -1379,7 +1561,6 @@ function doPost(e) {
             const container = document.getElementById('budgets-management-list');
             container.innerHTML = '';
 
-            // Sum expenses
             const categorySums = {};
             transactions.filter(t => t.type === 'expense').forEach(tx => {
                 categorySums[tx.category] = (categorySums[tx.category] || 0) + Number(tx.amount);
@@ -1440,12 +1621,97 @@ function doPost(e) {
             });
         }
 
-        // Set default date picker to today
+        // Render Loans dashboard Lists
+        function renderLoansDashboard() {
+            const lentContainer = document.getElementById('loans-lent-list');
+            const borrowedContainer = document.getElementById('loans-borrowed-list');
+
+            lentContainer.innerHTML = '';
+            borrowedContainer.innerHTML = '';
+
+            const lentLoans = loans.filter(l => l.type === 'lent');
+            const borrowedLoans = loans.filter(l => l.type === 'borrowed');
+
+            // Render Lent list
+            if (lentLoans.length === 0) {
+                lentContainer.innerHTML = `<p class="text-xs text-slate-600 italic p-4 text-center bg-slate-900/20 border border-slate-900 rounded-2xl">No receivables or money lent currently logged</p>`;
+            } else {
+                lentLoans.forEach(l => {
+                    const received = l.originalAmount - l.currentBalance;
+                    const percent = Math.min((received / l.originalAmount) * 100, 100);
+                    const div = document.createElement('div');
+                    div.className = "bg-slate-900/50 border border-slate-900 p-4 rounded-2xl space-y-2.5";
+                    div.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h5 class="text-xs font-bold text-slate-200">${escapeHtml(l.title)}</h5>
+                                <p class="text-[10px] text-slate-500 mt-0.5">Original: ${formatCurrency(l.originalAmount)}</p>
+                            </div>
+                            <span class="text-xs font-bold text-emerald-400">${formatCurrency(l.currentBalance)} <span class="text-[9px] text-slate-500 font-medium">left</span></span>
+                        </div>
+                        <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
+                            <div class="h-full bg-emerald-400 rounded-full" style="width: ${percent}%"></div>
+                        </div>
+                        <div class="flex justify-between items-center pt-2 border-t border-slate-800/40 text-[10px]">
+                            <span class="text-slate-400">${Math.round(percent)}% recovered</span>
+                            <div class="flex gap-2">
+                                <button onclick="triggerLoanPayment('${l.id}')" class="bg-emerald-500/10 hover:bg-emerald-500/15 border border-emerald-500/20 text-emerald-400 font-bold px-2.5 py-1 rounded-lg transition active-scale">
+                                    🤝 Record Return
+                                </button>
+                                <button onclick="deleteLoan('${l.id}')" class="text-rose-400 p-1.5">
+                                    <i class="fa-solid fa-trash-can text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    lentContainer.appendChild(div);
+                });
+            }
+
+            // Render Borrowed list (PTPTN / Debts)
+            if (borrowedLoans.length === 0) {
+                borrowedContainer.innerHTML = `<p class="text-xs text-slate-600 italic p-4 text-center bg-slate-900/20 border border-slate-900 rounded-2xl">No debts or payables currently logged</p>`;
+            } else {
+                borrowedLoans.forEach(l => {
+                    const paid = l.originalAmount - l.currentBalance;
+                    const percent = Math.min((paid / l.originalAmount) * 100, 100);
+                    const div = document.createElement('div');
+                    div.className = "bg-slate-900/50 border border-slate-900 p-4 rounded-2xl space-y-2.5";
+                    div.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h5 class="text-xs font-bold text-slate-200">${escapeHtml(l.title)}</h5>
+                                <p class="text-[10px] text-slate-500 mt-0.5">Original Principal: ${formatCurrency(l.originalAmount)}</p>
+                            </div>
+                            <span class="text-xs font-bold text-rose-400">${formatCurrency(l.currentBalance)} <span class="text-[9px] text-slate-500 font-medium">left</span></span>
+                        </div>
+                        <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
+                            <div class="h-full bg-rose-500 rounded-full" style="width: ${percent}%"></div>
+                        </div>
+                        <div class="flex justify-between items-center pt-2 border-t border-slate-800/40 text-[10px]">
+                            <span class="text-slate-400">${Math.round(percent)}% paid off</span>
+                            <div class="flex gap-2">
+                                <button onclick="triggerLoanPayment('${l.id}')" class="bg-rose-500/10 hover:bg-rose-500/15 border border-rose-500/20 text-rose-400 font-bold px-2.5 py-1 rounded-lg transition active-scale">
+                                    📉 Record Payment
+                                </button>
+                                <button onclick="deleteLoan('${l.id}')" class="text-slate-500 hover:text-rose-400 p-1.5">
+                                    <i class="fa-solid fa-trash-can text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    borrowedContainer.appendChild(div);
+                });
+            }
+        }
+
         document.getElementById('tx-date').valueAsDate = new Date();
 
         // Modals Toggle Actions
         const modalTx = document.getElementById('modal-transaction');
         const modalBudget = document.getElementById('modal-budget');
+        const modalLoan = document.getElementById('modal-loan');
+        const modalLoanPayment = document.getElementById('modal-loan-payment');
 
         document.getElementById('fab-add-btn').addEventListener('click', () => {
             activeEditTxId = null;
@@ -1454,7 +1720,6 @@ function doPost(e) {
             document.getElementById('tx-amount').value = '';
             document.getElementById('tx-account').selectedIndex = 0;
             
-            // Set Default Type explicitly to update dynamic categories
             expenseBtn.click();
             
             document.getElementById('tx-category').selectedIndex = 0;
@@ -1477,6 +1742,22 @@ function doPost(e) {
             closeModal(modalBudget);
         });
 
+        // Loans Modals Toggles
+        document.getElementById('add-loan-btn').addEventListener('click', () => {
+            document.getElementById('loan-title').value = '';
+            document.getElementById('loan-amount').value = '';
+            loanTypeLentBtn.click();
+            openModal(modalLoan);
+        });
+
+        document.getElementById('close-loan-modal-btn').addEventListener('click', () => {
+            closeModal(modalLoan);
+        });
+
+        document.getElementById('close-loan-payment-modal-btn').addEventListener('click', () => {
+            closeModal(modalLoanPayment);
+        });
+
         // Form toggle selectors
         const expenseBtn = document.getElementById('type-expense-btn');
         const incomeBtn = document.getElementById('type-income-btn');
@@ -1496,6 +1777,22 @@ function doPost(e) {
             expenseBtn.className = "py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white";
             document.getElementById('modal-indicator').className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
             updateCategoryDropdown('income');
+        });
+
+        // Loan Toggle selectors
+        const loanTypeLentBtn = document.getElementById('loan-type-lent-btn');
+        const loanTypeBorrowedBtn = document.getElementById('loan-type-borrowed-btn');
+
+        loanTypeLentBtn.addEventListener('click', () => {
+            selectedLoanType = 'lent';
+            loanTypeLentBtn.className = "py-2 text-xs font-bold rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/25";
+            loanTypeBorrowedBtn.className = "py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white";
+        });
+
+        loanTypeBorrowedBtn.addEventListener('click', () => {
+            selectedLoanType = 'borrowed';
+            loanTypeBorrowedBtn.className = "py-2 text-xs font-bold rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/25";
+            loanTypeLentBtn.className = "py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white";
         });
 
         function openModal(modal) {
@@ -1541,7 +1838,6 @@ function doPost(e) {
                 updateSyncWidget('syncing', 'Updating Cloud...');
 
                 if (activeEditTxId) {
-                    // Update Operation
                     if (db && currentUserId) {
                         try {
                             await setDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `transactions`, activeEditTxId), payload);
@@ -1549,7 +1845,6 @@ function doPost(e) {
                             console.error("Failed Cloud Update: ", err);
                         }
                     } else {
-                        // Memory fallback
                         const index = transactions.findIndex(t => t.id === activeEditTxId);
                         if (index !== -1) {
                             transactions[index] = { id: activeEditTxId, ...payload };
@@ -1558,7 +1853,6 @@ function doPost(e) {
                     }
                     showToast('Transaction edited', 'success');
                 } else {
-                    // Create Operation
                     const generatedId = 'tx_' + Math.random().toString(36).substr(2, 9);
                     if (db && currentUserId) {
                         try {
@@ -1567,7 +1861,6 @@ function doPost(e) {
                             console.error("Failed Cloud Save: ", err);
                         }
                     } else {
-                        // Memory fallback
                         transactions.push({ id: generatedId, ...payload });
                         renderApp();
                     }
@@ -1598,7 +1891,6 @@ function doPost(e) {
                         console.error("Failed cloud budget save:", err);
                     }
                 } else {
-                    // Local Memory fallback
                     if (existingIndex !== -1) {
                         budgets[existingIndex].amount = amount;
                     } else {
@@ -1609,6 +1901,101 @@ function doPost(e) {
 
                 showToast('Budget goal recorded', 'success');
                 closeModal(modalBudget);
+            });
+
+            // Save Loan Tracker
+            document.getElementById('save-loan-btn').addEventListener('click', async () => {
+                const title = document.getElementById('loan-title').value.trim();
+                const amount = Number(document.getElementById('loan-amount').value);
+
+                if (!title || !amount || isNaN(amount) || amount <= 0) {
+                    showToast('Provide a valid Loan Name and Principal Amount', 'error');
+                    return;
+                }
+
+                const payload = {
+                    title,
+                    type: selectedLoanType,
+                    originalAmount: amount,
+                    currentBalance: amount
+                };
+
+                updateSyncWidget('syncing', 'Updating Cloud...');
+                const targetId = 'l_' + Math.random().toString(36).substr(2, 9);
+
+                if (db && currentUserId) {
+                    try {
+                        await setDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `loans`, targetId), payload);
+                    } catch (err) {
+                        console.error(err);
+                    }
+                } else {
+                    loans.push({ id: targetId, ...payload });
+                    renderApp();
+                }
+
+                showToast('Loan tracker initialized!', 'success');
+                closeModal(modalLoan);
+            });
+
+            // Submit Loan payment (Deduction transaction builder)
+            document.getElementById('submit-loan-payment-btn').addEventListener('click', async () => {
+                const targetLoan = loans.find(l => l.id === activePaymentLoanId);
+                if (!targetLoan) return;
+
+                const payAmount = Number(document.getElementById('loan-payment-amount').value);
+                const account = document.getElementById('loan-payment-account').value;
+                const date = document.getElementById('loan-payment-date').value || getRecentDateOffset(0);
+
+                if (!payAmount || isNaN(payAmount) || payAmount <= 0) {
+                    showToast('Please type in a valid payment amount', 'error');
+                    return;
+                }
+
+                // Math limit outstanding
+                const newBalance = Math.max(targetLoan.currentBalance - payAmount, 0);
+
+                // Build a synchronized transaction to update Cash balances
+                // If My Debt (e.g., PTPTN), paying it down is an Expense.
+                // If money lent out, receiving repayment is an Income.
+                const isDebtRepayment = targetLoan.type === 'borrowed';
+                const txPayload = {
+                    title: isDebtRepayment ? `Repayment: ${targetLoan.title}` : `Repaid by: ${targetLoan.title}`,
+                    amount: payAmount,
+                    type: isDebtRepayment ? 'expense' : 'income',
+                    category: isDebtRepayment ? 'Loan Repayment' : 'Loan Repaid',
+                    account: account || 'Cash',
+                    date: date
+                };
+
+                updateSyncWidget('syncing', 'Updating Cloud...');
+
+                if (db && currentUserId) {
+                    try {
+                        // Update loan current balance
+                        await setDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `loans`, activePaymentLoanId), {
+                            ...targetLoan,
+                            currentBalance: newBalance
+                        });
+
+                        // Post new matching transaction record
+                        const txId = 'tx_' + Math.random().toString(36).substr(2, 9);
+                        await setDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `transactions`, txId), txPayload);
+                    } catch (err) {
+                        console.error(err);
+                    }
+                } else {
+                    // Local state fallback
+                    targetLoan.currentBalance = newBalance;
+                    transactions.push({
+                        id: 'tx_' + Math.random().toString(36).substr(2, 9),
+                        ...txPayload
+                    });
+                    renderApp();
+                }
+
+                showToast('Payment submitted and balances adjusted!', 'success');
+                closeModal(modalLoanPayment);
             });
 
             // Sync Connection / Manual override
@@ -1640,7 +2027,6 @@ function doPost(e) {
                 const copyText = document.getElementById('sync-user-id').textContent;
                 if (!copyText) return;
                 
-                // Compatibility clipboard fallback
                 const textarea = document.createElement("textarea");
                 textarea.value = copyText;
                 document.body.appendChild(textarea);
@@ -1654,16 +2040,15 @@ function doPost(e) {
                 document.body.removeChild(textarea);
             });
 
-            // Purge wallet logs - UPGRADED TO SAFE DOUBLE-TAP SYSTEM (NO CONFIRM WINDOWS)
+            // Purge wallet logs
             const purgeBtn = document.getElementById('purge-wallet-btn');
             purgeBtn.addEventListener('click', async () => {
                 if (!deleteConfirmTimer) {
-                    // Set temporary confirmation hold state
                     deleteConfirmTimer = setTimeout(() => {
                         deleteConfirmTimer = null;
                         purgeBtn.innerHTML = `<i class="fa-solid fa-trash-can text-xs mr-1"></i> Clear & Start Anew`;
                         purgeBtn.className = "active-scale transition-all-custom w-full bg-rose-500/10 hover:bg-rose-500/15 border border-rose-500/20 text-rose-400 text-xs font-bold py-2.5 rounded-2xl";
-                    }, 5000); // 5 second reset window
+                    }, 5000);
 
                     purgeBtn.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-xs mr-1"></i> Tap Again to Purge Ledger (5s)`;
                     purgeBtn.className = "active-scale transition-all-custom w-full bg-rose-500 hover:bg-rose-600 text-slate-950 text-xs font-black py-2.5 rounded-2xl shadow-lg shadow-rose-500/10";
@@ -1671,7 +2056,6 @@ function doPost(e) {
                     return;
                 }
 
-                // Execute action on double-tap
                 clearTimeout(deleteConfirmTimer);
                 deleteConfirmTimer = null;
                 purgeBtn.innerHTML = `<i class="fa-solid fa-trash-can text-xs mr-1"></i> Clear & Start Anew`;
@@ -1680,16 +2064,18 @@ function doPost(e) {
                 if (db && currentUserId) {
                     updateSyncWidget('syncing', 'Purging...');
                     try {
-                        // Deleting transactions
                         for (let tx of transactions) {
                             await deleteDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `transactions`, tx.id));
                         }
-                        // Deleting budgets
                         for (let b of budgets) {
                             await deleteDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `budgets`, b.id));
                         }
+                        for (let l of loans) {
+                            await deleteDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `loans`, l.id));
+                        }
                         transactions = [];
                         budgets = [];
+                        loans = [];
                         renderApp();
                         showToast('Ledger completely purged', 'success');
                     } catch (err) {
@@ -1699,13 +2085,14 @@ function doPost(e) {
                 } else {
                     transactions = [];
                     budgets = [];
+                    loans = [];
                     renderApp();
                     showToast('Local database cleared', 'success');
                 }
             });
         }
 
-        // Edit record mapping
+        // Edit transaction
         window.editTransaction = function(txId) {
             const target = transactions.find(t => t.id === txId);
             if (!target) return;
@@ -1717,20 +2104,17 @@ function doPost(e) {
             document.getElementById('tx-account').value = target.account || 'Cash';
             document.getElementById('tx-date').value = target.date;
             
-            // Set toggle buttons visually (This also populates the dropdowns)
             if (target.type === 'income') {
                 incomeBtn.click();
             } else {
                 expenseBtn.click();
             }
 
-            // Sync dynamic value selection
             document.getElementById('tx-category').value = target.category;
-
             openModal(modalTx);
         };
 
-        // Delete record
+        // Delete transaction
         window.deleteTransaction = async function(txId) {
             const index = transactions.findIndex(t => t.id === txId);
             if (index === -1) return;
@@ -1746,21 +2130,19 @@ function doPost(e) {
                     showToast('Cloud sync failure', 'error');
                 }
             } else {
-                // local fallback
                 transactions.splice(index, 1);
                 renderApp();
                 showToast('Transaction deleted', 'success');
             }
         };
 
-        // Budget handlers
+        // Budget triggers
         window.editBudget = function(budgetId) {
             const target = budgets.find(b => b.id === budgetId);
             if (!target) return;
 
             document.getElementById('budget-category').value = target.category;
             document.getElementById('budget-amount').value = target.amount;
-            
             openModal(modalBudget);
         };
 
@@ -1779,6 +2161,37 @@ function doPost(e) {
                 budgets.splice(index, 1);
                 renderApp();
                 showToast('Budget deleted', 'success');
+            }
+        };
+
+        // Loans interactive workflows
+        window.triggerLoanPayment = function(loanId) {
+            const target = loans.find(l => l.id === loanId);
+            if (!target) return;
+
+            activePaymentLoanId = loanId;
+            document.getElementById('loan-payment-header').textContent = `Repayment on: ${target.title}`;
+            document.getElementById('loan-payment-amount').value = '';
+            document.getElementById('loan-payment-date').valueAsDate = new Date();
+
+            openModal(modalLoanPayment);
+        };
+
+        window.deleteLoan = async function(loanId) {
+            const index = loans.findIndex(l => l.id === loanId);
+            if (index === -1) return;
+
+            if (db && currentUserId) {
+                try {
+                    await deleteDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `loans`, loanId));
+                    showToast('Loan tracker closed', 'success');
+                } catch (err) {
+                    console.error(err);
+                }
+            } else {
+                loans.splice(index, 1);
+                renderApp();
+                showToast('Loan tracker closed', 'success');
             }
         };
 
@@ -1804,7 +2217,6 @@ function doPost(e) {
             }, 3000);
         }
 
-        // Safe HTML characters escaping
         function escapeHtml(string) {
             return String(string).replace(/[&<>"'\/]/g, function (s) {
                 return {
