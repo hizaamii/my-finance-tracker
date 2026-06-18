@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ApexFinance — Mobile Wealth Tracker</title>
+    
+    <!-- PWA Standalone Mode Meta Tags (Removes Search Bars & Browser UI) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ApexFinance">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#020617">
+
+    <!-- Inline Web App Manifest to Force Chrome & Android Standalone Launch -->
+    <link rel="manifest" href='data:application/manifest+json,{"name":"ApexFinance","short_name":"ApexFinance","start_url":".","display":"standalone","background_color":"#020617","theme_color":"#020617"}'>
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -11,7 +22,7 @@
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         body {
@@ -527,7 +538,7 @@ function doPost(e) {
                     </div>
                 </div>
 
-                <button id="save-budget-btn" class="active-scale transition-all-custom w-full bg-indigo-500 hover:bg-indigo-600 text-slate-950 font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-500/10">
+                <button id="save-budget-btn" class="active-scale transition-all-custom w-full bg-indigo-500 hover:bg-indigo-600 text-slate-950 font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/10">
                     <i class="fa-solid fa-sliders text-xs"></i> Set Monthly Limit
                 </button>
             </div>
