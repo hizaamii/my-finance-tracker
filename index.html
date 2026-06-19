@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ApexFinance — Mobile Wealth Tracker</title>
+    <title>Finance Tracker — Mobile Wealth Tracker</title>
     
     <!-- PWA Standalone Mode Meta Tags (Removes Search Bars & Browser UI) -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ApexFinance">
+    <meta name="apple-mobile-web-app-title" content="Finance Tracker">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#000000">
 
     <!-- Inline Web App Manifest to Force Chrome & Android Standalone Launch with Required Icons -->
-    <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22ApexFinance%22%2C%22short_name%22%3A%22ApexFinance%22%2C%22start_url%22%3A%22.%2Findex.html%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23000000%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fplacehold.co%2F192x192%2F000000%2F34d399%3Ftext%3DAF%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fplacehold.co%2F512x512%2F000000%2F34d399%3Ftext%3DAF%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
+    <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22Finance%20Tracker%22%2C%22short_name%22%3A%22Finance%20Tracker%22%2C%22start_url%22%3A%22.%2Findex.html%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23000000%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fplacehold.co%2F192x192%2F000000%2F34d399%3Ftext%3DFT%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fplacehold.co%2F512x512%2F000000%2F34d399%3Ftext%3DFT%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -63,10 +63,13 @@
     <div id="screen-lock" class="absolute inset-0 bg-black z-[999] flex flex-col items-center justify-between p-8 hidden">
         <div class="flex flex-col items-center mt-16 space-y-4">
             <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-                <i class="fa-solid fa-lock text-black text-2xl"></i>
+                <svg class="w-9 h-9 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
             </div>
             <div class="text-center">
-                <h2 class="text-lg font-bold text-white tracking-tight">Apex Vault Security</h2>
+                <h2 class="text-lg font-bold text-white tracking-tight">Vault Security</h2>
                 <p id="lock-status-msg" class="text-xs text-zinc-500 mt-1">Enter your 4-digit security PIN</p>
             </div>
             
@@ -100,9 +103,17 @@
 
     <!-- MAIN APP SCREEN HEADER -->
     <header class="bg-black/90 backdrop-blur-md sticky top-0 z-40 px-6 pt-6 pb-4 border-b border-zinc-900 flex justify-between items-center shrink-0">
-        <div>
-            <p class="text-xs text-zinc-500 font-medium tracking-wider uppercase">Welcome Back</p>
-            <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">ApexFinance</h1>
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/10 shrink-0">
+                <svg class="w-5.5 h-5.5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+            </div>
+            <div>
+                <p class="text-[9px] text-zinc-500 font-medium tracking-wider uppercase">Welcome Back</p>
+                <h1 class="text-base font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Finance Tracker</h1>
+            </div>
         </div>
         <!-- Cloud Sync Status Widget Indicator -->
         <button id="sync-status-btn" class="active-scale transition-all-custom flex items-center gap-2 bg-zinc-950 border border-zinc-900 rounded-full px-3 py-1.5 text-xs text-zinc-300">
