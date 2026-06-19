@@ -22,7 +22,7 @@
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2 family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         body {
@@ -50,11 +50,55 @@
         .transition-all-custom {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        /* Lock screen numerical animations */
+        .keypad-btn:active {
+            background-color: rgb(30, 41, 59);
+            transform: scale(0.9);
+        }
     </style>
 </head>
-<body class="h-full flex flex-col overflow-hidden max-w-md mx-auto shadow-2xl bg-slate-950 border-x border-slate-900">
+<body class="h-full flex flex-col overflow-hidden max-w-md mx-auto shadow-2xl bg-slate-950 border-x border-slate-900 relative">
 
-    <!-- MAIN SCREEN HEADER -->
+    <!-- SECURE PASSCODE APP LOCK SCREEN -->
+    <div id="screen-lock" class="absolute inset-0 bg-slate-950 z-[999] flex flex-col items-center justify-between p-8 hidden">
+        <div class="flex flex-col items-center mt-16 space-y-4">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                <i class="fa-solid fa-lock text-slate-950 text-2xl"></i>
+            </div>
+            <div class="text-center">
+                <h2 class="text-lg font-bold text-white tracking-tight">Apex Vault Security</h2>
+                <p id="lock-status-msg" class="text-xs text-slate-400 mt-1">Enter your 4-digit security PIN</p>
+            </div>
+            
+            <!-- Pin Dots Display -->
+            <div class="flex justify-center gap-4 pt-6">
+                <div id="pin-dot-1" class="w-3.5 h-3.5 rounded-full border-2 border-slate-700 transition-all duration-150"></div>
+                <div id="pin-dot-2" class="w-3.5 h-3.5 rounded-full border-2 border-slate-700 transition-all duration-150"></div>
+                <div id="pin-dot-3" class="w-3.5 h-3.5 rounded-full border-2 border-slate-700 transition-all duration-150"></div>
+                <div id="pin-dot-4" class="w-3.5 h-3.5 rounded-full border-2 border-slate-700 transition-all duration-150"></div>
+            </div>
+        </div>
+
+        <!-- Numerical Screen Keypad -->
+        <div class="w-full max-w-xs mx-auto grid grid-cols-3 gap-4 mb-8">
+            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('1')">1</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('2')">2</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('3')">3</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('4')">4</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('5')">5</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('6')">6</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('7')">7</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('8')">8</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('9')">9</button>
+            <button class="w-16 h-16 rounded-full flex items-center justify-center text-xs text-rose-500 hover:text-rose-400 font-semibold" onclick="clearLockPin()">Reset</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('0')">0</button>
+            <button class="w-16 h-16 rounded-full flex items-center justify-center text-lg text-slate-400 hover:text-white" onclick="backspaceLockPin()">
+                <i class="fa-solid fa-delete-left"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN APP SCREEN HEADER -->
     <header class="bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-6 pt-6 pb-4 border-b border-slate-900/50 flex justify-between items-center shrink-0">
         <div>
             <p class="text-xs text-slate-400 font-medium tracking-wider uppercase">Welcome Back</p>
@@ -147,7 +191,6 @@
                 </div>
                 <!-- Dynamic Budget Widget -->
                 <div id="dashboard-budgets" class="space-y-3">
-                    <!-- Rendered dynamically -->
                     <p class="text-xs text-slate-500 italic p-4 text-center bg-slate-900/40 rounded-2xl border border-slate-900/60">No budget caps set for this period yet.</p>
                 </div>
             </div>
@@ -163,7 +206,6 @@
                     <div class="w-24 h-24 shrink-0 flex items-center justify-center relative">
                         <svg id="donut-chart-svg" viewBox="0 0 36 36" class="w-24 h-24 transform -rotate-90">
                             <circle cx="18" cy="18" r="15.915" fill="none" stroke="#1e293b" stroke-width="3"></circle>
-                            <!-- Dynamic segments injected here -->
                         </svg>
                         <div class="absolute inset-0 flex flex-col items-center justify-center">
                             <span id="donut-center-pct" class="text-xs font-bold text-slate-300">0%</span>
@@ -172,7 +214,7 @@
                     </div>
                     <!-- Quick Chart Legend -->
                     <div id="donut-legend" class="flex-1 space-y-1.5 text-xs max-h-24 overflow-y-auto hide-scrollbar">
-                        <!-- Rendered dynamically -->
+                        <!-- Injected dynamic legend -->
                     </div>
                 </div>
             </div>
@@ -187,7 +229,7 @@
                 </div>
                 <!-- Transactions List -->
                 <div id="dashboard-transactions" class="space-y-3">
-                    <!-- Dyn list -->
+                    <!-- Injected dynamic list -->
                 </div>
             </div>
         </div>
@@ -204,6 +246,31 @@
                 <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg bg-slate-800 text-white shadow" data-period="all">All-Time</button>
                 <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg text-slate-400 hover:text-white" data-period="month">This Month</button>
                 <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg text-slate-400 hover:text-white" data-period="week">This Week</button>
+            </div>
+
+            <!-- PREMIUM PREDICTIVE RUNWAY CALCULATOR ENGINE -->
+            <div class="bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-950/40 border border-indigo-500/10 rounded-3xl p-5 space-y-4">
+                <div class="flex justify-between items-center">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Predictive Runway Engine
+                    </h4>
+                    <span class="text-[9px] bg-indigo-500/20 text-indigo-300 font-bold px-2 py-0.5 rounded-full border border-indigo-500/25">Priority 3</span>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-[9px] uppercase tracking-wider text-slate-400 font-semibold">Average Burn</p>
+                        <p id="predictive-avg-expense" class="text-md font-bold text-slate-200">RM0.00/mo</p>
+                    </div>
+                    <div>
+                        <p class="text-[9px] uppercase tracking-wider text-slate-400 font-semibold">Estimated Runway</p>
+                        <p id="predictive-runway" class="text-md font-black text-emerald-400">Stable</p>
+                    </div>
+                </div>
+
+                <div class="pt-3 border-t border-slate-800/60 text-[10px] text-slate-400 leading-relaxed">
+                    Based on your average historical data, your current liquid bank cache (RM) has a projection threshold of <strong id="predictive-days-span" class="text-white">-- months</strong> before depletion.
+                </div>
             </div>
 
             <!-- TREND VISUAL BAR CHART -->
@@ -246,6 +313,17 @@
                 </div>
                 <button id="add-budget-btn" class="active-scale transition-all-custom w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 flex items-center justify-center shadow-lg shadow-emerald-500/10">
                     <i class="fa-solid fa-plus text-sm"></i>
+                </button>
+            </div>
+
+            <!-- AUTO-ENVELOPE DISPATCH ENGINE -->
+            <div class="bg-slate-900/40 border border-slate-900 rounded-2xl p-4 flex items-center justify-between">
+                <div>
+                    <h4 class="text-xs font-bold text-slate-200">Smart Auto-Budgeting</h4>
+                    <p class="text-[10px] text-slate-400 mt-0.5">Let algorithm analysis provision envelopes.</p>
+                </div>
+                <button id="auto-budget-generate-btn" class="active-scale bg-indigo-500/20 hover:bg-indigo-500/35 border border-indigo-500/30 text-indigo-300 font-bold px-3 py-1.5 rounded-xl text-xs transition">
+                    <i class="fa-solid fa-wand-magic-sparkles text-[10px] mr-1"></i> Auto-Fill
                 </button>
             </div>
 
@@ -310,8 +388,32 @@
         <!-- SCREEN 4: CLOUD SYNC SETTINGS SCREEN -->
         <div id="screen-sync" class="space-y-6 hidden">
             <div>
-                <h3 class="text-lg font-bold text-white mb-1">Multi-Device Sync</h3>
-                <p class="text-xs text-slate-400">Access your ledger securely from any mobile device, tablet, or browser.</p>
+                <h3 class="text-lg font-bold text-white mb-1">Settings & Sync</h3>
+                <p class="text-xs text-slate-400">Manage database sync bridges and device security lockers.</p>
+            </div>
+
+            <!-- APP SECURITY LOCKER (LOCAL LOCK PIN) -->
+            <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-5 space-y-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h4 class="text-sm font-bold text-white flex items-center gap-1.5">
+                            <i class="fa-solid fa-shield-halved text-indigo-400"></i> Local PIN Passcode Lock
+                        </h4>
+                        <p class="text-xs text-slate-400 mt-1">Require a code every time the application starts up.</p>
+                    </div>
+                    <span id="pin-lock-status-badge" class="bg-slate-950 text-slate-500 border border-slate-800 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                        Disabled
+                    </span>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="flex gap-2">
+                        <input type="password" id="input-pin-lock" placeholder="4-Digit PIN" pattern="[0-9]*" inputmode="numeric" maxlength="4" class="bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-center font-bold text-slate-200 placeholder-slate-700 w-28 focus:outline-none focus:border-indigo-500 font-mono">
+                        <button id="toggle-pin-lock-btn" class="active-scale flex-1 bg-indigo-500 hover:bg-indigo-600 text-slate-950 text-xs font-bold rounded-2xl py-3 text-center transition">
+                            Enable App Lock
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- GOOGLE SHEETS SYNC INTEGRATION CARD -->
@@ -535,7 +637,6 @@ function doPost(e) {
                         </div>
                         <div>
                             <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Category</label>
-                            <!-- Dynamically populated via JS based on Expense/Income selection -->
                             <select id="tx-category" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-emerald-500 transition-all appearance-none cursor-pointer">
                             </select>
                         </div>
@@ -744,17 +845,20 @@ function doPost(e) {
         let transactions = [];
         let budgets = [];
         let loans = [];
-        let syncStatus = 'local'; // 'local', 'syncing', 'synced', 'error'
+        let syncStatus = 'local';
         let currentUserId = null;
         let unsubscribeTx = null;
         let unsubscribeBudgets = null;
         let unsubscribeLoans = null;
-        let activeEditTxId = null; // tracking if editing
-        let activePaymentLoanId = null; // tracking loan targeted for payment
-        let deleteConfirmTimer = null; // safe state validation
-        let selectedLoanType = 'lent'; // lent or borrowed
+        let activeEditTxId = null;
+        let activePaymentLoanId = null;
+        let deleteConfirmTimer = null;
+        let selectedLoanType = 'lent';
 
-        // DETECT GLOBAL SYSTEM CONFIGS OR DEFAULT
+        // EXPOSED SECURITY LOCK KEYS
+        let activeAppLockPin = localStorage.getItem('apex_app_lock_pin') || '';
+        let enteredPinStream = '';
+
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'personal-finance-tracker';
         const rawConfig = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
         
@@ -784,6 +888,7 @@ function doPost(e) {
 
         function updateCategoryDropdown(type) {
             const select = document.getElementById('tx-category');
+            if(!select) return;
             select.innerHTML = '';
             categoryOptions[type].forEach(cat => {
                 const option = document.createElement('option');
@@ -793,7 +898,6 @@ function doPost(e) {
             });
         }
 
-        // Standard Mock Data with local bank accounts (RHB, Bank Islam, Cash)
         const defaultMockTransactions = [
             { id: 'm1', title: 'Salary Paycheck', amount: 4800.00, type: 'income', category: 'Salary', date: getRecentDateOffset(0), account: 'RHB Bank' },
             { id: 'm2', title: 'Jaya Grocer Basket', amount: 164.50, type: 'expense', category: 'Food', date: getRecentDateOffset(-1), account: 'Bank Islam' },
@@ -817,12 +921,21 @@ function doPost(e) {
             return date.toISOString().split('T')[0];
         }
 
+        // HAPTIC FEEDBACK GENERATOR MODULE (Priority 5)
+        window.vibrateTouch = function(dur = 15) {
+            if (navigator.vibrate) {
+                navigator.vibrate(dur);
+            }
+        };
+
         // ON INITIAL LOAD
         window.onload = async function() {
             setNavEvents();
             setupFormEvents();
-            loadLocalFallbackData(); // Pre-load local state immediately to avoid blank layout
-            setupGoogleSheetsEvents(); // Initialize Google Sheets Event handlers
+            loadLocalFallbackData();
+            setupGoogleSheetsEvents();
+            setupSecuritySettings();
+            verifyAppLockerGateway(); // Handle passcode screening first
             renderApp();
 
             if (rawConfig) {
@@ -833,7 +946,6 @@ function doPost(e) {
                     auth = getAuth(firebaseApp);
                     db = getFirestore(firebaseApp);
 
-                    // Auth flow Priority
                     const initialToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
                     if (initialToken) {
                         await signInWithCustomToken(auth, initialToken);
@@ -846,8 +958,6 @@ function doPost(e) {
                             currentUserId = user.uid;
                             document.getElementById('sync-user-id').textContent = currentUserId;
                             updateSyncWidget('synced', 'Connected Cloud');
-                            
-                            // Load existing data from Firestore or upload default local items
                             await setupCloudListeners(currentUserId);
                         } else {
                             updateSyncWidget('local', 'Offline-only');
@@ -864,6 +974,109 @@ function doPost(e) {
             }
         };
 
+        // SECURITY APPLOCK PASSKEY LOGIC
+        function verifyAppLockerGateway() {
+            const screen = document.getElementById('screen-lock');
+            if (activeAppLockPin && activeAppLockPin.length === 4) {
+                screen.classList.remove('hidden');
+                document.getElementById('lock-status-msg').textContent = "Enter your 4-digit security PIN";
+                document.getElementById('lock-status-msg').className = "text-xs text-slate-400 mt-1";
+                enteredPinStream = '';
+                updatePinDotsUI();
+            } else {
+                screen.classList.add('hidden');
+            }
+        }
+
+        window.inputLockPin = function(num) {
+            vibrateTouch(25);
+            if (enteredPinStream.length < 4) {
+                enteredPinStream += num;
+                updatePinDotsUI();
+            }
+            if (enteredPinStream.length === 4) {
+                setTimeout(() => {
+                    if (enteredPinStream === activeAppLockPin) {
+                        vibrateTouch([15, 30, 15]);
+                        document.getElementById('screen-lock').classList.add('hidden');
+                        showToast('Secure session unlocked!', 'success');
+                    } else {
+                        vibrateTouch(150);
+                        document.getElementById('lock-status-msg').textContent = "Access Denied. Try Again.";
+                        document.getElementById('lock-status-msg').className = "text-xs text-rose-400 mt-1 font-bold animate-pulse";
+                        enteredPinStream = '';
+                        updatePinDotsUI();
+                    }
+                }, 180);
+            }
+        };
+
+        window.clearLockPin = function() {
+            vibrateTouch(10);
+            enteredPinStream = '';
+            updatePinDotsUI();
+        };
+
+        window.backspaceLockPin = function() {
+            vibrateTouch(15);
+            enteredPinStream = enteredPinStream.slice(0, -1);
+            updatePinDotsUI();
+        };
+
+        function updatePinDotsUI() {
+            for (let i = 1; i <= 4; i++) {
+                const dot = document.getElementById(`pin-dot-${i}`);
+                if (enteredPinStream.length >= i) {
+                    dot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-emerald-400 scale-110 transition-all";
+                } else {
+                    dot.className = "w-3.5 h-3.5 rounded-full border-2 border-slate-700 transition-all";
+                }
+            }
+        }
+
+        function setupSecuritySettings() {
+            const pinLockInput = document.getElementById('input-pin-lock');
+            const pinLockBtn = document.getElementById('toggle-pin-lock-btn');
+            const pinLockBadge = document.getElementById('pin-lock-status-badge');
+
+            if (activeAppLockPin) {
+                pinLockInput.value = activeAppLockPin;
+                pinLockBtn.textContent = "Disable App Lock";
+                pinLockBtn.className = "active-scale flex-1 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/20 text-rose-400 text-xs font-bold rounded-2xl py-3 text-center transition";
+                pinLockBadge.textContent = "Enabled";
+                pinLockBadge.className = "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider";
+            }
+
+            pinLockBtn.addEventListener('click', () => {
+                vibrateTouch(30);
+                const pinVal = pinLockInput.value.trim();
+                if (activeAppLockPin) {
+                    // Disable Lock
+                    activeAppLockPin = '';
+                    localStorage.removeItem('apex_app_lock_pin');
+                    pinLockInput.value = '';
+                    pinLockBtn.textContent = "Enable App Lock";
+                    pinLockBtn.className = "active-scale flex-1 bg-indigo-500 hover:bg-indigo-600 text-slate-950 text-xs font-bold rounded-2xl py-3 text-center transition";
+                    pinLockBadge.textContent = "Disabled";
+                    pinLockBadge.className = "bg-slate-950 text-slate-500 border border-slate-800 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider";
+                    showToast('PIN security disabled', 'success');
+                } else {
+                    // Enable Lock
+                    if (pinVal.length !== 4 || isNaN(Number(pinVal))) {
+                        showToast('PIN code must be exactly 4 digits', 'error');
+                        return;
+                    }
+                    activeAppLockPin = pinVal;
+                    localStorage.setItem('apex_app_lock_pin', pinVal);
+                    pinLockBtn.textContent = "Disable App Lock";
+                    pinLockBtn.className = "active-scale flex-1 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/20 text-rose-400 text-xs font-bold rounded-2xl py-3 text-center transition";
+                    pinLockBadge.textContent = "Enabled";
+                    pinLockBadge.className = "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider";
+                    showToast('PIN security locker configured!', 'success');
+                }
+            });
+        }
+
         // GOOGLE SHEETS INTEGRATION LOGIC
         function setupGoogleSheetsEvents() {
             const savedUrl = localStorage.getItem('apex_gsheet_url');
@@ -874,6 +1087,7 @@ function doPost(e) {
             const scriptModal = document.getElementById('modal-script-viewer');
 
             document.getElementById('show-script-helper-btn').addEventListener('click', () => {
+                vibrateTouch(20);
                 openModal(scriptModal);
             });
 
@@ -881,8 +1095,8 @@ function doPost(e) {
                 closeModal(scriptModal);
             });
 
-            // Copy Apps Script Utility
             document.getElementById('copy-script-btn').addEventListener('click', () => {
+                vibrateTouch(15);
                 const codeBlock = document.getElementById('apps-script-code').innerText;
                 const textarea = document.createElement("textarea");
                 textarea.value = codeBlock;
@@ -903,6 +1117,7 @@ function doPost(e) {
 
             // PULL FROM SHEETS
             document.getElementById('pull-sheet-btn').addEventListener('click', async () => {
+                vibrateTouch(40);
                 const url = document.getElementById('gsheet-url').value.trim();
                 if (!url) {
                     showToast('Please enter your Google Web App URL first', 'error');
@@ -943,6 +1158,7 @@ function doPost(e) {
 
             // PUSH TO SHEETS
             document.getElementById('push-sheet-btn').addEventListener('click', async () => {
+                vibrateTouch(40);
                 const url = document.getElementById('gsheet-url').value.trim();
                 if (!url) {
                     showToast('Please enter your Google Web App URL first', 'error');
@@ -973,7 +1189,6 @@ function doPost(e) {
             });
         }
 
-        // Listen dynamically for real-time document modifications in Firebase
         async function setupCloudListeners(uid) {
             if (unsubscribeTx) unsubscribeTx();
             if (unsubscribeBudgets) unsubscribeBudgets();
@@ -1032,7 +1247,6 @@ function doPost(e) {
             });
         }
 
-        // Pre-populates layout instantly for seamless load performance
         function loadLocalFallbackData() {
             const cachedTxs = localStorage.getItem('apex_local_txs');
             const cachedBudgets = localStorage.getItem('apex_local_budgets');
@@ -1054,7 +1268,6 @@ function doPost(e) {
             localStorage.setItem('apex_local_loans', JSON.stringify(loans));
         }
 
-        // PUSH current local memory down to Firestore instances
         async function pushLocalDataToCloud() {
             if (!db || !currentUserId) return;
             try {
@@ -1103,7 +1316,6 @@ function doPost(e) {
             }
         }
 
-        // Dynamic UI status updater
         function updateSyncWidget(state, text) {
             syncStatus = state;
             const textElement = document.getElementById('sync-text');
@@ -1134,13 +1346,13 @@ function doPost(e) {
             }
         }
 
-        // Tab-bar logic
         function setNavEvents() {
             const tabs = document.querySelectorAll('.nav-tab');
             const screens = ['screen-dashboard', 'screen-analytics', 'screen-budgets', 'screen-loans', 'screen-sync'];
 
             tabs.forEach(tab => {
                 tab.addEventListener('click', (e) => {
+                    vibrateTouch(15);
                     const target = tab.getAttribute('data-target');
                     
                     screens.forEach(s => {
@@ -1176,7 +1388,6 @@ function doPost(e) {
             if (targetTab) targetTab.click();
         }
 
-        // Re-generates views and dynamically computes SVG charts
         function renderApp() {
             const sortedTxs = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
 
@@ -1210,7 +1421,6 @@ function doPost(e) {
                 }
             });
 
-            // Calculate outstanding loan pools
             let outstandingLentSum = 0;
             let outstandingBorrowedSum = 0;
 
@@ -1224,20 +1434,16 @@ function doPost(e) {
             });
 
             const totalLiquidCash = balRHB + balIslam + balCash;
-            // Net wealth = cash accounts + money owed to me - my debts
             const netBalance = totalLiquidCash + outstandingLentSum - outstandingBorrowedSum;
 
-            // Apply to Header Card
             document.getElementById('total-balance').textContent = formatCurrency(netBalance);
             document.getElementById('total-income').textContent = formatCurrency(totalIncome);
             document.getElementById('total-expense').textContent = formatCurrency(totalExpense);
 
-            // Display cash, receivables and liabilities labels
             document.getElementById('label-net-cash').textContent = `Cash: ${formatCurrency(totalLiquidCash)}`;
             document.getElementById('label-net-lent').textContent = `Lent: ${formatCurrency(outstandingLentSum)}`;
             document.getElementById('label-net-debt').textContent = `Debts: -${formatCurrency(outstandingBorrowedSum)}`;
 
-            // Set individual wallet values
             document.getElementById('bal-rhb').textContent = formatCurrency(balRHB);
             document.getElementById('bal-islam').textContent = formatCurrency(balIslam);
             document.getElementById('bal-cash').textContent = formatCurrency(balCash);
@@ -1246,11 +1452,12 @@ function doPost(e) {
             styleWalletText('bal-islam', balIslam);
             styleWalletText('bal-cash', balCash);
 
-            // Set Loan Summary Panels
             document.getElementById('total-lent').textContent = formatCurrency(outstandingLentSum);
             document.getElementById('total-borrowed').textContent = formatCurrency(outstandingBorrowedSum);
 
-            // Render sub panels
+            // Execute Predictive Cashflow forecasting calculation
+            calculateCashflowRunway(totalLiquidCash, sortedTxs);
+
             renderDashboardTxs(sortedTxs.slice(0, 4));
             renderDashboardBudgets();
             renderDonutAllocation(sortedTxs);
@@ -1261,8 +1468,102 @@ function doPost(e) {
             saveLocalData();
         }
 
+        // PREDICTIVE CASHFLOW SYSTEM ENGINE (Priority 3)
+        function calculateCashflowRunway(liquidCash, sortedTxs) {
+            const expenses = sortedTxs.filter(t => t.type === 'expense');
+            const incomes = sortedTxs.filter(t => t.type === 'income');
+
+            let uniqueMonths = new Set();
+            sortedTxs.forEach(t => {
+                if (t.date) {
+                    uniqueMonths.add(t.date.substring(0, 7)); // 'YYYY-MM'
+                }
+            });
+            const monthsCount = Math.max(uniqueMonths.size, 1);
+
+            const totalExp = expenses.reduce((sum, t) => sum + Number(t.amount), 0);
+            const totalInc = incomes.reduce((sum, t) => sum + Number(t.amount), 0);
+
+            const avgMonthlyExpense = totalExp / monthsCount;
+            const avgMonthlyIncome = totalInc / monthsCount;
+
+            const monthlyNetBurn = avgMonthlyExpense - avgMonthlyIncome;
+
+            document.getElementById('predictive-avg-expense').textContent = `${formatCurrency(avgMonthlyExpense)}/mo`;
+
+            const runwayValEl = document.getElementById('predictive-runway');
+            const spanTextEl = document.getElementById('predictive-days-span');
+
+            if (monthlyNetBurn <= 0) {
+                runwayValEl.textContent = "Infinite ♾️";
+                runwayValEl.className = "text-md font-black text-emerald-400";
+                spanTextEl.textContent = "infinite";
+            } else {
+                const monthsRemaining = liquidCash / monthlyNetBurn;
+                spanTextEl.textContent = `${monthsRemaining.toFixed(1)} months`;
+
+                if (monthsRemaining < 2) {
+                    runwayValEl.textContent = `${monthsRemaining.toFixed(1)} Months`;
+                    runwayValEl.className = "text-md font-black text-rose-500 animate-pulse";
+                } else if (monthsRemaining < 6) {
+                    runwayValEl.textContent = `${monthsRemaining.toFixed(1)} Months`;
+                    runwayValEl.className = "text-md font-black text-amber-500";
+                } else {
+                    runwayValEl.textContent = `${monthsRemaining.toFixed(1)} Months`;
+                    runwayValEl.className = "text-md font-black text-emerald-400";
+                }
+            }
+        }
+
+        // AUTO-GENERATE ENVELOPE BUDGET DISPATCHER (Priority 3)
+        document.getElementById('auto-budget-generate-btn').addEventListener('click', async () => {
+            vibrateTouch([20, 50, 20]);
+            
+            // Gather last 3 months average spendings grouped by Category
+            const expenses = transactions.filter(t => t.type === 'expense');
+            if (expenses.length === 0) {
+                showToast("Need some Expense history to auto-fill", "error");
+                return;
+            }
+
+            const groupedTotals = {};
+            expenses.forEach(e => {
+                groupedTotals[e.category] = (groupedTotals[e.category] || 0) + Number(e.amount);
+            });
+
+            // Auto formulate: Rounded up up to the nearest RM50 margin
+            let generatedCount = 0;
+            for (let [cat, totalAmt] of Object.entries(groupedTotals)) {
+                if (cat === 'Loan Given' || cat === 'Loan Repayment') continue;
+                
+                const recommendedBudget = Math.max(Math.ceil((totalAmt * 1.15) / 50) * 50, 100); 
+                const existingIndex = budgets.findIndex(b => b.category === cat);
+                const targetId = existingIndex !== -1 ? budgets[existingIndex].id : 'b_' + Math.random().toString(36).substr(2, 9);
+                const payload = { category: cat, amount: recommendedBudget };
+
+                if (db && currentUserId) {
+                    try {
+                        await setDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `budgets`, targetId), payload);
+                    } catch (err) {
+                        console.error(err);
+                    }
+                } else {
+                    if (existingIndex !== -1) {
+                        budgets[existingIndex].amount = recommendedBudget;
+                    } else {
+                        budgets.push({ id: targetId, ...payload });
+                    }
+                }
+                generatedCount++;
+            }
+
+            renderApp();
+            showToast(`Auto-configured ${generatedCount} category envelopes!`, "success");
+        });
+
         function styleWalletText(elementId, balance) {
             const el = document.getElementById(elementId);
+            if (!el) return;
             if (balance < 0) {
                 el.className = "text-xs font-bold text-rose-400 mt-0.5";
             } else if (balance === 0) {
@@ -1283,6 +1584,7 @@ function doPost(e) {
 
         function renderDashboardTxs(txSlice) {
             const container = document.getElementById('dashboard-transactions');
+            if(!container) return;
             container.innerHTML = '';
 
             if (txSlice.length === 0) {
@@ -1346,6 +1648,7 @@ function doPost(e) {
 
         function renderDashboardBudgets() {
             const container = document.getElementById('dashboard-budgets');
+            if(!container) return;
             container.innerHTML = '';
 
             const categorySums = {};
@@ -1357,7 +1660,7 @@ function doPost(e) {
                 container.innerHTML = `
                     <div class="text-center p-6 bg-slate-900/40 rounded-2xl border border-slate-900/60">
                         <i class="fa-solid fa-gauge-high text-slate-600 text-2xl mb-2 block"></i>
-                        <p class="text-xs text-slate-500 italic p-4 text-center bg-slate-900/40 rounded-2xl border border-slate-900/60">No active limits or goals set</p>
+                        <p class="text-xs text-slate-500 italic p-4 text-center bg-slate-900/40 rounded-2xl border border-slate-900/60">No active limits set</p>
                     </div>
                 `;
                 return;
@@ -1366,9 +1669,17 @@ function doPost(e) {
             budgets.slice(0, 3).forEach(b => {
                 const spent = categorySums[b.category] || 0;
                 const percent = Math.min((spent / b.amount) * 100, 100);
-                const isOver = spent > b.amount;
-                const barColor = isOver ? 'bg-rose-500' : 'bg-emerald-400';
-                const textColor = isOver ? 'text-rose-400 font-bold' : 'text-slate-300';
+                
+                // 85% Warning Banners Logic (Priority 5)
+                let barColor = 'bg-emerald-400';
+                let textColor = 'text-slate-300';
+                if (percent >= 100) {
+                    barColor = 'bg-rose-500';
+                    textColor = 'text-rose-400 font-bold';
+                } else if (percent >= 85) {
+                    barColor = 'bg-amber-500';
+                    textColor = 'text-amber-400 font-bold';
+                }
 
                 const div = document.createElement('div');
                 div.className = "bg-slate-900/40 border border-slate-900/60 rounded-2xl p-4 space-y-2";
@@ -1390,6 +1701,7 @@ function doPost(e) {
             const svgChart = document.getElementById('donut-chart-svg');
             const percentageText = document.getElementById('donut-center-pct');
 
+            if (!legendContainer || !svgChart) return;
             legendContainer.innerHTML = '';
 
             const expenses = sortedTxs.filter(t => t.type === 'expense');
@@ -1458,6 +1770,7 @@ function doPost(e) {
         const periodButtons = document.querySelectorAll('.analytics-period-btn');
         periodButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
+                vibrateTouch(10);
                 periodButtons.forEach(b => {
                     b.classList.remove('bg-slate-800', 'text-white', 'shadow');
                     b.classList.add('text-slate-400', 'hover:text-white');
@@ -1473,6 +1786,7 @@ function doPost(e) {
         function renderAnalyticsPeriod(period) {
             const container = document.getElementById('trend-bars-container');
             const rankContainer = document.getElementById('analytics-categories-list');
+            if(!container || !rankContainer) return;
             container.innerHTML = '';
             rankContainer.innerHTML = '';
 
@@ -1559,6 +1873,7 @@ function doPost(e) {
 
         function renderBudgetsPage() {
             const container = document.getElementById('budgets-management-list');
+            if(!container) return;
             container.innerHTML = '';
 
             const categorySums = {};
@@ -1571,7 +1886,7 @@ function doPost(e) {
                     <div class="text-center py-12 bg-slate-900/40 rounded-3xl border border-slate-900/60 p-6">
                         <i class="fa-solid fa-receipt text-slate-600 text-3xl mb-3 block"></i>
                         <p class="text-xs text-slate-500 font-semibold">No targets established yet.</p>
-                        <p class="text-[11px] text-slate-600 mt-1 max-w-[80%] mx-auto">Create monthly caps to stay details-focused on spendings.</p>
+                        <p class="text-[11px] text-slate-600 mt-1 max-w-[80%] mx-auto">Create monthly caps or click the "Auto-Fill" system generator to analyze spending.</p>
                     </div>
                 `;
                 return;
@@ -1580,10 +1895,20 @@ function doPost(e) {
             budgets.forEach(b => {
                 const spent = categorySums[b.category] || 0;
                 const percent = Math.min((spent / b.amount) * 100, 100);
-                const isOver = spent > b.amount;
-                const barColor = isOver ? 'bg-rose-500' : 'bg-indigo-500';
-                const statusText = isOver ? 'OVER BUDGET' : 'PACE STABLE';
-                const statusClass = isOver ? 'bg-rose-500/20 text-rose-400 border-rose-500/30' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+                
+                let barColor = 'bg-indigo-500';
+                let statusText = 'PACE STABLE';
+                let statusClass = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+
+                if (percent >= 100) {
+                    barColor = 'bg-rose-500';
+                    statusText = 'OVER BUDGET';
+                    statusClass = 'bg-rose-500/20 text-rose-400 border-rose-500/30';
+                } else if (percent >= 85) {
+                    barColor = 'bg-amber-500';
+                    statusText = 'CRITICAL SPEED';
+                    statusClass = 'bg-amber-500/20 text-amber-400 border-amber-500/30';
+                }
 
                 const div = document.createElement('div');
                 div.className = "bg-slate-900/50 border border-slate-900 rounded-3xl p-5 space-y-3";
@@ -1621,10 +1946,10 @@ function doPost(e) {
             });
         }
 
-        // Render Loans dashboard Lists
         function renderLoansDashboard() {
             const lentContainer = document.getElementById('loans-lent-list');
             const borrowedContainer = document.getElementById('loans-borrowed-list');
+            if(!lentContainer || !borrowedContainer) return;
 
             lentContainer.innerHTML = '';
             borrowedContainer.innerHTML = '';
@@ -1632,9 +1957,8 @@ function doPost(e) {
             const lentLoans = loans.filter(l => l.type === 'lent');
             const borrowedLoans = loans.filter(l => l.type === 'borrowed');
 
-            // Render Lent list
             if (lentLoans.length === 0) {
-                lentContainer.innerHTML = `<p class="text-xs text-slate-600 italic p-4 text-center bg-slate-900/20 border border-slate-900 rounded-2xl">No receivables or money lent currently logged</p>`;
+                lentContainer.innerHTML = `<p class="text-xs text-slate-600 italic p-4 text-center bg-slate-900/20 border border-slate-900 rounded-2xl">No receivables logged</p>`;
             } else {
                 lentLoans.forEach(l => {
                     const received = l.originalAmount - l.currentBalance;
@@ -1668,9 +1992,8 @@ function doPost(e) {
                 });
             }
 
-            // Render Borrowed list (PTPTN / Debts)
             if (borrowedLoans.length === 0) {
-                borrowedContainer.innerHTML = `<p class="text-xs text-slate-600 italic p-4 text-center bg-slate-900/20 border border-slate-900 rounded-2xl">No debts or payables currently logged</p>`;
+                borrowedContainer.innerHTML = `<p class="text-xs text-slate-600 italic p-4 text-center bg-slate-900/20 border border-slate-900 rounded-2xl">No debts logged (e.g., PTPTN)</p>`;
             } else {
                 borrowedLoans.forEach(l => {
                     const paid = l.originalAmount - l.currentBalance;
@@ -1707,13 +2030,13 @@ function doPost(e) {
 
         document.getElementById('tx-date').valueAsDate = new Date();
 
-        // Modals Toggle Actions
         const modalTx = document.getElementById('modal-transaction');
         const modalBudget = document.getElementById('modal-budget');
         const modalLoan = document.getElementById('modal-loan');
         const modalLoanPayment = document.getElementById('modal-loan-payment');
 
         document.getElementById('fab-add-btn').addEventListener('click', () => {
+            vibrateTouch(35);
             activeEditTxId = null;
             document.getElementById('modal-title-text').textContent = "Add Transaction";
             document.getElementById('tx-title').value = '';
@@ -1733,6 +2056,7 @@ function doPost(e) {
         });
 
         document.getElementById('add-budget-btn').addEventListener('click', () => {
+            vibrateTouch(25);
             document.getElementById('budget-amount').value = '';
             document.getElementById('budget-category').selectedIndex = 0;
             openModal(modalBudget);
@@ -1742,8 +2066,8 @@ function doPost(e) {
             closeModal(modalBudget);
         });
 
-        // Loans Modals Toggles
         document.getElementById('add-loan-btn').addEventListener('click', () => {
+            vibrateTouch(25);
             document.getElementById('loan-title').value = '';
             document.getElementById('loan-amount').value = '';
             loanTypeLentBtn.click();
@@ -1758,12 +2082,12 @@ function doPost(e) {
             closeModal(modalLoanPayment);
         });
 
-        // Form toggle selectors
         const expenseBtn = document.getElementById('type-expense-btn');
         const incomeBtn = document.getElementById('type-income-btn');
         let selectedType = 'expense';
 
         expenseBtn.addEventListener('click', () => {
+            vibrateTouch(10);
             selectedType = 'expense';
             expenseBtn.className = "py-2 text-xs font-bold rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/25";
             incomeBtn.className = "py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white";
@@ -1772,6 +2096,7 @@ function doPost(e) {
         });
 
         incomeBtn.addEventListener('click', () => {
+            vibrateTouch(10);
             selectedType = 'income';
             incomeBtn.className = "py-2 text-xs font-bold rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/25";
             expenseBtn.className = "py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white";
@@ -1779,17 +2104,18 @@ function doPost(e) {
             updateCategoryDropdown('income');
         });
 
-        // Loan Toggle selectors
         const loanTypeLentBtn = document.getElementById('loan-type-lent-btn');
         const loanTypeBorrowedBtn = document.getElementById('loan-type-borrowed-btn');
 
         loanTypeLentBtn.addEventListener('click', () => {
+            vibrateTouch(10);
             selectedLoanType = 'lent';
             loanTypeLentBtn.className = "py-2 text-xs font-bold rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/25";
             loanTypeBorrowedBtn.className = "py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white";
         });
 
         loanTypeBorrowedBtn.addEventListener('click', () => {
+            vibrateTouch(10);
             selectedLoanType = 'borrowed';
             loanTypeBorrowedBtn.className = "py-2 text-xs font-bold rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/25";
             loanTypeLentBtn.className = "py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white";
@@ -1811,10 +2137,10 @@ function doPost(e) {
             }, 300);
         }
 
-        // Setup Form actions
         function setupFormEvents() {
             // Save transaction record
             document.getElementById('save-tx-btn').addEventListener('click', async () => {
+                vibrateTouch(25);
                 const title = document.getElementById('tx-title').value.trim();
                 const amount = Number(document.getElementById('tx-amount').value);
                 const account = document.getElementById('tx-account').value;
@@ -1872,6 +2198,7 @@ function doPost(e) {
 
             // Save budget goal
             document.getElementById('save-budget-btn').addEventListener('click', async () => {
+                vibrateTouch(25);
                 const category = document.getElementById('budget-category').value;
                 const amount = Number(document.getElementById('budget-amount').value);
 
@@ -1905,6 +2232,7 @@ function doPost(e) {
 
             // Save Loan Tracker
             document.getElementById('save-loan-btn').addEventListener('click', async () => {
+                vibrateTouch(25);
                 const title = document.getElementById('loan-title').value.trim();
                 const amount = Number(document.getElementById('loan-amount').value);
 
@@ -1938,8 +2266,9 @@ function doPost(e) {
                 closeModal(modalLoan);
             });
 
-            // Submit Loan payment (Deduction transaction builder)
+            // Submit Loan payment
             document.getElementById('submit-loan-payment-btn').addEventListener('click', async () => {
+                vibrateTouch(30);
                 const targetLoan = loans.find(l => l.id === activePaymentLoanId);
                 if (!targetLoan) return;
 
@@ -1952,12 +2281,8 @@ function doPost(e) {
                     return;
                 }
 
-                // Math limit outstanding
                 const newBalance = Math.max(targetLoan.currentBalance - payAmount, 0);
 
-                // Build a synchronized transaction to update Cash balances
-                // If My Debt (e.g., PTPTN), paying it down is an Expense.
-                // If money lent out, receiving repayment is an Income.
                 const isDebtRepayment = targetLoan.type === 'borrowed';
                 const txPayload = {
                     title: isDebtRepayment ? `Repayment: ${targetLoan.title}` : `Repaid by: ${targetLoan.title}`,
@@ -1972,20 +2297,17 @@ function doPost(e) {
 
                 if (db && currentUserId) {
                     try {
-                        // Update loan current balance
                         await setDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `loans`, activePaymentLoanId), {
                             ...targetLoan,
                             currentBalance: newBalance
                         });
 
-                        // Post new matching transaction record
                         const txId = 'tx_' + Math.random().toString(36).substr(2, 9);
                         await setDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `transactions`, txId), txPayload);
                     } catch (err) {
                         console.error(err);
                     }
                 } else {
-                    // Local state fallback
                     targetLoan.currentBalance = newBalance;
                     transactions.push({
                         id: 'tx_' + Math.random().toString(36).substr(2, 9),
@@ -2000,6 +2322,7 @@ function doPost(e) {
 
             // Sync Connection / Manual override
             document.getElementById('apply-manual-sync-btn').addEventListener('click', async () => {
+                vibrateTouch(25);
                 const targetKey = document.getElementById('manual-sync-key').value.trim();
                 if (!targetKey) {
                     showToast('Enter valid reference key', 'error');
@@ -2018,12 +2341,12 @@ function doPost(e) {
                         showToast('Failed connection', 'error');
                     }
                 } else {
-                    showToast('Local mode offline (no Cloud configurations)', 'error');
+                    showToast('Local mode offline', 'error');
                 }
             });
 
-            // Copy user identity code for device sharing
             document.getElementById('copy-sync-id-btn').addEventListener('click', () => {
+                vibrateTouch(10);
                 const copyText = document.getElementById('sync-user-id').textContent;
                 if (!copyText) return;
                 
@@ -2040,9 +2363,10 @@ function doPost(e) {
                 document.body.removeChild(textarea);
             });
 
-            // Purge wallet logs
+            // Purge wallet logs (SAFE CONFIRM TRIGGER - Replaced native window confirm)
             const purgeBtn = document.getElementById('purge-wallet-btn');
             purgeBtn.addEventListener('click', async () => {
+                vibrateTouch(50);
                 if (!deleteConfirmTimer) {
                     deleteConfirmTimer = setTimeout(() => {
                         deleteConfirmTimer = null;
@@ -2094,6 +2418,7 @@ function doPost(e) {
 
         // Edit transaction
         window.editTransaction = function(txId) {
+            vibrateTouch(15);
             const target = transactions.find(t => t.id === txId);
             if (!target) return;
 
@@ -2116,6 +2441,7 @@ function doPost(e) {
 
         // Delete transaction
         window.deleteTransaction = async function(txId) {
+            vibrateTouch(25);
             const index = transactions.findIndex(t => t.id === txId);
             if (index === -1) return;
 
@@ -2138,6 +2464,7 @@ function doPost(e) {
 
         // Budget triggers
         window.editBudget = function(budgetId) {
+            vibrateTouch(15);
             const target = budgets.find(b => b.id === budgetId);
             if (!target) return;
 
@@ -2147,6 +2474,7 @@ function doPost(e) {
         };
 
         window.deleteBudget = async function(budgetId) {
+            vibrateTouch(25);
             const index = budgets.findIndex(b => b.id === budgetId);
             if (index === -1) return;
 
@@ -2164,8 +2492,9 @@ function doPost(e) {
             }
         };
 
-        // Loans interactive workflows
+        // Loans payment triggers
         window.triggerLoanPayment = function(loanId) {
+            vibrateTouch(30);
             const target = loans.find(l => l.id === loanId);
             if (!target) return;
 
@@ -2178,6 +2507,7 @@ function doPost(e) {
         };
 
         window.deleteLoan = async function(loanId) {
+            vibrateTouch(25);
             const index = loans.findIndex(l => l.id === loanId);
             if (index === -1) return;
 
@@ -2199,6 +2529,7 @@ function doPost(e) {
             const toast = document.getElementById('global-toast');
             const icon = document.getElementById('toast-icon');
             const label = document.getElementById('toast-message');
+            if(!toast || !icon || !label) return;
 
             label.textContent = msg;
 
