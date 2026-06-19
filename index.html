@@ -11,8 +11,8 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#000000">
 
-    <!-- Inline Web App Manifest to Force Chrome & Android Standalone Launch with Required Icons -->
-    <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22Finance%20Tracker%22%2C%22short_name%22%3A%22Finance%20Tracker%22%2C%22start_url%22%3A%22.%2Findex.html%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23000000%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fplacehold.co%2F192x192%2F000000%2F34d399%3Ftext%3DFT%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fplacehold.co%2F512x512%2F000000%2F34d399%3Ftext%3DFT%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
+    <!-- Inline Web App Manifest with Custom Glowing SVG Launcher Icon -->
+    <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22Finance%20Tracker%22%2C%22short_name%22%3A%22Finance%20Tracker%22%2C%22start_url%22%3A%22.%2Findex.html%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23000000%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%3Butf8%2C%253Csvg%2520xmlns%253D%2522http%253A%252F%252Fwww.w3.org%252F2000%252Fsvg%2522%2520viewBox%253D%25220%25200%2520512%2520512%2520%2522%253E%253Crect%2520width%253D%2522512%2522%2520height%253D%2522512%2522%2520rx%253D%2522128%2522%2520fill%253D%2522%2523000000%2522%252F%253E%253Ccircle%2520cx%253D%2522256%2522%2520cy%253D%2522256%2522%2520r%253D%2522180%2522%2520fill%253D%2522url%2528%2523grad%2529%2522%2520stroke%253D%2522%252310b981%2522%2520stroke-width%253D%252212%2522%252F%253E%253Cpath%2520d%253D%2522M180%2520340%2520L240%2520280%2520L290%2520310%2520L360%2520210%2522%2520stroke%253D%2522%252334d399%2522%2520stroke-width%253D%252224%2522%2520stroke-linecap%253D%2522round%2522%2520stroke-linejoin%253D%2522round%2522%2520fill%253D%2522none%2522%252F%253E%253Cpolygon%2520points%253D%2522360%252C210%2520320%252C210%2520360%252C250%2522%2520fill%253D%2522%252334d399%2522%252F%253E%253Cdefs%253E%253ClinearGradient%2520id%253D%2522grad%2522%2520x1%253D%25220%2525%2522%2520y1%253D%25220%2525%2522%2520x2%253D%2522100%2525%2522%2520y2%253D%2522100%2525%2522%253E%253Cstop%2520offset%253D%25220%2525%2522%2520style%253D%2522stop-color%253A%2523022c22%253Bstop-opacity%253A1%2522%252F%253E%253Cstop%2520offset%253D%2522100%2525%2522%2520style%253D%2522stop-color%253A%2523000000%253Bstop-opacity%253A1%2522%252F%253E%253C%252FlinearGradient%253E%253C%252Fdefs%253E%253C%252Fsvg%253E%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D'>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -61,10 +61,12 @@
     <!-- SECURE PASSCODE APP LOCK SCREEN -->
     <div id="screen-lock" class="absolute inset-0 bg-black z-[999] flex flex-col items-center justify-between p-8 hidden">
         <div class="flex flex-col items-center mt-16 space-y-4">
+            <!-- Stylized Custom Branded Logo -->
             <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-                <svg class="w-9 h-9 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="12" y1="1" x2="12" y2="23"></line>
-                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                <svg class="w-9 h-9 text-black" viewBox="0 0 512 512" fill="currentColor">
+                    <circle cx="256" cy="256" r="180" fill="none" stroke="currentColor" stroke-width="24"/>
+                    <path d="M180 340 L240 280 L290 310 L360 210" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    <polygon points="360,210 310,210 360,260" fill="currentColor"/>
                 </svg>
             </div>
             <div class="text-center">
@@ -103,15 +105,16 @@
     <!-- MAIN APP SCREEN HEADER -->
     <header class="bg-black/90 backdrop-blur-md sticky top-0 z-40 px-6 pt-6 pb-4 border-b border-zinc-900 flex justify-between items-center shrink-0">
         <div class="flex items-center gap-3">
-            <!-- Modern Styled Geometrical FT Vector Logo -->
+            <!-- Branded Growth Logo Icon -->
             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/10 shrink-0">
-                <svg class="w-6 h-6 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
-                    <line x1="4" y1="22" x2="4" y2="15"></line>
+                <svg class="w-6 h-6 text-black" viewBox="0 0 512 512" fill="currentColor">
+                    <circle cx="256" cy="256" r="180" fill="none" stroke="currentColor" stroke-width="28"/>
+                    <path d="M180 340 L240 280 L290 310 L360 210" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    <polygon points="360,210 310,210 360,260" fill="currentColor"/>
                 </svg>
             </div>
             <div>
-                <p class="text-[9px] text-zinc-500 font-medium tracking-wider uppercase">Welcome Back</p>
+                <p class="text-[9px] text-emerald-400 font-bold tracking-wider uppercase">Welcome Back, Adham</p>
                 <h1 class="text-base font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Finance Tracker</h1>
             </div>
         </div>
@@ -125,394 +128,372 @@
         </button>
     </header>
 
-    <!-- MAIN INTERACTIVE SCREENS CONTAINER -->
-    <main id="screen-container" class="flex-1 overflow-y-auto px-5 py-4 space-y-6 hide-scrollbar">
-        
-        <!-- SCREEN 1: DASHBOARD VIEW -->
-        <div id="screen-dashboard" class="space-y-6 block">
+    <!-- MAIN INTERACTIVE SCREENS CAROUSEL TRACK -->
+    <div id="screen-wrapper" class="flex-1 overflow-hidden relative w-full">
+        <div id="screen-container" class="h-full flex flex-row transition-transform duration-300 ease-out will-change-transform" style="width: 500%;">
             
-            <!-- PREMIUM CARD: TOTAL BALANCE & ACCOUNTS -->
-            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-black via-zinc-950 to-emerald-950/40 p-6 border border-zinc-900 shadow-xl">
-                <!-- Card Background Decorative Glow -->
-                <div class="absolute -right-12 -top-12 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl"></div>
-                <div class="absolute -left-12 -bottom-12 w-32 h-32 bg-teal-500/10 rounded-full blur-3xl"></div>
+            <!-- SCREEN 1: DASHBOARD VIEW -->
+            <div id="screen-dashboard" class="w-[20%] h-full overflow-y-auto px-5 py-4 space-y-6 hide-scrollbar shrink-0 select-none">
                 
-                <div class="flex justify-between items-start mb-4">
-                    <div>
-                        <p class="text-xs text-zinc-500 font-semibold uppercase tracking-widest">Net Wealth Balance</p>
-                        <h2 id="total-balance" class="text-4xl font-black text-white mt-1 tracking-tight">RM0.00</h2>
-                        <!-- Dynamic Financial Health Indicators -->
-                        <div class="flex flex-wrap gap-2 mt-2">
-                            <span id="label-net-cash" class="text-[9px] text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/10">Cash: RM0.00</span>
-                            <span id="label-net-lent" class="text-[9px] text-sky-400 font-semibold bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/10">Lent: RM0.00</span>
-                            <span id="label-net-debt" class="text-[9px] text-rose-400 font-semibold bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/10">Owed: RM0.00</span>
-                        </div>
-                    </div>
-                    <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-500/30 uppercase tracking-wider">
-                        Live Sync
-                    </span>
-                </div>
-                
-                <!-- Income / Expense Mini Bars -->
-                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-zinc-900 mt-2">
-                    <div class="flex items-center gap-2.5">
-                        <div class="w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
-                            <i class="fa-solid fa-arrow-down text-emerald-400 text-xs"></i>
-                        </div>
+                <!-- PREMIUM CARD: TOTAL BALANCE & ACCOUNTS -->
+                <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-black via-zinc-950 to-emerald-950/40 p-6 border border-zinc-900 shadow-xl">
+                    <!-- Card Background Decorative Glow -->
+                    <div class="absolute -right-12 -top-12 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl"></div>
+                    <div class="absolute -left-12 -bottom-12 w-32 h-32 bg-teal-500/10 rounded-full blur-3xl"></div>
+                    
+                    <div class="flex justify-between items-start mb-4">
                         <div>
-                            <p class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Income</p>
-                            <p id="total-income" class="text-sm font-semibold text-emerald-400">RM0.00</p>
+                            <p class="text-xs text-zinc-500 font-semibold uppercase tracking-widest">Net Wealth Balance</p>
+                            <h2 id="total-balance" class="text-4xl font-black text-white mt-1 tracking-tight">RM0.00</h2>
+                            <!-- Dynamic Financial Health Indicators -->
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span id="label-net-cash" class="text-[9px] text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/10">Cash: RM0.00</span>
+                                <span id="label-net-lent" class="text-[9px] text-sky-400 font-semibold bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/10">Lent: RM0.00</span>
+                                <span id="label-net-debt" class="text-[9px] text-rose-400 font-semibold bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/10">Owed: RM0.00</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex items-center gap-2.5">
-                        <div class="w-8 h-8 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center shrink-0">
-                            <i class="fa-solid fa-arrow-up text-rose-400 text-xs"></i>
-                        </div>
-                        <div>
-                            <p class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Expenses</p>
-                            <p id="total-expense" class="text-sm font-semibold text-rose-400">RM0.00</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- INDIVIDUAL WALLET BALANCES (RHB, BANK ISLAM, CASH) -->
-                <div class="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-zinc-900">
-                    <div class="bg-black rounded-2xl p-2.5 border border-zinc-900 text-center">
-                        <p class="text-[8px] text-zinc-500 uppercase font-extrabold tracking-wider">RHB Bank</p>
-                        <p id="bal-rhb" class="text-xs font-bold text-emerald-400 mt-0.5">RM0.00</p>
-                    </div>
-                    <div class="bg-black rounded-2xl p-2.5 border border-zinc-900 text-center">
-                        <p class="text-[8px] text-zinc-500 uppercase font-extrabold tracking-wider">Bank Islam</p>
-                        <p id="bal-islam" class="text-xs font-bold text-emerald-400 mt-0.5">RM0.00</p>
-                    </div>
-                    <div class="bg-black rounded-2xl p-2.5 border border-zinc-900 text-center">
-                        <p class="text-[8px] text-zinc-500 uppercase font-extrabold tracking-wider">Cash</p>
-                        <p id="bal-cash" class="text-xs font-bold text-emerald-400 mt-0.5">RM0.00</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BUDGET PACING SECTION -->
-            <div>
-                <div class="flex justify-between items-center mb-3 px-1">
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-zinc-500">Monthly Budget Limits</h3>
-                    <button id="view-budgets-shortcut" class="text-xs text-emerald-400 font-semibold flex items-center gap-1 hover:underline">
-                        Manage <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                    </button>
-                </div>
-                <!-- Dynamic Budget Widget -->
-                <div id="dashboard-budgets" class="space-y-3">
-                    <p class="text-xs text-zinc-600 italic p-4 text-center bg-zinc-950/40 rounded-2xl border border-zinc-900">No budget caps set for this period yet.</p>
-                </div>
-            </div>
-
-            <!-- QUICK STATISTICS BLOCK (DYNAMIC PIE / DONUT) -->
-            <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-4">
-                <div class="flex justify-between items-center">
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-zinc-500">Expense Allocation</h3>
-                    <span class="text-xs font-semibold text-zinc-500" id="allocation-month-label">Current Period</span>
-                </div>
-                <div class="flex items-center gap-4">
-                    <!-- Dynamic Donut Chart Container -->
-                    <div class="w-24 h-24 shrink-0 flex items-center justify-center relative">
-                        <svg id="donut-chart-svg" viewBox="0 0 36 36" class="w-24 h-24 transform -rotate-90">
-                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="#09090b" stroke-width="3"></circle>
-                        </svg>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center">
-                            <span id="donut-center-pct" class="text-xs font-bold text-zinc-300">0%</span>
-                            <span class="text-[8px] uppercase tracking-wider text-zinc-500">Spent</span>
-                        </div>
-                    </div>
-                    <!-- Quick Chart Legend -->
-                    <div id="donut-legend" class="flex-1 space-y-1.5 text-xs max-h-24 overflow-y-auto hide-scrollbar">
-                        <!-- Injected dynamic legend -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- RECENT TRANSACTIONS HEADER -->
-            <div>
-                <div class="flex justify-between items-center mb-3.5 px-1">
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-zinc-500">Recent Transactions</h3>
-                    <button id="view-transactions-shortcut" class="text-xs text-emerald-400 font-semibold flex items-center gap-1 hover:underline">
-                        See All <i class="fa-solid fa-chevron-right text-[10px]"></i>
-                    </button>
-                </div>
-                <!-- Transactions List -->
-                <div id="dashboard-transactions" class="space-y-3">
-                    <!-- Injected dynamic list -->
-                </div>
-            </div>
-        </div>
-
-        <!-- SCREEN 2: ANALYTICS & STATS VIEW -->
-        <div id="screen-analytics" class="space-y-6 hidden">
-            <div>
-                <h3 class="text-lg font-bold text-white mb-1">Financial Analysis</h3>
-                <p class="text-xs text-zinc-500">Visualization of your periodic income vs expense distribution.</p>
-            </div>
-
-            <!-- TIME PERIOD SELECTOR -->
-            <div class="grid grid-cols-3 gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-900">
-                <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg bg-zinc-900 text-white shadow" data-period="all">All-Time</button>
-                <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg text-zinc-500 hover:text-white" data-period="month">This Month</button>
-                <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg text-zinc-500 hover:text-white" data-period="week">This Week</button>
-            </div>
-
-            <!-- PREMIUM PREDICTIVE RUNWAY CALCULATOR ENGINE -->
-            <div class="bg-gradient-to-br from-indigo-950/20 via-zinc-950 to-indigo-950/20 border border-indigo-500/10 rounded-3xl p-5 space-y-4">
-                <div class="flex justify-between items-center">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> Predictive Runway Engine
-                    </h4>
-                    <span class="text-[9px] bg-indigo-500/20 text-indigo-300 font-bold px-2 py-0.5 rounded-full border border-indigo-500/25">Priority 3</span>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <p class="text-[9px] uppercase tracking-wider text-zinc-500 font-semibold">Average Burn</p>
-                        <p id="predictive-avg-expense" class="text-md font-bold text-zinc-200">RM0.00/mo</p>
-                    </div>
-                    <div>
-                        <p class="text-[9px] uppercase tracking-wider text-zinc-500 font-semibold">Estimated Runway</p>
-                        <p id="predictive-runway" class="text-md font-black text-emerald-400">Stable</p>
-                    </div>
-                </div>
-
-                <div class="pt-3 border-t border-zinc-900 text-[10px] text-zinc-500 leading-relaxed">
-                    Based on your average historical data, your current liquid bank cache (RM) has a projection threshold of <strong id="predictive-days-span" class="text-white">-- months</strong> before depletion.
-                </div>
-            </div>
-
-            <!-- TREND VISUAL BAR CHART -->
-            <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-4">
-                <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Periodic Outlays</h4>
-                <div class="h-32 flex items-end justify-between gap-2 pt-4 relative">
-                    <!-- Vertical grid lines -->
-                    <div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-5 py-2">
-                        <div class="border-b border-white w-full"></div>
-                        <div class="border-b border-white w-full"></div>
-                        <div class="border-b border-white w-full"></div>
-                    </div>
-                    <!-- Chart Bars -->
-                    <div id="trend-bars-container" class="flex items-end justify-between w-full h-full z-10">
-                        <!-- Rendered via JS -->
-                    </div>
-                </div>
-                <!-- Legend -->
-                <div class="flex justify-center gap-4 text-[10px] text-zinc-500 font-semibold pt-1 border-t border-zinc-900">
-                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-rose-500 inline-block"></span> Expense</span>
-                    <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-emerald-500 inline-block"></span> Income</span>
-                </div>
-            </div>
-
-            <!-- CATEGORY RANKINGS -->
-            <div class="bg-zinc-950/40 border border-zinc-900/60 rounded-3xl p-5 space-y-4">
-                <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Outlay Ranking By Category</h4>
-                <div id="analytics-categories-list" class="space-y-3.5">
-                    <!-- Dynamic rank -->
-                </div>
-            </div>
-        </div>
-
-        <!-- SCREEN 3: BUDGETS SCREEN -->
-        <div id="screen-budgets" class="space-y-6 hidden">
-            <div class="flex justify-between items-center">
-                <div>
-                    <h3 class="text-lg font-bold text-white mb-1">My Budget Envelopes</h3>
-                    <p class="text-xs text-zinc-500">Keep absolute control over targeted categories.</p>
-                </div>
-                <button id="add-budget-btn" class="active-scale transition-all-custom w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-black flex items-center justify-center shadow-lg shadow-emerald-500/10">
-                    <i class="fa-solid fa-plus text-sm"></i>
-                </button>
-            </div>
-
-            <!-- AUTO-ENVELOPE DISPATCH ENGINE -->
-            <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4 flex items-center justify-between">
-                <div>
-                    <h4 class="text-xs font-bold text-zinc-200">Smart Auto-Budgeting</h4>
-                    <p class="text-[10px] text-zinc-500 mt-0.5">Let algorithm analysis provision envelopes.</p>
-                </div>
-                <button id="auto-budget-generate-btn" class="active-scale bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 text-indigo-300 font-bold px-3 py-1.5 rounded-xl text-xs transition">
-                    <i class="fa-solid fa-wand-magic-sparkles text-[10px] mr-1"></i> Auto-Fill
-                </button>
-            </div>
-
-            <!-- BUDGET CARDS GRID -->
-            <div id="budgets-management-list" class="space-y-4">
-                <!-- Rendered dynamically -->
-            </div>
-        </div>
-
-        <!-- SCREEN 5: LOANS & DEBTS -->
-        <div id="screen-loans" class="space-y-6 hidden">
-            <div class="flex justify-between items-center">
-                <div>
-                    <h3 class="text-lg font-bold text-white mb-1">Loans & Debts</h3>
-                    <p class="text-xs text-zinc-500">Manage money you lent out and liabilities you owe (PTPTN, Ali, etc.)</p>
-                </div>
-                <button id="add-loan-btn" class="active-scale transition-all-custom w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-black flex items-center justify-center shadow-lg">
-                    <i class="fa-solid fa-plus text-sm"></i>
-                </button>
-            </div>
-
-            <!-- Loan Summary Cards -->
-            <div class="grid grid-cols-2 gap-3">
-                <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl relative overflow-hidden">
-                    <div class="absolute right-2 bottom-2 opacity-10 text-emerald-400 text-4xl">
-                        <i class="fa-solid fa-hand-holding-dollar"></i>
-                    </div>
-                    <p class="text-[9px] text-zinc-500 uppercase font-bold tracking-wider">Owed To Me (Lent)</p>
-                    <p id="total-lent" class="text-lg font-bold text-emerald-400 mt-1">RM0.00</p>
-                </div>
-                <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl relative overflow-hidden">
-                    <div class="absolute right-2 bottom-2 opacity-10 text-rose-400 text-4xl">
-                        <i class="fa-solid fa-scale-unbalanced"></i>
-                    </div>
-                    <p class="text-[9px] text-zinc-500 uppercase font-bold tracking-wider">My Debts (Payable)</p>
-                    <p id="total-borrowed" class="text-lg font-bold text-rose-400 mt-1">RM0.00</p>
-                </div>
-            </div>
-
-            <!-- Tabular breakdown of Loans -->
-            <div class="space-y-5">
-                <div>
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Receivables (Lent to others)
-                    </h4>
-                    <div id="loans-lent-list" class="space-y-3">
-                        <!-- Rendered dynamically -->
-                    </div>
-                </div>
-
-                <div>
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3 flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Liabilities (My Debts e.g., PTPTN)
-                    </h4>
-                    <div id="loans-borrowed-list" class="space-y-3">
-                        <!-- Rendered dynamically -->
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SCREEN 4: CLOUD SYNC SETTINGS SCREEN -->
-        <div id="screen-sync" class="space-y-6 hidden">
-            <div>
-                <h3 class="text-lg font-bold text-white mb-1">Settings & Sync</h3>
-                <p class="text-xs text-zinc-500">Manage database sync bridges and device security lockers.</p>
-            </div>
-
-            <!-- APP SECURITY LOCKER (LOCAL LOCK PIN) -->
-            <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-4">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h4 class="text-sm font-bold text-white flex items-center gap-1.5">
-                            <i class="fa-solid fa-shield-halved text-indigo-400"></i> Local PIN Passcode Lock
-                        </h4>
-                        <p class="text-xs text-zinc-500 mt-1">Require a code every time the application starts up.</p>
-                    </div>
-                    <span id="pin-lock-status-badge" class="bg-black text-zinc-600 border border-zinc-900 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-                        Disabled
-                    </span>
-                </div>
-
-                <div class="space-y-3">
-                    <div class="flex gap-2">
-                        <input type="password" id="input-pin-lock" placeholder="4-Digit PIN" pattern="[0-9]*" inputmode="numeric" maxlength="4" class="bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-center font-bold text-zinc-200 placeholder-zinc-800 w-28 focus:outline-none focus:border-indigo-500 font-mono">
-                        <button id="toggle-pin-lock-btn" class="active-scale flex-1 bg-indigo-500 hover:bg-indigo-600 text-black text-xs font-bold rounded-2xl py-3 text-center transition">
-                            Enable App Lock
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- GOOGLE SHEETS SYNC INTEGRATION CARD -->
-            <div class="bg-gradient-to-br from-black to-emerald-950/20 border border-emerald-500/10 rounded-3xl p-6 relative overflow-hidden">
-                <div class="absolute -right-12 -bottom-12 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl"></div>
-                <div class="flex items-start justify-between mb-4">
-                    <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 flex items-center justify-center border border-emerald-500/20 text-emerald-400">
-                        <i class="fa-solid fa-table text-xl"></i>
-                    </div>
-                    <span class="bg-black text-emerald-400 border border-emerald-500/20 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-                        Google Sheets Active
-                    </span>
-                </div>
-                <h4 class="text-sm font-bold text-zinc-100">Google Sheets Sync Bridge</h4>
-                <p class="text-xs text-zinc-500 mt-1 leading-relaxed">Connect your ledger directly to any Google Spreadsheet to perform bulk edits, download CSVs, or fix logging mistakes on your computer.</p>
-                
-                <div class="space-y-3 mt-4">
-                    <div>
-                        <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Apps Script Web App URL</label>
-                        <input type="text" id="gsheet-url" placeholder="Paste deployed Google Script URL here..." class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 placeholder-zinc-800 focus:outline-none focus:border-emerald-500 transition-all font-mono">
+                        <span class="bg-emerald-500/20 text-emerald-400 text-[10px] font-bold px-2.5 py-1 rounded-full border border-emerald-500/30 uppercase tracking-wider">
+                            Live Sync
+                        </span>
                     </div>
                     
-                    <div class="grid grid-cols-2 gap-2">
-                        <button id="pull-sheet-btn" class="active-scale transition-all-custom bg-emerald-500 hover:bg-emerald-600 text-black text-xs font-bold py-3 rounded-2xl flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/10">
-                            <i class="fa-solid fa-cloud-arrow-down"></i> Pull From Sheet
-                        </button>
-                        <button id="push-sheet-btn" class="active-scale transition-all-custom bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-850 text-xs font-bold py-3 rounded-2xl flex items-center justify-center gap-1.5">
-                            <i class="fa-solid fa-cloud-arrow-up"></i> Push To Sheet
-                        </button>
+                    <!-- Income / Expense Mini Bars -->
+                    <div class="grid grid-cols-2 gap-4 pt-4 border-t border-zinc-900 mt-2">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-arrow-down text-emerald-400 text-xs"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Income</p>
+                                <p id="total-income" class="text-sm font-semibold text-emerald-400">RM0.00</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-full bg-rose-500/10 border border-rose-500/20 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-arrow-up text-rose-400 text-xs"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Expenses</p>
+                                <p id="total-expense" class="text-sm font-semibold text-rose-400">RM0.00</p>
+                            </div>
+                        </div>
                     </div>
 
-                    <button id="show-script-helper-btn" class="w-full bg-emerald-500/10 hover:bg-emerald-500/15 border border-emerald-500/20 text-emerald-400 text-xs font-semibold py-2.5 rounded-2xl transition">
-                        <i class="fa-solid fa-code text-xs mr-1"></i> Get Google Apps Script Code
-                    </button>
+                    <!-- INDIVIDUAL WALLET BALANCES -->
+                    <div class="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-zinc-900">
+                        <div class="bg-black rounded-2xl p-2.5 border border-zinc-900 text-center">
+                            <p class="text-[8px] text-zinc-500 uppercase font-extrabold tracking-wider">RHB Bank</p>
+                            <p id="bal-rhb" class="text-xs font-bold text-emerald-400 mt-0.5">RM0.00</p>
+                        </div>
+                        <div class="bg-black rounded-2xl p-2.5 border border-zinc-900 text-center">
+                            <p class="text-[8px] text-zinc-500 uppercase font-extrabold tracking-wider">Bank Islam</p>
+                            <p id="bal-islam" class="text-xs font-bold text-emerald-400 mt-0.5">RM0.00</p>
+                        </div>
+                        <div class="bg-black rounded-2xl p-2.5 border border-zinc-900 text-center">
+                            <p class="text-[8px] text-zinc-500 uppercase font-extrabold tracking-wider">Cash</p>
+                            <p id="bal-cash" class="text-xs font-bold text-emerald-400 mt-0.5">RM0.00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BUDGET PACING SECTION -->
+                <div>
+                    <div class="flex justify-between items-center mb-3 px-1">
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-zinc-500">Monthly Budget Limits</h3>
+                        <button id="view-budgets-shortcut" class="text-xs text-emerald-400 font-semibold flex items-center gap-1 hover:underline">
+                            Manage <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                    <div id="dashboard-budgets" class="space-y-3">
+                        <p class="text-xs text-zinc-600 italic p-4 text-center bg-zinc-950/40 rounded-2xl border border-zinc-900">No budget caps set for this period yet.</p>
+                    </div>
+                </div>
+
+                <!-- QUICK STATISTICS BLOCK (DONUT) -->
+                <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-zinc-500">Expense Allocation</h3>
+                        <span class="text-xs font-semibold text-zinc-500" id="allocation-month-label">Current Period</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="w-24 h-24 shrink-0 flex items-center justify-center relative">
+                            <svg id="donut-chart-svg" viewBox="0 0 36 36" class="w-24 h-24 transform -rotate-90">
+                                <circle cx="18" cy="18" r="15.915" fill="none" stroke="#09090b" stroke-width="3"></circle>
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <span id="donut-center-pct" class="text-xs font-bold text-zinc-300">0%</span>
+                                <span class="text-[8px] uppercase tracking-wider text-zinc-500">Spent</span>
+                            </div>
+                        </div>
+                        <div id="donut-legend" class="flex-1 space-y-1.5 text-xs max-h-24 overflow-y-auto hide-scrollbar"></div>
+                    </div>
+                </div>
+
+                <!-- RECENT TRANSACTIONS HEADER -->
+                <div>
+                    <div class="flex justify-between items-center mb-3.5 px-1">
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-zinc-500">Recent Transactions</h3>
+                        <button id="view-transactions-shortcut" class="text-xs text-emerald-400 font-semibold flex items-center gap-1 hover:underline">
+                            See All <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </button>
+                    </div>
+                    <div id="dashboard-transactions" class="space-y-3"></div>
                 </div>
             </div>
 
-            <!-- SYNC CARD STATUS -->
-            <div class="bg-gradient-to-br from-black to-indigo-950/20 border border-indigo-500/10 rounded-3xl p-6 relative overflow-hidden">
-                <div class="absolute -right-12 -bottom-12 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl"></div>
-                <div class="flex items-start justify-between mb-4">
-                    <div class="w-12 h-12 rounded-2xl bg-indigo-500/15 flex items-center justify-center border border-indigo-500/20 text-indigo-400">
-                        <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
-                    </div>
-                    <span id="sync-badge-large" class="bg-black text-amber-400 border border-amber-500/20 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-                        Local Mode
-                    </span>
+            <!-- SCREEN 2: ANALYTICS & STATS VIEW -->
+            <div id="screen-analytics" class="w-[20%] h-full overflow-y-auto px-5 py-4 space-y-6 hide-scrollbar shrink-0 select-none">
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-1">Financial Analysis</h3>
+                    <p class="text-xs text-zinc-500">Visualization of your periodic income vs expense distribution.</p>
                 </div>
-                <h4 class="text-sm font-bold text-zinc-100">Synchronized Real-time Storage</h4>
-                <p class="text-xs text-zinc-500 mt-1 leading-relaxed">By default, records are stored locally on your device. Syncing to our decentralized secure cloud ensures you never lose a transaction.</p>
-                
-                <div class="mt-5 pt-4 border-t border-zinc-900 flex justify-between items-center">
+
+                <!-- TIME PERIOD SELECTOR -->
+                <div class="grid grid-cols-3 gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-900">
+                    <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg bg-zinc-900 text-white shadow" data-period="all">All-Time</button>
+                    <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg text-zinc-500 hover:text-white" data-period="month">This Month</button>
+                    <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg text-zinc-500 hover:text-white" data-period="week">This Week</button>
+                </div>
+
+                <!-- PREMIUM PREDICTIVE RUNWAY CALCULATOR ENGINE -->
+                <div class="bg-gradient-to-br from-indigo-950/20 via-zinc-950 to-indigo-950/20 border border-indigo-500/10 rounded-3xl p-5 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Predictive Runway Engine
+                        </h4>
+                        <span class="text-[9px] bg-indigo-500/20 text-indigo-300 font-bold px-2 py-0.5 rounded-full border border-indigo-500/25 font-mono">FORECAST</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-[9px] uppercase tracking-wider text-zinc-500 font-semibold">Average Burn</p>
+                            <p id="predictive-avg-expense" class="text-md font-bold text-zinc-200">RM0.00/mo</p>
+                        </div>
+                        <div>
+                            <p class="text-[9px] uppercase tracking-wider text-zinc-500 font-semibold">Estimated Runway</p>
+                            <p id="predictive-runway" class="text-md font-black text-emerald-400">Stable</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-zinc-900 text-[10px] text-zinc-500 leading-relaxed">
+                        Based on your average historical data, your current liquid bank cache (RM) has a projection threshold of <strong id="predictive-days-span" class="text-white">-- months</strong> before depletion.
+                    </div>
+                </div>
+
+                <!-- TREND VISUAL BAR CHART -->
+                <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-4">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Periodic Outlays</h4>
+                    <div class="h-32 flex items-end justify-between gap-2 pt-4 relative">
+                        <div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-5 py-2">
+                            <div class="border-b border-white w-full"></div>
+                            <div class="border-b border-white w-full"></div>
+                            <div class="border-b border-white w-full"></div>
+                        </div>
+                        <div id="trend-bars-container" class="flex items-end justify-between w-full h-full z-10"></div>
+                    </div>
+                    <div class="flex justify-center gap-4 text-[10px] text-zinc-500 font-semibold pt-1 border-t border-zinc-900">
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-rose-500 inline-block"></span> Expense</span>
+                        <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-emerald-500 inline-block"></span> Income</span>
+                    </div>
+                </div>
+
+                <!-- CATEGORY RANKINGS -->
+                <div class="bg-zinc-950/40 border border-zinc-900/60 rounded-3xl p-5 space-y-4">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Outlay Ranking By Category</h4>
+                    <div id="analytics-categories-list" class="space-y-3.5"></div>
+                </div>
+            </div>
+
+            <!-- SCREEN 3: BUDGETS SCREEN -->
+            <div id="screen-budgets" class="w-[20%] h-full overflow-y-auto px-5 py-4 space-y-6 hide-scrollbar shrink-0 select-none">
+                <div class="flex justify-between items-center">
                     <div>
-                        <p class="text-[10px] text-zinc-600 uppercase font-bold tracking-widest">Global Vault Reference</p>
-                        <p id="sync-user-id" class="text-[11px] text-zinc-400 font-mono mt-0.5 select-all">Loading Reference...</p>
+                        <h3 class="text-lg font-bold text-white mb-1">My Budget Envelopes</h3>
+                        <p class="text-xs text-zinc-500">Keep absolute control over targeted categories.</p>
                     </div>
-                    <button id="copy-sync-id-btn" class="active-scale transition-all-custom w-8 h-8 rounded-lg bg-zinc-950 hover:bg-zinc-900 flex items-center justify-center text-zinc-500 hover:text-white">
-                        <i class="fa-solid fa-copy text-xs"></i>
+                    <button id="add-budget-btn" class="active-scale transition-all-custom w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-black flex items-center justify-center shadow-lg shadow-emerald-500/10">
+                        <i class="fa-solid fa-plus text-sm"></i>
+                    </button>
+                </div>
+
+                <!-- AUTO-ENVELOPE DISPATCH ENGINE -->
+                <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4 flex items-center justify-between">
+                    <div>
+                        <h4 class="text-xs font-bold text-zinc-200">Smart Auto-Budgeting</h4>
+                        <p class="text-[10px] text-zinc-500 mt-0.5">Let algorithm analysis provision envelopes.</p>
+                    </div>
+                    <button id="auto-budget-generate-btn" class="active-scale bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 text-indigo-300 font-bold px-3 py-1.5 rounded-xl text-xs transition">
+                        <i class="fa-solid fa-wand-magic-sparkles text-[10px] mr-1"></i> Auto-Fill
+                    </button>
+                </div>
+
+                <div id="budgets-management-list" class="space-y-4"></div>
+            </div>
+
+            <!-- SCREEN 4: LOANS & DEBTS -->
+            <div id="screen-loans" class="w-[20%] h-full overflow-y-auto px-5 py-4 space-y-6 hide-scrollbar shrink-0 select-none">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-1">Loans & Debts</h3>
+                        <p class="text-xs text-zinc-500">Manage money lent out and liabilities (PTPTN, Yayasan, Ali, etc.)</p>
+                    </div>
+                    <button id="add-loan-btn" class="active-scale transition-all-custom w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-black flex items-center justify-center shadow-lg">
+                        <i class="fa-solid fa-plus text-sm"></i>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl relative overflow-hidden">
+                        <div class="absolute right-2 bottom-2 opacity-10 text-emerald-400 text-4xl">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                        </div>
+                        <p class="text-[9px] text-zinc-500 uppercase font-bold tracking-wider">Owed To Me (Lent)</p>
+                        <p id="total-lent" class="text-lg font-bold text-emerald-400 mt-1">RM0.00</p>
+                    </div>
+                    <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl relative overflow-hidden">
+                        <div class="absolute right-2 bottom-2 opacity-10 text-rose-400 text-4xl">
+                            <i class="fa-solid fa-scale-unbalanced"></i>
+                        </div>
+                        <p class="text-[9px] text-zinc-500 uppercase font-bold tracking-wider">My Debts (Payable)</p>
+                        <p id="total-borrowed" class="text-lg font-bold text-rose-400 mt-1">RM0.00</p>
+                    </div>
+                </div>
+
+                <div class="space-y-5">
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3 flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Receivables (Lent to others)
+                        </h4>
+                        <div id="loans-lent-list" class="space-y-3"></div>
+                    </div>
+
+                    <div>
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3 flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Liabilities (My Debts e.g., PTPTN)
+                        </h4>
+                        <div id="loans-borrowed-list" class="space-y-3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCREEN 5: CLOUD SYNC SETTINGS SCREEN -->
+            <div id="screen-sync" class="w-[20%] h-full overflow-y-auto px-5 py-4 space-y-6 hide-scrollbar shrink-0 select-none">
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-1">Settings & Sync</h3>
+                    <p class="text-xs text-zinc-500">Manage database sync bridges and device security lockers.</p>
+                </div>
+
+                <!-- APP SECURITY LOCKER (LOCAL LOCK PIN) -->
+                <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-sm font-bold text-white flex items-center gap-1.5">
+                                <i class="fa-solid fa-shield-halved text-indigo-400"></i> Local PIN Passcode Lock
+                            </h4>
+                            <p class="text-xs text-zinc-500 mt-1">Require a code every time the application starts up.</p>
+                        </div>
+                        <span id="pin-lock-status-badge" class="bg-black text-zinc-600 border border-zinc-900 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                            Disabled
+                        </span>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex gap-2">
+                            <input type="password" id="input-pin-lock" placeholder="4-Digit PIN" pattern="[0-9]*" inputmode="numeric" maxlength="4" class="bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-center font-bold text-zinc-200 placeholder-zinc-800 w-28 focus:outline-none focus:border-indigo-500 font-mono">
+                            <button id="toggle-pin-lock-btn" class="active-scale flex-1 bg-indigo-500 hover:bg-indigo-600 text-black text-xs font-bold rounded-2xl py-3 text-center transition">
+                                Enable App Lock
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GOOGLE SHEETS SYNC INTEGRATION CARD -->
+                <div class="bg-gradient-to-br from-black to-emerald-950/20 border border-emerald-500/10 rounded-3xl p-6 relative overflow-hidden">
+                    <div class="absolute -right-12 -bottom-12 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl"></div>
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 flex items-center justify-center border border-emerald-500/20 text-emerald-400">
+                            <i class="fa-solid fa-table text-xl"></i>
+                        </div>
+                        <span class="bg-black text-emerald-400 border border-emerald-500/20 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                            Google Sheets Active
+                        </span>
+                    </div>
+                    <h4 class="text-sm font-bold text-zinc-100">Google Sheets Sync Bridge</h4>
+                    <p class="text-xs text-zinc-500 mt-1 leading-relaxed">Connect your ledger directly to any Google Spreadsheet to perform bulk edits, download CSVs, or fix logging mistakes on your computer.</p>
+                    
+                    <div class="space-y-3 mt-4">
+                        <div>
+                            <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Apps Script Web App URL</label>
+                            <input type="text" id="gsheet-url" placeholder="Paste deployed Google Script URL here..." class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 placeholder-zinc-800 focus:outline-none focus:border-emerald-500 transition-all font-mono">
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-2">
+                            <button id="pull-sheet-btn" class="active-scale transition-all-custom bg-emerald-500 hover:bg-emerald-600 text-black text-xs font-bold py-3 rounded-2xl flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/10">
+                                <i class="fa-solid fa-cloud-arrow-down"></i> Pull From Sheet
+                            </button>
+                            <button id="push-sheet-btn" class="active-scale transition-all-custom bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-850 text-xs font-bold py-3 rounded-2xl flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-cloud-arrow-up"></i> Push To Sheet
+                            </button>
+                        </div>
+
+                        <button id="show-script-helper-btn" class="w-full bg-emerald-500/10 hover:bg-emerald-500/15 border border-emerald-500/20 text-emerald-400 text-xs font-semibold py-2.5 rounded-2xl transition">
+                            <i class="fa-solid fa-code text-xs mr-1"></i> Get Google Apps Script Code
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SYNC CARD STATUS -->
+                <div class="bg-gradient-to-br from-black to-indigo-950/20 border border-indigo-500/10 rounded-3xl p-6 relative overflow-hidden">
+                    <div class="absolute -right-12 -bottom-12 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl"></div>
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 rounded-2xl bg-indigo-500/15 flex items-center justify-center border border-indigo-500/20 text-indigo-400">
+                            <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
+                        </div>
+                        <span id="sync-badge-large" class="bg-black text-amber-400 border border-amber-500/20 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                            Local Mode
+                        </span>
+                    </div>
+                    <h4 class="text-sm font-bold text-zinc-100">Synchronized Real-time Storage</h4>
+                    <p class="text-xs text-zinc-500 mt-1 leading-relaxed">By default, records are stored locally on your device. Syncing to our decentralized secure cloud ensures you never lose a transaction.</p>
+                    
+                    <div class="mt-5 pt-4 border-t border-zinc-900 flex justify-between items-center">
+                        <div>
+                            <p class="text-[10px] text-zinc-600 uppercase font-bold tracking-widest">Global Vault Reference</p>
+                            <p id="sync-user-id" class="text-[11px] text-zinc-400 font-mono mt-0.5 select-all">Loading Reference...</p>
+                        </div>
+                        <button id="copy-sync-id-btn" class="active-scale transition-all-custom w-8 h-8 rounded-lg bg-zinc-950 hover:bg-zinc-900 flex items-center justify-center text-zinc-500 hover:text-white">
+                            <i class="fa-solid fa-copy text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SYNC CODE RECOVERY / CONNECT AN EXISTING ACCOUNT -->
+                <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-4">
+                    <div class="space-y-1">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Connect to Existing Wallet</h4>
+                        <p class="text-[11px] text-zinc-500 leading-relaxed">Have database keys from another screen? Enter them below to hook into your centralized cloud ledger.</p>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <input type="text" id="manual-sync-key" placeholder="Paste Wallet Vault Code here..." class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 placeholder-zinc-800 focus:outline-none focus:border-indigo-500 transition-all font-mono">
+                        <button id="apply-manual-sync-btn" class="active-scale transition-all-custom w-full bg-indigo-500 hover:bg-indigo-600 text-black text-xs font-bold py-3 rounded-2xl flex items-center justify-center gap-1 shadow-lg shadow-indigo-500/10">
+                            <i class="fa-solid fa-plug text-xs"></i> Initialize Sync Stream
+                        </button>
+                    </div>
+                </div>
+
+                <!-- RESET WALLET CARD -->
+                <div class="bg-rose-500/5 border border-rose-500/10 rounded-3xl p-5 space-y-3">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-rose-400">Destructive Actions</h4>
+                    <p class="text-[11px] text-zinc-500 leading-relaxed">If you wish to purge all cloud records linked to this account, trigger a complete wallet reset. This action is permanent.</p>
+                    <button id="purge-wallet-btn" class="active-scale transition-all-custom w-full bg-rose-500/10 hover:bg-rose-500/15 border border-rose-500/20 text-rose-400 text-xs font-bold py-2.5 rounded-2xl">
+                        <i class="fa-solid fa-trash-can text-xs mr-1"></i> Clear & Start Anew
                     </button>
                 </div>
             </div>
 
-            <!-- SYNC CODE RECOVERY / CONNECT AN EXISTING ACCOUNT -->
-            <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-4">
-                <div class="space-y-1">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Connect to Existing Wallet</h4>
-                    <p class="text-[11px] text-zinc-500 leading-relaxed">Have database keys from another screen? Enter them below to hook into your centralized cloud ledger.</p>
-                </div>
-                
-                <div class="space-y-3">
-                    <input type="text" id="manual-sync-key" placeholder="Paste Wallet Vault Code here..." class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 placeholder-zinc-800 focus:outline-none focus:border-indigo-500 transition-all font-mono">
-                    <button id="apply-manual-sync-btn" class="active-scale transition-all-custom w-full bg-indigo-500 hover:bg-indigo-600 text-black text-xs font-bold py-3 rounded-2xl flex items-center justify-center gap-1 shadow-lg shadow-indigo-500/10">
-                        <i class="fa-solid fa-plug text-xs"></i> Initialize Sync Stream
-                    </button>
-                </div>
-            </div>
-
-            <!-- RESET WALLET CARD -->
-            <div class="bg-rose-500/5 border border-rose-500/10 rounded-3xl p-5 space-y-3">
-                <h4 class="text-xs font-bold uppercase tracking-wider text-rose-400">Destructive Actions</h4>
-                <p class="text-[11px] text-zinc-500 leading-relaxed">If you wish to purge all cloud records linked to this account, trigger a complete wallet reset. This action is permanent.</p>
-                <button id="purge-wallet-btn" class="active-scale transition-all-custom w-full bg-rose-500/10 hover:bg-rose-500/15 border border-rose-500/20 text-rose-400 text-xs font-bold py-2.5 rounded-2xl">
-                    <i class="fa-solid fa-trash-can text-xs mr-1"></i> Clear & Start Anew
-                </button>
-            </div>
         </div>
-
-    </main>
+    </div>
 
     <!-- OVERLAY MODAL: GOOGLE APPS SCRIPT CODE VIEWER -->
     <div id="modal-script-viewer" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
@@ -597,7 +578,6 @@ function doPost(e) {
 
     <!-- OVERLAY MODAL: ADD TRANSACTION -->
     <div id="modal-transaction" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
-        <!-- Modal body -->
         <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
             <div class="flex justify-between items-center">
                 <h3 class="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
@@ -668,7 +648,6 @@ function doPost(e) {
 
     <!-- OVERLAY MODAL: SET BUDGET -->
     <div id="modal-budget" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
-        <!-- Modal body -->
         <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
             <div class="flex justify-between items-center">
                 <h3 class="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
@@ -810,29 +789,29 @@ function doPost(e) {
     <nav class="bg-black/95 backdrop-blur-md border-t border-zinc-900 safe-bottom shrink-0 px-1 pt-2 z-40">
         <div class="grid grid-cols-5 gap-0.5">
             
-            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-emerald-400" data-target="screen-dashboard">
+            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-emerald-400 font-bold" data-index="0">
                 <i class="fa-solid fa-chart-pie text-base"></i>
-                <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Overview</span>
+                <span class="text-[8px] tracking-tight uppercase mt-1">Overview</span>
             </button>
 
-            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-zinc-600 hover:text-zinc-400" data-target="screen-analytics">
+            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-zinc-600 font-bold" data-index="1">
                 <i class="fa-solid fa-chart-line text-base"></i>
-                <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Analysis</span>
+                <span class="text-[8px] tracking-tight uppercase mt-1">Analysis</span>
             </button>
 
-            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-zinc-600 hover:text-zinc-400" data-target="screen-budgets">
+            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-zinc-600 font-bold" data-index="2">
                 <i class="fa-solid fa-wallet text-base"></i>
-                <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Budgets</span>
+                <span class="text-[8px] tracking-tight uppercase mt-1">Budgets</span>
             </button>
 
-            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-zinc-600 hover:text-zinc-400" data-target="screen-loans">
+            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-zinc-600 font-bold" data-index="3">
                 <i class="fa-solid fa-hand-holding-dollar text-base"></i>
-                <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Loans</span>
+                <span class="text-[8px] tracking-tight uppercase mt-1">Loans</span>
             </button>
 
-            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-zinc-600 hover:text-zinc-400" data-target="screen-sync">
+            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-zinc-600 font-bold" data-index="4">
                 <i class="fa-solid fa-rotate text-base"></i>
-                <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Cloud</span>
+                <span class="text-[8px] tracking-tight uppercase mt-1">Cloud</span>
             </button>
 
         </div>
@@ -865,6 +844,16 @@ function doPost(e) {
         let activePaymentLoanId = null;
         let deleteConfirmTimer = null;
         let selectedLoanType = 'lent';
+
+        // CAROUSEL NAV STATE VARIABLES
+        let startX = 0;
+        let startY = 0;
+        let isDragging = false;
+        let isScrollLocked = false;
+        let isSwipeLocked = false;
+        let currentX = 0;
+        let currentIndex = 0; // 0 to 4
+        const screensCount = 5;
 
         // EXPOSED SECURITY LOCK KEYS
         let activeAppLockPin = localStorage.getItem('apex_app_lock_pin') || '';
@@ -932,76 +921,120 @@ function doPost(e) {
             return date.toISOString().split('T')[0];
         }
 
-        // HAPTIC FEEDBACK GENERATOR MODULE (Priority 5)
+        // HAPTIC FEEDBACK GENERATOR MODULE
         window.vibrateTouch = function(dur = 15) {
             if (navigator.vibrate) {
                 navigator.vibrate(dur);
             }
         };
 
-        // SETUP SWIPE TO NAVIGATE TAB GESTURES
+        // DYNAMIC VIEWPORT SMOOTH CAROUSEL SLIDER ENGINE
         function setupSwipeGestures() {
-            const mainContainer = document.getElementById('screen-container');
-            if (!mainContainer) return;
+            const slider = document.getElementById('screen-container');
+            const wrapper = document.getElementById('screen-wrapper');
+            if (!slider || !wrapper) return;
 
-            let startX = 0;
-            let startY = 0;
-
-            mainContainer.addEventListener('touchstart', (e) => {
+            wrapper.addEventListener('touchstart', (e) => {
                 startX = e.touches[0].clientX;
                 startY = e.touches[0].clientY;
+                isDragging = true;
+                isScrollLocked = false;
+                isSwipeLocked = false;
+                
+                // Temporarily disable CSS slide ease classes during active manual touch dragging
+                slider.classList.remove('transition-transform', 'duration-300', 'ease-out');
             }, { passive: true });
 
-            mainContainer.addEventListener('touchend', (e) => {
-                const endX = e.changedTouches[0].clientX;
-                const endY = e.changedTouches[0].clientY;
+            wrapper.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const x = e.touches[0].clientX;
+                const y = e.touches[0].clientY;
+                const diffX = x - startX;
+                const diffY = y - startY;
 
-                const diffX = endX - startX;
-                const diffY = endY - startY;
-
-                // Threshold logic: must swipe horizontally by > 60px, and horizontal shift must be greater than vertical shift
-                if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 60) {
-                    if (diffX < 0) {
-                        // Swipe Left -> Navigate right to next screen
-                        navigateTab(1);
-                    } else {
-                        // Swipe Right -> Navigate left to previous screen
-                        navigateTab(-1);
+                // Lock horizontal swipe vs vertical list scroll based on direction threshold
+                if (!isScrollLocked && !isSwipeLocked) {
+                    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+                        isSwipeLocked = true;
+                    } else if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 10) {
+                        isScrollLocked = true;
                     }
                 }
+
+                if (isSwipeLocked) {
+                    // Prevent normal scroll to allow layout horizontal track sliding
+                    e.preventDefault();
+                    
+                    const width = wrapper.clientWidth;
+                    let offset = -currentIndex * width + diffX;
+                    
+                    // Friction bounds for early/late sliding limits
+                    if (offset > 0) offset /= 2.5;
+                    const maxOffset = -(screensCount - 1) * width;
+                    if (offset < maxOffset) {
+                        offset = maxOffset + (offset - maxOffset) / 2.5;
+                    }
+
+                    slider.style.transform = `translateX(${offset}px)`;
+                    currentX = diffX;
+                }
+            }, { passive: false });
+
+            wrapper.addEventListener('touchend', () => {
+                if (!isDragging) return;
+                isDragging = false;
+
+                // Re-enable snapping animations
+                slider.classList.add('transition-transform', 'duration-300', 'ease-out');
+
+                if (isSwipeLocked) {
+                    const width = wrapper.clientWidth;
+                    const threshold = width * 0.25; // Swipe past 25% to proceed to adjacent tab
+
+                    if (currentX < -threshold && currentIndex < screensCount - 1) {
+                        currentIndex++;
+                        vibrateTouch(15);
+                    } else if (currentX > threshold && currentIndex > 0) {
+                        currentIndex--;
+                        vibrateTouch(15);
+                    }
+                }
+
+                updateActiveScreenUI();
+                currentX = 0;
             }, { passive: true });
+
+            // Handle browser resize events dynamically to reset absolute slider pixel calculations
+            window.addEventListener('resize', () => {
+                updateActiveScreenUI();
+            });
         }
 
-        function navigateTab(direction) {
-            const screens = ['screen-dashboard', 'screen-analytics', 'screen-budgets', 'screen-loans', 'screen-sync'];
-            let currentIndex = -1;
+        function updateActiveScreenUI() {
+            const slider = document.getElementById('screen-container');
+            if (!slider) return;
+            slider.style.transform = `translateX(-${currentIndex * 20}%)`;
 
-            for (let i = 0; i < screens.length; i++) {
-                const element = document.getElementById(screens[i]);
-                if (element && !element.classList.contains('hidden')) {
-                    currentIndex = i;
-                    break;
+            // Align bottoms tabs highlighting
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach((t, i) => {
+                if (i === currentIndex) {
+                    t.className = "nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-emerald-400 font-bold";
+                } else {
+                    t.className = "nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-zinc-600 font-bold";
                 }
-            }
-
-            if (currentIndex === -1) return;
-
-            let nextIndex = currentIndex + direction;
-            if (nextIndex >= 0 && nextIndex < screens.length) {
-                vibrateTouch(15);
-                triggerTabRedirect(screens[nextIndex]);
-            }
+            });
         }
 
         // ON INITIAL LOAD
         window.onload = async function() {
             setNavEvents();
-            setupSwipeGestures(); // Activate horizontal gesture tracking
+            setupSwipeGestures(); 
             setupFormEvents();
             loadLocalFallbackData();
             setupGoogleSheetsEvents();
             setupSecuritySettings();
-            verifyAppLockerGateway(); // Handle passcode screening first
+            verifyAppLockerGateway(); 
             renderApp();
 
             if (rawConfig) {
@@ -1117,7 +1150,6 @@ function doPost(e) {
                 vibrateTouch(30);
                 const pinVal = pinLockInput.value.trim();
                 if (activeAppLockPin) {
-                    // Disable Lock
                     activeAppLockPin = '';
                     localStorage.removeItem('apex_app_lock_pin');
                     pinLockInput.value = '';
@@ -1127,7 +1159,6 @@ function doPost(e) {
                     pinLockBadge.className = "bg-black text-zinc-600 border border-zinc-900 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider";
                     showToast('PIN security disabled', 'success');
                 } else {
-                    // Enable Lock
                     if (pinVal.length !== 4 || isNaN(Number(pinVal))) {
                         showToast('PIN code must be exactly 4 digits', 'error');
                         return;
@@ -1414,44 +1445,27 @@ function doPost(e) {
 
         function setNavEvents() {
             const tabs = document.querySelectorAll('.nav-tab');
-            const screens = ['screen-dashboard', 'screen-analytics', 'screen-budgets', 'screen-loans', 'screen-sync'];
 
             tabs.forEach(tab => {
                 tab.addEventListener('click', (e) => {
                     vibrateTouch(15);
-                    const target = tab.getAttribute('data-target');
-                    
-                    screens.forEach(s => {
-                        const elem = document.getElementById(s);
-                        if (elem) elem.classList.add('hidden');
-                    });
-
-                    const targetScreen = document.getElementById(target);
-                    if (targetScreen) targetScreen.classList.remove('hidden');
-
-                    tabs.forEach(t => {
-                        t.classList.remove('text-emerald-400');
-                        t.classList.add('text-zinc-600');
-                    });
-                    tab.classList.add('text-emerald-400');
-                    tab.classList.remove('text-zinc-600');
+                    currentIndex = parseInt(tab.getAttribute('data-index'));
+                    updateActiveScreenUI();
                 });
             });
 
             document.getElementById('view-budgets-shortcut').addEventListener('click', () => {
-                triggerTabRedirect('screen-budgets');
+                currentIndex = 2;
+                updateActiveScreenUI();
             });
             document.getElementById('view-transactions-shortcut').addEventListener('click', () => {
-                triggerTabRedirect('screen-analytics');
+                currentIndex = 1;
+                updateActiveScreenUI();
             });
             document.getElementById('sync-status-btn').addEventListener('click', () => {
-                triggerTabRedirect('screen-sync');
+                currentIndex = 4;
+                updateActiveScreenUI();
             });
-        }
-
-        function triggerTabRedirect(targetScreenId) {
-            const targetTab = document.querySelector(`[data-target="${targetScreenId}"]`);
-            if (targetTab) targetTab.click();
         }
 
         function renderApp() {
@@ -1534,7 +1548,7 @@ function doPost(e) {
             saveLocalData();
         }
 
-        // PREDICTIVE CASHFLOW SYSTEM ENGINE (Priority 3)
+        // PREDICTIVE CASHFLOW SYSTEM ENGINE
         function calculateCashflowRunway(liquidCash, sortedTxs) {
             const expenses = sortedTxs.filter(t => t.type === 'expense');
             const incomes = sortedTxs.filter(t => t.type === 'income');
@@ -1581,11 +1595,10 @@ function doPost(e) {
             }
         }
 
-        // AUTO-GENERATE ENVELOPE BUDGET DISPATCHER (Priority 3)
+        // AUTO-GENERATE ENVELOPE BUDGET DISPATCHER
         document.getElementById('auto-budget-generate-btn').addEventListener('click', async () => {
             vibrateTouch([20, 50, 20]);
             
-            // Gather last 3 months average spendings grouped by Category
             const expenses = transactions.filter(t => t.type === 'expense');
             if (expenses.length === 0) {
                 showToast("Need some Expense history to auto-fill", "error");
@@ -1597,7 +1610,6 @@ function doPost(e) {
                 groupedTotals[e.category] = (groupedTotals[e.category] || 0) + Number(e.amount);
             });
 
-            // Auto formulate: Rounded up up to the nearest RM50 margin
             let generatedCount = 0;
             for (let [cat, totalAmt] of Object.entries(groupedTotals)) {
                 if (cat === 'Loan Given' || cat === 'Loan Repayment') continue;
@@ -1736,7 +1748,7 @@ function doPost(e) {
                 const spent = categorySums[b.category] || 0;
                 const percent = Math.min((spent / b.amount) * 100, 100);
                 
-                // 85% Warning Banners Logic (Priority 5)
+                // 85% Warning Banners Logic
                 let barColor = 'bg-emerald-400';
                 let textColor = 'text-zinc-400';
                 if (percent >= 100) {
@@ -2429,7 +2441,7 @@ function doPost(e) {
                 document.body.removeChild(textarea);
             });
 
-            // Purge wallet logs (SAFE CONFIRM TRIGGER - Replaced native window confirm)
+            // Purge wallet logs (SAFE CONFIRM TRIGGER)
             const purgeBtn = document.getElementById('purge-wallet-btn');
             purgeBtn.addEventListener('click', async () => {
                 vibrateTouch(50);
