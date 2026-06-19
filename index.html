@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<!-- ... existing code ... -->
+<html lang="en" class="h-full bg-black text-slate-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -10,10 +10,10 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ApexFinance">
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#020617">
+    <meta name="theme-color" content="#000000">
 
     <!-- Inline Web App Manifest to Force Chrome & Android Standalone Launch with Required Icons -->
-    <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22ApexFinance%22%2C%22short_name%22%3A%22ApexFinance%22%2C%22start_url%22%3A%22.%2Findex.html%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23020617%22%2C%22theme_color%22%3A%22%23020617%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fplacehold.co%2F192x192%2F020617%2F34d399%3Ftext%3DAF%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fplacehold.co%2F512x512%2F020617%2F34d399%3Ftext%3DAF%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
+    <link rel="manifest" href='data:application/manifest+json,%7B%22name%22%3A%22ApexFinance%22%2C%22short_name%22%3A%22ApexFinance%22%2C%22start_url%22%3A%22.%2Findex.html%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23000000%22%2C%22theme_color%22%3A%22%23000000%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fplacehold.co%2F192x192%2F000000%2F34d399%3Ftext%3DAF%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fplacehold.co%2F512x512%2F000000%2F34d399%3Ftext%3DAF%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D'>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -22,7 +22,7 @@
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2 family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         body {
@@ -52,60 +52,60 @@
         }
         /* Lock screen numerical animations */
         .keypad-btn:active {
-            background-color: rgb(30, 41, 59);
+            background-color: rgb(24, 24, 27);
             transform: scale(0.9);
         }
     </style>
 </head>
-<body class="h-full flex flex-col overflow-hidden max-w-md mx-auto shadow-2xl bg-slate-950 border-x border-slate-900 relative">
+<body class="h-full flex flex-col overflow-hidden max-w-md mx-auto shadow-2xl bg-black border-x border-zinc-900 relative">
 
     <!-- SECURE PASSCODE APP LOCK SCREEN -->
-    <div id="screen-lock" class="absolute inset-0 bg-slate-950 z-[999] flex flex-col items-center justify-between p-8 hidden">
+    <div id="screen-lock" class="absolute inset-0 bg-black z-[999] flex flex-col items-center justify-between p-8 hidden">
         <div class="flex flex-col items-center mt-16 space-y-4">
             <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-                <i class="fa-solid fa-lock text-slate-950 text-2xl"></i>
+                <i class="fa-solid fa-lock text-black text-2xl"></i>
             </div>
             <div class="text-center">
                 <h2 class="text-lg font-bold text-white tracking-tight">Apex Vault Security</h2>
-                <p id="lock-status-msg" class="text-xs text-slate-400 mt-1">Enter your 4-digit security PIN</p>
+                <p id="lock-status-msg" class="text-xs text-zinc-500 mt-1">Enter your 4-digit security PIN</p>
             </div>
             
             <!-- Pin Dots Display -->
             <div class="flex justify-center gap-4 pt-6">
-                <div id="pin-dot-1" class="w-3.5 h-3.5 rounded-full border-2 border-slate-700 transition-all duration-150"></div>
-                <div id="pin-dot-2" class="w-3.5 h-3.5 rounded-full border-2 border-slate-700 transition-all duration-150"></div>
-                <div id="pin-dot-3" class="w-3.5 h-3.5 rounded-full border-2 border-slate-700 transition-all duration-150"></div>
-                <div id="pin-dot-4" class="w-3.5 h-3.5 rounded-full border-2 border-slate-700 transition-all duration-150"></div>
+                <div id="pin-dot-1" class="w-3.5 h-3.5 rounded-full border-2 border-zinc-800 transition-all duration-150"></div>
+                <div id="pin-dot-2" class="w-3.5 h-3.5 rounded-full border-2 border-zinc-800 transition-all duration-150"></div>
+                <div id="pin-dot-3" class="w-3.5 h-3.5 rounded-full border-2 border-zinc-800 transition-all duration-150"></div>
+                <div id="pin-dot-4" class="w-3.5 h-3.5 rounded-full border-2 border-zinc-800 transition-all duration-150"></div>
             </div>
         </div>
 
         <!-- Numerical Screen Keypad -->
         <div class="w-full max-w-xs mx-auto grid grid-cols-3 gap-4 mb-8">
-            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('1')">1</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('2')">2</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('3')">3</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('4')">4</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('5')">5</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('6')">6</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('7')">7</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('8')">8</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('9')">9</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('1')">1</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('2')">2</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('3')">3</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('4')">4</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('5')">5</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('6')">6</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('7')">7</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('8')">8</button>
+            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('9')">9</button>
             <button class="w-16 h-16 rounded-full flex items-center justify-center text-xs text-rose-500 hover:text-rose-400 font-semibold" onclick="clearLockPin()">Reset</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('0')">0</button>
-            <button class="w-16 h-16 rounded-full flex items-center justify-center text-lg text-slate-400 hover:text-white" onclick="backspaceLockPin()">
+            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('0')">0</button>
+            <button class="w-16 h-16 rounded-full flex items-center justify-center text-lg text-zinc-500 hover:text-white" onclick="backspaceLockPin()">
                 <i class="fa-solid fa-delete-left"></i>
             </button>
         </div>
     </div>
 
     <!-- MAIN APP SCREEN HEADER -->
-    <header class="bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-6 pt-6 pb-4 border-b border-slate-900/50 flex justify-between items-center shrink-0">
+    <header class="bg-black/90 backdrop-blur-md sticky top-0 z-40 px-6 pt-6 pb-4 border-b border-zinc-900 flex justify-between items-center shrink-0">
         <div>
-            <p class="text-xs text-slate-400 font-medium tracking-wider uppercase">Welcome Back</p>
+            <p class="text-xs text-zinc-500 font-medium tracking-wider uppercase">Welcome Back</p>
             <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">ApexFinance</h1>
         </div>
         <!-- Cloud Sync Status Widget Indicator -->
-        <button id="sync-status-btn" class="active-scale transition-all-custom flex items-center gap-2 bg-slate-900/80 hover:bg-slate-900 border border-slate-800 rounded-full px-3 py-1.5 text-xs text-slate-300">
+        <button id="sync-status-btn" class="active-scale transition-all-custom flex items-center gap-2 bg-zinc-950 border border-zinc-900 rounded-full px-3 py-1.5 text-xs text-zinc-300">
             <span class="relative flex h-2 w-2">
                 <span id="sync-ping" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
                 <span id="sync-dot" class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
@@ -121,14 +121,14 @@
         <div id="screen-dashboard" class="space-y-6 block">
             
             <!-- PREMIUM CARD: TOTAL BALANCE & ACCOUNTS -->
-            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950 p-6 border border-slate-800 shadow-xl">
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-black via-zinc-950 to-emerald-950/40 p-6 border border-zinc-900 shadow-xl">
                 <!-- Card Background Decorative Glow -->
                 <div class="absolute -right-12 -top-12 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl"></div>
                 <div class="absolute -left-12 -bottom-12 w-32 h-32 bg-teal-500/10 rounded-full blur-3xl"></div>
                 
                 <div class="flex justify-between items-start mb-4">
                     <div>
-                        <p class="text-xs text-slate-400 font-semibold uppercase tracking-widest">Net Wealth Balance</p>
+                        <p class="text-xs text-zinc-500 font-semibold uppercase tracking-widest">Net Wealth Balance</p>
                         <h2 id="total-balance" class="text-4xl font-black text-white mt-1 tracking-tight">RM0.00</h2>
                         <!-- Dynamic Financial Health Indicators -->
                         <div class="flex flex-wrap gap-2 mt-2">
@@ -143,13 +143,13 @@
                 </div>
                 
                 <!-- Income / Expense Mini Bars -->
-                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-800/80 mt-2">
+                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-zinc-900 mt-2">
                     <div class="flex items-center gap-2.5">
                         <div class="w-8 h-8 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
                             <i class="fa-solid fa-arrow-down text-emerald-400 text-xs"></i>
                         </div>
                         <div>
-                            <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Income</p>
+                            <p class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Income</p>
                             <p id="total-income" class="text-sm font-semibold text-emerald-400">RM0.00</p>
                         </div>
                     </div>
@@ -158,24 +158,24 @@
                             <i class="fa-solid fa-arrow-up text-rose-400 text-xs"></i>
                         </div>
                         <div>
-                            <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Expenses</p>
+                            <p class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">Expenses</p>
                             <p id="total-expense" class="text-sm font-semibold text-rose-400">RM0.00</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- INDIVIDUAL WALLET BALANCES (RHB, BANK ISLAM, CASH) -->
-                <div class="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-slate-800/80">
-                    <div class="bg-slate-950/40 rounded-2xl p-2.5 border border-slate-800/45 text-center">
-                        <p class="text-[8px] text-slate-400 uppercase font-extrabold tracking-wider">RHB Bank</p>
+                <div class="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-zinc-900">
+                    <div class="bg-black rounded-2xl p-2.5 border border-zinc-900 text-center">
+                        <p class="text-[8px] text-zinc-500 uppercase font-extrabold tracking-wider">RHB Bank</p>
                         <p id="bal-rhb" class="text-xs font-bold text-emerald-400 mt-0.5">RM0.00</p>
                     </div>
-                    <div class="bg-slate-950/40 rounded-2xl p-2.5 border border-slate-800/45 text-center">
-                        <p class="text-[8px] text-slate-400 uppercase font-extrabold tracking-wider">Bank Islam</p>
+                    <div class="bg-black rounded-2xl p-2.5 border border-zinc-900 text-center">
+                        <p class="text-[8px] text-zinc-500 uppercase font-extrabold tracking-wider">Bank Islam</p>
                         <p id="bal-islam" class="text-xs font-bold text-emerald-400 mt-0.5">RM0.00</p>
                     </div>
-                    <div class="bg-slate-950/40 rounded-2xl p-2.5 border border-slate-800/45 text-center">
-                        <p class="text-[8px] text-slate-400 uppercase font-extrabold tracking-wider">Cash</p>
+                    <div class="bg-black rounded-2xl p-2.5 border border-zinc-900 text-center">
+                        <p class="text-[8px] text-zinc-500 uppercase font-extrabold tracking-wider">Cash</p>
                         <p id="bal-cash" class="text-xs font-bold text-emerald-400 mt-0.5">RM0.00</p>
                     </div>
                 </div>
@@ -184,32 +184,32 @@
             <!-- BUDGET PACING SECTION -->
             <div>
                 <div class="flex justify-between items-center mb-3 px-1">
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400">Monthly Budget Limits</h3>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-zinc-500">Monthly Budget Limits</h3>
                     <button id="view-budgets-shortcut" class="text-xs text-emerald-400 font-semibold flex items-center gap-1 hover:underline">
                         Manage <i class="fa-solid fa-chevron-right text-[10px]"></i>
                     </button>
                 </div>
                 <!-- Dynamic Budget Widget -->
                 <div id="dashboard-budgets" class="space-y-3">
-                    <p class="text-xs text-slate-500 italic p-4 text-center bg-slate-900/40 rounded-2xl border border-slate-900/60">No budget caps set for this period yet.</p>
+                    <p class="text-xs text-zinc-600 italic p-4 text-center bg-zinc-950/40 rounded-2xl border border-zinc-900">No budget caps set for this period yet.</p>
                 </div>
             </div>
 
             <!-- QUICK STATISTICS BLOCK (DYNAMIC PIE / DONUT) -->
-            <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-5 space-y-4">
+            <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-4">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400">Expense Allocation</h3>
-                    <span class="text-xs font-semibold text-slate-500" id="allocation-month-label">Current Period</span>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-zinc-500">Expense Allocation</h3>
+                    <span class="text-xs font-semibold text-zinc-500" id="allocation-month-label">Current Period</span>
                 </div>
                 <div class="flex items-center gap-4">
                     <!-- Dynamic Donut Chart Container -->
                     <div class="w-24 h-24 shrink-0 flex items-center justify-center relative">
                         <svg id="donut-chart-svg" viewBox="0 0 36 36" class="w-24 h-24 transform -rotate-90">
-                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="#1e293b" stroke-width="3"></circle>
+                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="#09090b" stroke-width="3"></circle>
                         </svg>
                         <div class="absolute inset-0 flex flex-col items-center justify-center">
-                            <span id="donut-center-pct" class="text-xs font-bold text-slate-300">0%</span>
-                            <span class="text-[8px] uppercase tracking-wider text-slate-500">Spent</span>
+                            <span id="donut-center-pct" class="text-xs font-bold text-zinc-300">0%</span>
+                            <span class="text-[8px] uppercase tracking-wider text-zinc-500">Spent</span>
                         </div>
                     </div>
                     <!-- Quick Chart Legend -->
@@ -222,7 +222,7 @@
             <!-- RECENT TRANSACTIONS HEADER -->
             <div>
                 <div class="flex justify-between items-center mb-3.5 px-1">
-                    <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400">Recent Transactions</h3>
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-zinc-500">Recent Transactions</h3>
                     <button id="view-transactions-shortcut" class="text-xs text-emerald-400 font-semibold flex items-center gap-1 hover:underline">
                         See All <i class="fa-solid fa-chevron-right text-[10px]"></i>
                     </button>
@@ -238,18 +238,18 @@
         <div id="screen-analytics" class="space-y-6 hidden">
             <div>
                 <h3 class="text-lg font-bold text-white mb-1">Financial Analysis</h3>
-                <p class="text-xs text-slate-400">Visualization of your periodic income vs expense distribution.</p>
+                <p class="text-xs text-zinc-500">Visualization of your periodic income vs expense distribution.</p>
             </div>
 
             <!-- TIME PERIOD SELECTOR -->
-            <div class="grid grid-cols-3 gap-1 bg-slate-900 p-1 rounded-xl border border-slate-800/60">
-                <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg bg-slate-800 text-white shadow" data-period="all">All-Time</button>
-                <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg text-slate-400 hover:text-white" data-period="month">This Month</button>
-                <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg text-slate-400 hover:text-white" data-period="week">This Week</button>
+            <div class="grid grid-cols-3 gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-900">
+                <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg bg-zinc-900 text-white shadow" data-period="all">All-Time</button>
+                <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg text-zinc-500 hover:text-white" data-period="month">This Month</button>
+                <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg text-zinc-500 hover:text-white" data-period="week">This Week</button>
             </div>
 
             <!-- PREMIUM PREDICTIVE RUNWAY CALCULATOR ENGINE -->
-            <div class="bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-950/40 border border-indigo-500/10 rounded-3xl p-5 space-y-4">
+            <div class="bg-gradient-to-br from-indigo-950/20 via-zinc-950 to-indigo-950/20 border border-indigo-500/10 rounded-3xl p-5 space-y-4">
                 <div class="flex justify-between items-center">
                     <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
                         <i class="fa-solid fa-wand-magic-sparkles"></i> Predictive Runway Engine
@@ -259,23 +259,23 @@
                 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <p class="text-[9px] uppercase tracking-wider text-slate-400 font-semibold">Average Burn</p>
-                        <p id="predictive-avg-expense" class="text-md font-bold text-slate-200">RM0.00/mo</p>
+                        <p class="text-[9px] uppercase tracking-wider text-zinc-500 font-semibold">Average Burn</p>
+                        <p id="predictive-avg-expense" class="text-md font-bold text-zinc-200">RM0.00/mo</p>
                     </div>
                     <div>
-                        <p class="text-[9px] uppercase tracking-wider text-slate-400 font-semibold">Estimated Runway</p>
+                        <p class="text-[9px] uppercase tracking-wider text-zinc-500 font-semibold">Estimated Runway</p>
                         <p id="predictive-runway" class="text-md font-black text-emerald-400">Stable</p>
                     </div>
                 </div>
 
-                <div class="pt-3 border-t border-slate-800/60 text-[10px] text-slate-400 leading-relaxed">
+                <div class="pt-3 border-t border-zinc-900 text-[10px] text-zinc-500 leading-relaxed">
                     Based on your average historical data, your current liquid bank cache (RM) has a projection threshold of <strong id="predictive-days-span" class="text-white">-- months</strong> before depletion.
                 </div>
             </div>
 
             <!-- TREND VISUAL BAR CHART -->
-            <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-5 space-y-4">
-                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Periodic Outlays</h4>
+            <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Periodic Outlays</h4>
                 <div class="h-32 flex items-end justify-between gap-2 pt-4 relative">
                     <!-- Vertical grid lines -->
                     <div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-5 py-2">
@@ -289,15 +289,15 @@
                     </div>
                 </div>
                 <!-- Legend -->
-                <div class="flex justify-center gap-4 text-[10px] text-slate-400 font-semibold pt-1 border-t border-slate-800/40">
+                <div class="flex justify-center gap-4 text-[10px] text-zinc-500 font-semibold pt-1 border-t border-zinc-900">
                     <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-rose-500 inline-block"></span> Expense</span>
                     <span class="flex items-center gap-1"><span class="w-2.5 h-2.5 rounded bg-emerald-500 inline-block"></span> Income</span>
                 </div>
             </div>
 
             <!-- CATEGORY RANKINGS -->
-            <div class="bg-slate-900/40 border border-slate-900/60 rounded-3xl p-5 space-y-4">
-                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Outlay Ranking By Category</h4>
+            <div class="bg-zinc-950/40 border border-zinc-900/60 rounded-3xl p-5 space-y-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Outlay Ranking By Category</h4>
                 <div id="analytics-categories-list" class="space-y-3.5">
                     <!-- Dynamic rank -->
                 </div>
@@ -309,20 +309,20 @@
             <div class="flex justify-between items-center">
                 <div>
                     <h3 class="text-lg font-bold text-white mb-1">My Budget Envelopes</h3>
-                    <p class="text-xs text-slate-400">Keep absolute control over targeted categories.</p>
+                    <p class="text-xs text-zinc-500">Keep absolute control over targeted categories.</p>
                 </div>
-                <button id="add-budget-btn" class="active-scale transition-all-custom w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 flex items-center justify-center shadow-lg shadow-emerald-500/10">
+                <button id="add-budget-btn" class="active-scale transition-all-custom w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-black flex items-center justify-center shadow-lg shadow-emerald-500/10">
                     <i class="fa-solid fa-plus text-sm"></i>
                 </button>
             </div>
 
             <!-- AUTO-ENVELOPE DISPATCH ENGINE -->
-            <div class="bg-slate-900/40 border border-slate-900 rounded-2xl p-4 flex items-center justify-between">
+            <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4 flex items-center justify-between">
                 <div>
-                    <h4 class="text-xs font-bold text-slate-200">Smart Auto-Budgeting</h4>
-                    <p class="text-[10px] text-slate-400 mt-0.5">Let algorithm analysis provision envelopes.</p>
+                    <h4 class="text-xs font-bold text-zinc-200">Smart Auto-Budgeting</h4>
+                    <p class="text-[10px] text-zinc-500 mt-0.5">Let algorithm analysis provision envelopes.</p>
                 </div>
-                <button id="auto-budget-generate-btn" class="active-scale bg-indigo-500/20 hover:bg-indigo-500/35 border border-indigo-500/30 text-indigo-300 font-bold px-3 py-1.5 rounded-xl text-xs transition">
+                <button id="auto-budget-generate-btn" class="active-scale bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 text-indigo-300 font-bold px-3 py-1.5 rounded-xl text-xs transition">
                     <i class="fa-solid fa-wand-magic-sparkles text-[10px] mr-1"></i> Auto-Fill
                 </button>
             </div>
@@ -338,27 +338,27 @@
             <div class="flex justify-between items-center">
                 <div>
                     <h3 class="text-lg font-bold text-white mb-1">Loans & Debts</h3>
-                    <p class="text-xs text-slate-400">Manage money you lent out and liabilities you owe (PTPTN, Ali, etc.)</p>
+                    <p class="text-xs text-zinc-500">Manage money you lent out and liabilities you owe (PTPTN, Ali, etc.)</p>
                 </div>
-                <button id="add-loan-btn" class="active-scale transition-all-custom w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 flex items-center justify-center shadow-lg">
+                <button id="add-loan-btn" class="active-scale transition-all-custom w-10 h-10 rounded-full bg-emerald-500 hover:bg-emerald-600 text-black flex items-center justify-center shadow-lg">
                     <i class="fa-solid fa-plus text-sm"></i>
                 </button>
             </div>
 
             <!-- Loan Summary Cards -->
             <div class="grid grid-cols-2 gap-3">
-                <div class="bg-slate-900/40 border border-slate-900/60 p-4 rounded-2xl relative overflow-hidden">
+                <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl relative overflow-hidden">
                     <div class="absolute right-2 bottom-2 opacity-10 text-emerald-400 text-4xl">
                         <i class="fa-solid fa-hand-holding-dollar"></i>
                     </div>
-                    <p class="text-[9px] text-slate-400 uppercase font-bold tracking-wider">Owed To Me (Lent)</p>
+                    <p class="text-[9px] text-zinc-500 uppercase font-bold tracking-wider">Owed To Me (Lent)</p>
                     <p id="total-lent" class="text-lg font-bold text-emerald-400 mt-1">RM0.00</p>
                 </div>
-                <div class="bg-slate-900/40 border border-slate-900/60 p-4 rounded-2xl relative overflow-hidden">
+                <div class="bg-zinc-950 border border-zinc-900 p-4 rounded-2xl relative overflow-hidden">
                     <div class="absolute right-2 bottom-2 opacity-10 text-rose-400 text-4xl">
                         <i class="fa-solid fa-scale-unbalanced"></i>
                     </div>
-                    <p class="text-[9px] text-slate-400 uppercase font-bold tracking-wider">My Debts (Payable)</p>
+                    <p class="text-[9px] text-zinc-500 uppercase font-bold tracking-wider">My Debts (Payable)</p>
                     <p id="total-borrowed" class="text-lg font-bold text-rose-400 mt-1">RM0.00</p>
                 </div>
             </div>
@@ -366,7 +366,7 @@
             <!-- Tabular breakdown of Loans -->
             <div class="space-y-5">
                 <div>
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3 flex items-center gap-1.5">
                         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Receivables (Lent to others)
                     </h4>
                     <div id="loans-lent-list" class="space-y-3">
@@ -375,7 +375,7 @@
                 </div>
 
                 <div>
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3 flex items-center gap-1.5">
                         <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span> Liabilities (My Debts e.g., PTPTN)
                     </h4>
                     <div id="loans-borrowed-list" class="space-y-3">
@@ -389,27 +389,27 @@
         <div id="screen-sync" class="space-y-6 hidden">
             <div>
                 <h3 class="text-lg font-bold text-white mb-1">Settings & Sync</h3>
-                <p class="text-xs text-slate-400">Manage database sync bridges and device security lockers.</p>
+                <p class="text-xs text-zinc-500">Manage database sync bridges and device security lockers.</p>
             </div>
 
             <!-- APP SECURITY LOCKER (LOCAL LOCK PIN) -->
-            <div class="bg-slate-900/80 border border-slate-800 rounded-3xl p-5 space-y-4">
+            <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-4">
                 <div class="flex justify-between items-start">
                     <div>
                         <h4 class="text-sm font-bold text-white flex items-center gap-1.5">
                             <i class="fa-solid fa-shield-halved text-indigo-400"></i> Local PIN Passcode Lock
                         </h4>
-                        <p class="text-xs text-slate-400 mt-1">Require a code every time the application starts up.</p>
+                        <p class="text-xs text-zinc-500 mt-1">Require a code every time the application starts up.</p>
                     </div>
-                    <span id="pin-lock-status-badge" class="bg-slate-950 text-slate-500 border border-slate-800 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                    <span id="pin-lock-status-badge" class="bg-black text-zinc-600 border border-zinc-900 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
                         Disabled
                     </span>
                 </div>
 
                 <div class="space-y-3">
                     <div class="flex gap-2">
-                        <input type="password" id="input-pin-lock" placeholder="4-Digit PIN" pattern="[0-9]*" inputmode="numeric" maxlength="4" class="bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-center font-bold text-slate-200 placeholder-slate-700 w-28 focus:outline-none focus:border-indigo-500 font-mono">
-                        <button id="toggle-pin-lock-btn" class="active-scale flex-1 bg-indigo-500 hover:bg-indigo-600 text-slate-950 text-xs font-bold rounded-2xl py-3 text-center transition">
+                        <input type="password" id="input-pin-lock" placeholder="4-Digit PIN" pattern="[0-9]*" inputmode="numeric" maxlength="4" class="bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-center font-bold text-zinc-200 placeholder-zinc-800 w-28 focus:outline-none focus:border-indigo-500 font-mono">
+                        <button id="toggle-pin-lock-btn" class="active-scale flex-1 bg-indigo-500 hover:bg-indigo-600 text-black text-xs font-bold rounded-2xl py-3 text-center transition">
                             Enable App Lock
                         </button>
                     </div>
@@ -417,30 +417,30 @@
             </div>
 
             <!-- GOOGLE SHEETS SYNC INTEGRATION CARD -->
-            <div class="bg-gradient-to-br from-slate-900 to-emerald-950 border border-emerald-500/10 rounded-3xl p-6 relative overflow-hidden">
+            <div class="bg-gradient-to-br from-black to-emerald-950/20 border border-emerald-500/10 rounded-3xl p-6 relative overflow-hidden">
                 <div class="absolute -right-12 -bottom-12 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl"></div>
                 <div class="flex items-start justify-between mb-4">
                     <div class="w-12 h-12 rounded-2xl bg-emerald-500/15 flex items-center justify-center border border-emerald-500/20 text-emerald-400">
                         <i class="fa-solid fa-table text-xl"></i>
                     </div>
-                    <span class="bg-slate-950 text-emerald-400 border border-emerald-500/20 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                    <span class="bg-black text-emerald-400 border border-emerald-500/20 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
                         Google Sheets Active
                     </span>
                 </div>
-                <h4 class="text-sm font-bold text-slate-100">Google Sheets Sync Bridge</h4>
-                <p class="text-xs text-slate-400 mt-1 leading-relaxed">Connect your ledger directly to any Google Spreadsheet to perform bulk edits, download CSVs, or fix logging mistakes on your computer.</p>
+                <h4 class="text-sm font-bold text-zinc-100">Google Sheets Sync Bridge</h4>
+                <p class="text-xs text-zinc-500 mt-1 leading-relaxed">Connect your ledger directly to any Google Spreadsheet to perform bulk edits, download CSVs, or fix logging mistakes on your computer.</p>
                 
                 <div class="space-y-3 mt-4">
                     <div>
-                        <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Apps Script Web App URL</label>
-                        <input type="text" id="gsheet-url" placeholder="Paste deployed Google Script URL here..." class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 placeholder-slate-750 focus:outline-none focus:border-emerald-500 transition-all font-mono">
+                        <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Apps Script Web App URL</label>
+                        <input type="text" id="gsheet-url" placeholder="Paste deployed Google Script URL here..." class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 placeholder-zinc-800 focus:outline-none focus:border-emerald-500 transition-all font-mono">
                     </div>
                     
                     <div class="grid grid-cols-2 gap-2">
-                        <button id="pull-sheet-btn" class="active-scale transition-all-custom bg-emerald-500 hover:bg-emerald-600 text-slate-950 text-xs font-bold py-3 rounded-2xl flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/10">
+                        <button id="pull-sheet-btn" class="active-scale transition-all-custom bg-emerald-500 hover:bg-emerald-600 text-black text-xs font-bold py-3 rounded-2xl flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/10">
                             <i class="fa-solid fa-cloud-arrow-down"></i> Pull From Sheet
                         </button>
-                        <button id="push-sheet-btn" class="active-scale transition-all-custom bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 text-xs font-bold py-3 rounded-2xl flex items-center justify-center gap-1.5">
+                        <button id="push-sheet-btn" class="active-scale transition-all-custom bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-850 text-xs font-bold py-3 rounded-2xl flex items-center justify-center gap-1.5">
                             <i class="fa-solid fa-cloud-arrow-up"></i> Push To Sheet
                         </button>
                     </div>
@@ -452,40 +452,40 @@
             </div>
 
             <!-- SYNC CARD STATUS -->
-            <div class="bg-gradient-to-br from-slate-900 to-indigo-950 border border-indigo-500/10 rounded-3xl p-6 relative overflow-hidden">
+            <div class="bg-gradient-to-br from-black to-indigo-950/20 border border-indigo-500/10 rounded-3xl p-6 relative overflow-hidden">
                 <div class="absolute -right-12 -bottom-12 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl"></div>
                 <div class="flex items-start justify-between mb-4">
                     <div class="w-12 h-12 rounded-2xl bg-indigo-500/15 flex items-center justify-center border border-indigo-500/20 text-indigo-400">
                         <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
                     </div>
-                    <span id="sync-badge-large" class="bg-slate-950 text-amber-400 border border-amber-500/20 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                    <span id="sync-badge-large" class="bg-black text-amber-400 border border-amber-500/20 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
                         Local Mode
                     </span>
                 </div>
-                <h4 class="text-sm font-bold text-slate-100">Synchronized Real-time Storage</h4>
-                <p class="text-xs text-slate-400 mt-1 leading-relaxed">By default, records are stored locally on your device. Syncing to our decentralized secure cloud ensures you never lose a transaction.</p>
+                <h4 class="text-sm font-bold text-zinc-100">Synchronized Real-time Storage</h4>
+                <p class="text-xs text-zinc-500 mt-1 leading-relaxed">By default, records are stored locally on your device. Syncing to our decentralized secure cloud ensures you never lose a transaction.</p>
                 
-                <div class="mt-5 pt-4 border-t border-slate-800 flex justify-between items-center">
+                <div class="mt-5 pt-4 border-t border-zinc-900 flex justify-between items-center">
                     <div>
-                        <p class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Global Vault Reference</p>
-                        <p id="sync-user-id" class="text-[11px] text-slate-300 font-mono mt-0.5 select-all">Loading Reference...</p>
+                        <p class="text-[10px] text-zinc-600 uppercase font-bold tracking-widest">Global Vault Reference</p>
+                        <p id="sync-user-id" class="text-[11px] text-zinc-400 font-mono mt-0.5 select-all">Loading Reference...</p>
                     </div>
-                    <button id="copy-sync-id-btn" class="active-scale transition-all-custom w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-750 flex items-center justify-center text-slate-400 hover:text-white">
+                    <button id="copy-sync-id-btn" class="active-scale transition-all-custom w-8 h-8 rounded-lg bg-zinc-950 hover:bg-zinc-900 flex items-center justify-center text-zinc-500 hover:text-white">
                         <i class="fa-solid fa-copy text-xs"></i>
                     </button>
                 </div>
             </div>
 
             <!-- SYNC CODE RECOVERY / CONNECT AN EXISTING ACCOUNT -->
-            <div class="bg-slate-900/60 border border-slate-900 rounded-3xl p-5 space-y-4">
+            <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-4">
                 <div class="space-y-1">
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Connect to Existing Wallet</h4>
-                    <p class="text-[11px] text-slate-500 leading-relaxed">Have database keys from another screen? Enter them below to hook into your centralized cloud ledger.</p>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Connect to Existing Wallet</h4>
+                    <p class="text-[11px] text-zinc-500 leading-relaxed">Have database keys from another screen? Enter them below to hook into your centralized cloud ledger.</p>
                 </div>
                 
                 <div class="space-y-3">
-                    <input type="text" id="manual-sync-key" placeholder="Paste Wallet Vault Code here..." class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 placeholder-slate-600 focus:outline-none focus:border-indigo-500 transition-all font-mono">
-                    <button id="apply-manual-sync-btn" class="active-scale transition-all-custom w-full bg-indigo-500 hover:bg-indigo-600 text-slate-950 text-xs font-bold py-3 rounded-2xl flex items-center justify-center gap-1 shadow-lg shadow-indigo-500/10">
+                    <input type="text" id="manual-sync-key" placeholder="Paste Wallet Vault Code here..." class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 placeholder-zinc-800 focus:outline-none focus:border-indigo-500 transition-all font-mono">
+                    <button id="apply-manual-sync-btn" class="active-scale transition-all-custom w-full bg-indigo-500 hover:bg-indigo-600 text-black text-xs font-bold py-3 rounded-2xl flex items-center justify-center gap-1 shadow-lg shadow-indigo-500/10">
                         <i class="fa-solid fa-plug text-xs"></i> Initialize Sync Stream
                     </button>
                 </div>
@@ -494,7 +494,7 @@
             <!-- RESET WALLET CARD -->
             <div class="bg-rose-500/5 border border-rose-500/10 rounded-3xl p-5 space-y-3">
                 <h4 class="text-xs font-bold uppercase tracking-wider text-rose-400">Destructive Actions</h4>
-                <p class="text-[11px] text-slate-400 leading-relaxed">If you wish to purge all cloud records linked to this account, trigger a complete wallet reset. This action is permanent.</p>
+                <p class="text-[11px] text-zinc-500 leading-relaxed">If you wish to purge all cloud records linked to this account, trigger a complete wallet reset. This action is permanent.</p>
                 <button id="purge-wallet-btn" class="active-scale transition-all-custom w-full bg-rose-500/10 hover:bg-rose-500/15 border border-rose-500/20 text-rose-400 text-xs font-bold py-2.5 rounded-2xl">
                     <i class="fa-solid fa-trash-can text-xs mr-1"></i> Clear & Start Anew
                 </button>
@@ -504,23 +504,23 @@
     </main>
 
     <!-- OVERLAY MODAL: GOOGLE APPS SCRIPT CODE VIEWER -->
-    <div id="modal-script-viewer" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
-        <div class="bg-slate-900 border-t border-slate-800 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-4 transform translate-y-full transition-transform duration-300 max-h-[85vh] flex flex-col">
+    <div id="modal-script-viewer" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
+        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-4 transform translate-y-full transition-transform duration-300 max-h-[85vh] flex flex-col">
             <div class="flex justify-between items-center shrink-0">
                 <h3 class="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Spreadsheet Script Setup
                 </h3>
-                <button id="close-script-modal-btn" class="w-8 h-8 rounded-full bg-slate-850 flex items-center justify-center text-slate-400 hover:text-white">
+                <button id="close-script-modal-btn" class="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-500 hover:text-white">
                     <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
             </div>
 
             <div class="overflow-y-auto space-y-4 flex-1 pr-1 hide-scrollbar">
-                <p class="text-[11px] text-slate-400 leading-relaxed">
+                <p class="text-[11px] text-zinc-500 leading-relaxed">
                     Follow the instructions in the setup guide to paste this script inside your Google Sheets editor. This script safely maps reads and writes.
                 </p>
 
-                <div class="relative bg-slate-950 border border-slate-850 rounded-2xl p-4">
+                <div class="relative bg-black border border-zinc-900 rounded-2xl p-4">
                     <pre id="apps-script-code" class="text-[10px] text-emerald-400 font-mono overflow-x-auto select-all h-48 whitespace-pre-wrap leading-relaxed">
 function doGet(e) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
@@ -576,7 +576,7 @@ function doPost(e) {
   }
 }
                     </pre>
-                    <button id="copy-script-btn" class="absolute top-2 right-2 bg-slate-900 border border-slate-800 text-slate-300 hover:text-white px-2.5 py-1 text-[10px] font-bold rounded-lg transition active-scale">
+                    <button id="copy-script-btn" class="absolute top-2 right-2 bg-zinc-950 border border-zinc-900 text-zinc-300 hover:text-white px-2.5 py-1 text-[10px] font-bold rounded-lg transition active-scale">
                         <i class="fa-solid fa-copy mr-1"></i> Copy
                     </button>
                 </div>
@@ -585,15 +585,15 @@ function doPost(e) {
     </div>
 
     <!-- OVERLAY MODAL: ADD TRANSACTION -->
-    <div id="modal-transaction" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
+    <div id="modal-transaction" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
         <!-- Modal body -->
-        <div class="bg-slate-900 border-t border-slate-800 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
+        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
             <div class="flex justify-between items-center">
                 <h3 class="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500" id="modal-indicator"></span> 
                     <span id="modal-title-text">Add Transaction</span>
                 </h3>
-                <button id="close-modal-btn" class="w-8 h-8 rounded-full bg-slate-850 flex items-center justify-center text-slate-400 hover:text-white">
+                <button id="close-modal-btn" class="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-500 hover:text-white">
                     <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
             </div>
@@ -601,54 +601,54 @@ function doPost(e) {
             <!-- Form Body -->
             <div class="space-y-4">
                 <!-- Toggle Type Option -->
-                <div class="grid grid-cols-2 gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800/60">
+                <div class="grid grid-cols-2 gap-1 bg-black p-1 rounded-xl border border-zinc-900">
                     <button id="type-expense-btn" class="py-2 text-xs font-bold rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/25">
                         <i class="fa-solid fa-circle-arrow-up text-[10px] mr-1"></i> Expense
                     </button>
-                    <button id="type-income-btn" class="py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white">
+                    <button id="type-income-btn" class="py-2 text-xs font-medium rounded-lg text-zinc-500 hover:text-white">
                         <i class="fa-solid fa-circle-arrow-down text-[10px] mr-1"></i> Income
                     </button>
                 </div>
 
                 <!-- Large Amount Input Container -->
-                <div class="bg-slate-950 rounded-2xl p-4 border border-slate-800 text-center relative">
-                    <label class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Amount</label>
+                <div class="bg-black rounded-2xl p-4 border border-zinc-900 text-center relative">
+                    <label class="text-[10px] text-zinc-600 uppercase font-bold tracking-wider">Amount</label>
                     <div class="flex items-center justify-center gap-1.5 mt-1">
-                        <span class="text-xl font-bold text-slate-400">RM</span>
-                        <input type="number" step="0.01" inputmode="decimal" id="tx-amount" placeholder="0.00" class="bg-transparent text-white text-3xl font-black focus:outline-none w-48 text-center placeholder-slate-800">
+                        <span class="text-xl font-bold text-zinc-500">RM</span>
+                        <input type="number" step="0.01" inputmode="decimal" id="tx-amount" placeholder="0.00" class="bg-transparent text-white text-3xl font-black focus:outline-none w-48 text-center placeholder-zinc-900">
                     </div>
                 </div>
 
                 <!-- Custom Grid inputs -->
                 <div class="space-y-3">
                     <div>
-                        <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Title / Vendor</label>
-                        <input type="text" id="tx-title" placeholder="e.g. Starbucks, Paycheck, John's Loan" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 placeholder-slate-600 focus:outline-none focus:border-emerald-500 transition-all">
+                        <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Title / Vendor</label>
+                        <input type="text" id="tx-title" placeholder="e.g. Starbucks, Paycheck, John's Loan" class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 placeholder-zinc-800 focus:outline-none focus:border-emerald-500 transition-all">
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Account / Wallet</label>
-                            <select id="tx-account" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-emerald-500 transition-all appearance-none cursor-pointer">
+                            <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Account / Wallet</label>
+                            <select id="tx-account" class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 focus:outline-none focus:border-emerald-500 transition-all appearance-none cursor-pointer">
                                 <option value="RHB Bank">🏦 RHB Bank</option>
                                 <option value="Bank Islam">🕌 Bank Islam</option>
                                 <option value="Cash">💵 Cash</option>
                             </select>
                         </div>
                         <div>
-                            <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Category</label>
-                            <select id="tx-category" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-emerald-500 transition-all appearance-none cursor-pointer">
+                            <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Category</label>
+                            <select id="tx-category" class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 focus:outline-none focus:border-emerald-500 transition-all appearance-none cursor-pointer">
                             </select>
                         </div>
                     </div>
 
                     <div>
-                        <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Date</label>
-                        <input type="date" id="tx-date" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-emerald-500 transition-all">
+                        <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Date</label>
+                        <input type="date" id="tx-date" class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 focus:outline-none focus:border-emerald-500 transition-all">
                     </div>
                 </div>
 
-                <button id="save-tx-btn" class="active-scale transition-all-custom w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/10">
+                <button id="save-tx-btn" class="active-scale transition-all-custom w-full bg-emerald-500 hover:bg-emerald-600 text-black font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/10">
                     <i class="fa-solid fa-check-double text-xs"></i> Save Record
                 </button>
             </div>
@@ -656,14 +656,14 @@ function doPost(e) {
     </div>
 
     <!-- OVERLAY MODAL: SET BUDGET -->
-    <div id="modal-budget" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
+    <div id="modal-budget" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
         <!-- Modal body -->
-        <div class="bg-slate-900 border-t border-slate-800 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
+        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
             <div class="flex justify-between items-center">
                 <h3 class="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Limit Category Budget
                 </h3>
-                <button id="close-budget-modal-btn" class="w-8 h-8 rounded-full bg-slate-850 flex items-center justify-center text-slate-400 hover:text-white">
+                <button id="close-budget-modal-btn" class="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-500 hover:text-white">
                     <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
             </div>
@@ -671,8 +671,8 @@ function doPost(e) {
             <!-- Form Body -->
             <div class="space-y-4">
                 <div>
-                    <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Target Category</label>
-                    <select id="budget-category" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-indigo-500 transition-all appearance-none">
+                    <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Target Category</label>
+                    <select id="budget-category" class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 focus:outline-none focus:border-indigo-500 transition-all appearance-none">
                         <option value="Food">🍔 Food & Dining</option>
                         <option value="Transport">🚗 Transportation</option>
                         <option value="Utilities">⚡ Utilities & Bills</option>
@@ -684,14 +684,14 @@ function doPost(e) {
                 </div>
 
                 <div>
-                    <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Monthly Maximum Cap</label>
-                    <div class="flex items-center bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3">
-                        <span class="text-xs font-bold text-slate-500 mr-1.5">RM</span>
-                        <input type="number" id="budget-amount" placeholder="e.g. 500" class="bg-transparent text-xs text-slate-300 focus:outline-none w-full">
+                    <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Monthly Maximum Cap</label>
+                    <div class="flex items-center bg-black border border-zinc-900 rounded-2xl px-4 py-3">
+                        <span class="text-xs font-bold text-zinc-500 mr-1.5">RM</span>
+                        <input type="number" id="budget-amount" placeholder="e.g. 500" class="bg-transparent text-xs text-zinc-300 focus:outline-none w-full">
                     </div>
                 </div>
 
-                <button id="save-budget-btn" class="active-scale transition-all-custom w-full bg-indigo-500 hover:bg-indigo-600 text-slate-950 font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-500/10">
+                <button id="save-budget-btn" class="active-scale transition-all-custom w-full bg-indigo-500 hover:bg-indigo-600 text-black font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5 shadow-lg">
                     <i class="fa-solid fa-sliders text-xs"></i> Set Monthly Limit
                 </button>
             </div>
@@ -699,42 +699,42 @@ function doPost(e) {
     </div>
 
     <!-- OVERLAY MODAL: CREATE LOAN TRACKER -->
-    <div id="modal-loan" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
-        <div class="bg-slate-900 border-t border-slate-800 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
+    <div id="modal-loan" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
+        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
             <div class="flex justify-between items-center">
                 <h3 class="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Create Loan Tracker
                 </h3>
-                <button id="close-loan-modal-btn" class="w-8 h-8 rounded-full bg-slate-850 flex items-center justify-center text-slate-400 hover:text-white">
+                <button id="close-loan-modal-btn" class="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-500 hover:text-white">
                     <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
             </div>
 
             <!-- Form Body -->
             <div class="space-y-4">
-                <div class="grid grid-cols-2 gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800/60">
+                <div class="grid grid-cols-2 gap-1 bg-black p-1 rounded-xl border border-zinc-900">
                     <button id="loan-type-lent-btn" class="py-2 text-xs font-bold rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
                         <i class="fa-solid fa-arrow-down text-[10px] mr-1"></i> Lent to Someone
                     </button>
-                    <button id="loan-type-borrowed-btn" class="py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white">
+                    <button id="loan-type-borrowed-btn" class="py-2 text-xs font-medium rounded-lg text-zinc-500 hover:text-white">
                         <i class="fa-solid fa-arrow-up text-[10px] mr-1"></i> My Debt (e.g., PTPTN)
                     </button>
                 </div>
 
                 <div>
-                    <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Loan Title / Description</label>
-                    <input type="text" id="loan-title" placeholder="e.g. PTPTN, Ali Loan, Yayasan Bank Rakyat" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 placeholder-slate-600 focus:outline-none focus:border-emerald-500 transition-all">
+                    <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Loan Title / Description</label>
+                    <input type="text" id="loan-title" placeholder="e.g. PTPTN, Ali Loan, Yayasan Bank Rakyat" class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 placeholder-zinc-800 focus:outline-none focus:border-emerald-500 transition-all">
                 </div>
 
                 <div>
-                    <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Total Loan Principal Amount</label>
-                    <div class="flex items-center bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3">
-                        <span class="text-xs font-bold text-slate-500 mr-1.5">RM</span>
-                        <input type="number" id="loan-amount" placeholder="e.g. 10000" class="bg-transparent text-xs text-slate-300 focus:outline-none w-full">
+                    <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Total Loan Principal Amount</label>
+                    <div class="flex items-center bg-black border border-zinc-900 rounded-2xl px-4 py-3">
+                        <span class="text-xs font-bold text-zinc-500 mr-1.5">RM</span>
+                        <input type="number" id="loan-amount" placeholder="e.g. 10000" class="bg-transparent text-xs text-zinc-300 focus:outline-none w-full">
                     </div>
                 </div>
 
-                <button id="save-loan-btn" class="active-scale transition-all-custom w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5">
+                <button id="save-loan-btn" class="active-scale transition-all-custom w-full bg-emerald-500 hover:bg-emerald-600 text-black font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5">
                     <i class="fa-solid fa-check-double text-xs"></i> Initialize Tracker
                 </button>
             </div>
@@ -742,11 +742,11 @@ function doPost(e) {
     </div>
 
     <!-- OVERLAY MODAL: RECORD LOAN PAYMENT -->
-    <div id="modal-loan-payment" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
-        <div class="bg-slate-900 border-t border-slate-800 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
+    <div id="modal-loan-payment" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
+        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
             <div class="flex justify-between items-center">
                 <h3 class="text-md font-bold text-white uppercase tracking-wider" id="loan-payment-header">Record Payment</h3>
-                <button id="close-loan-payment-modal-btn" class="w-8 h-8 rounded-full bg-slate-850 flex items-center justify-center text-slate-400 hover:text-white">
+                <button id="close-loan-payment-modal-btn" class="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-500 hover:text-white">
                     <i class="fa-solid fa-xmark text-sm"></i>
                 </button>
             </div>
@@ -754,16 +754,16 @@ function doPost(e) {
             <!-- Form Body -->
             <div class="space-y-4">
                 <div>
-                    <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Deduction / Payment Amount</label>
-                    <div class="flex items-center bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3">
-                        <span class="text-xs font-bold text-slate-500 mr-1.5">RM</span>
-                        <input type="number" step="0.01" id="loan-payment-amount" placeholder="0.00" class="bg-transparent text-xs text-slate-300 focus:outline-none w-full">
+                    <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Deduction / Payment Amount</label>
+                    <div class="flex items-center bg-black border border-zinc-900 rounded-2xl px-4 py-3">
+                        <span class="text-xs font-bold text-zinc-500 mr-1.5">RM</span>
+                        <input type="number" step="0.01" id="loan-payment-amount" placeholder="0.00" class="bg-transparent text-xs text-zinc-300 focus:outline-none w-full">
                     </div>
                 </div>
 
                 <div>
-                    <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Cash / Bank Source Account</label>
-                    <select id="loan-payment-account" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
+                    <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Cash / Bank Source Account</label>
+                    <select id="loan-payment-account" class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 focus:outline-none focus:border-indigo-500 transition-all appearance-none cursor-pointer">
                         <option value="RHB Bank">🏦 RHB Bank</option>
                         <option value="Bank Islam">🕌 Bank Islam</option>
                         <option value="Cash">💵 Cash</option>
@@ -771,11 +771,11 @@ function doPost(e) {
                 </div>
 
                 <div>
-                    <label class="text-[10px] text-slate-400 uppercase font-bold tracking-wider ml-1">Payment Date</label>
-                    <input type="date" id="loan-payment-date" class="w-full bg-slate-950 border border-slate-800 rounded-2xl px-4 py-3 text-xs text-slate-300 focus:outline-none focus:border-indigo-500 transition-all">
+                    <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Payment Date</label>
+                    <input type="date" id="loan-payment-date" class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 focus:outline-none focus:border-indigo-500 transition-all">
                 </div>
 
-                <button id="submit-loan-payment-btn" class="active-scale transition-all-custom w-full bg-indigo-500 hover:bg-indigo-600 text-slate-950 font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5">
+                <button id="submit-loan-payment-btn" class="active-scale transition-all-custom w-full bg-indigo-500 hover:bg-indigo-600 text-black font-bold py-3.5 rounded-2xl text-xs flex items-center justify-center gap-1.5">
                     <i class="fa-solid fa-hand-holding-dollar text-xs"></i> Post Repayment
                 </button>
             </div>
@@ -783,20 +783,20 @@ function doPost(e) {
     </div>
 
     <!-- GLOBAL NOTIFICATION BANNER -->
-    <div id="global-toast" class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-slate-900 border border-slate-800 text-white rounded-2xl px-4 py-3 shadow-2xl z-50 flex items-center gap-2.5 max-w-[85%] transition-all duration-300 opacity-0 translate-y-[-20px] pointer-events-none">
+    <div id="global-toast" class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-zinc-950 border border-zinc-900 text-white rounded-2xl px-4 py-3 shadow-2xl z-50 flex items-center gap-2.5 max-w-[85%] transition-all duration-300 opacity-0 translate-y-[-20px] pointer-events-none">
         <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
         <span id="toast-message" class="text-xs font-semibold">Updated successfully</span>
     </div>
 
     <!-- MAIN CENTRAL FAB ACTION BUTTON -->
     <div class="fixed bottom-24 right-6 z-30">
-        <button id="fab-add-btn" class="active-scale shadow-2xl shadow-emerald-500/20 w-14 h-14 bg-gradient-to-r from-emerald-400 to-teal-400 text-slate-950 flex items-center justify-center rounded-2xl hover:scale-105 transition-all duration-350">
+        <button id="fab-add-btn" class="active-scale shadow-2xl shadow-emerald-500/25 w-14 h-14 bg-gradient-to-r from-emerald-400 to-teal-400 text-black flex items-center justify-center rounded-2xl hover:scale-105 transition-all duration-350">
             <i class="fa-solid fa-plus text-xl"></i>
         </button>
     </div>
 
     <!-- BOTTOM NAVIGATION TABBAR -->
-    <nav class="bg-slate-950/95 backdrop-blur-md border-t border-slate-900 safe-bottom shrink-0 px-1 pt-2 z-40">
+    <nav class="bg-black/95 backdrop-blur-md border-t border-zinc-900 safe-bottom shrink-0 px-1 pt-2 z-40">
         <div class="grid grid-cols-5 gap-0.5">
             
             <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-emerald-400" data-target="screen-dashboard">
@@ -804,22 +804,22 @@ function doPost(e) {
                 <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Overview</span>
             </button>
 
-            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-slate-500 hover:text-slate-300" data-target="screen-analytics">
+            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-zinc-600 hover:text-zinc-400" data-target="screen-analytics">
                 <i class="fa-solid fa-chart-line text-base"></i>
                 <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Analysis</span>
             </button>
 
-            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-slate-500 hover:text-slate-300" data-target="screen-budgets">
+            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-zinc-600 hover:text-zinc-400" data-target="screen-budgets">
                 <i class="fa-solid fa-wallet text-base"></i>
                 <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Budgets</span>
             </button>
 
-            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-slate-500 hover:text-slate-300" data-target="screen-loans">
+            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-zinc-600 hover:text-zinc-400" data-target="screen-loans">
                 <i class="fa-solid fa-hand-holding-dollar text-base"></i>
                 <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Loans</span>
             </button>
 
-            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-slate-500 hover:text-slate-300" data-target="screen-sync">
+            <button class="nav-tab active-scale transition-all-custom flex flex-col items-center justify-center py-2 text-zinc-600 hover:text-zinc-400" data-target="screen-sync">
                 <i class="fa-solid fa-rotate text-base"></i>
                 <span class="text-[8px] font-bold tracking-tight uppercase mt-1">Cloud</span>
             </button>
@@ -980,7 +980,7 @@ function doPost(e) {
             if (activeAppLockPin && activeAppLockPin.length === 4) {
                 screen.classList.remove('hidden');
                 document.getElementById('lock-status-msg').textContent = "Enter your 4-digit security PIN";
-                document.getElementById('lock-status-msg').className = "text-xs text-slate-400 mt-1";
+                document.getElementById('lock-status-msg').className = "text-xs text-zinc-500 mt-1";
                 enteredPinStream = '';
                 updatePinDotsUI();
             } else {
@@ -1029,7 +1029,7 @@ function doPost(e) {
                 if (enteredPinStream.length >= i) {
                     dot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-emerald-400 scale-110 transition-all";
                 } else {
-                    dot.className = "w-3.5 h-3.5 rounded-full border-2 border-slate-700 transition-all";
+                    dot.className = "w-3.5 h-3.5 rounded-full border-2 border-zinc-850 transition-all";
                 }
             }
         }
@@ -1056,9 +1056,9 @@ function doPost(e) {
                     localStorage.removeItem('apex_app_lock_pin');
                     pinLockInput.value = '';
                     pinLockBtn.textContent = "Enable App Lock";
-                    pinLockBtn.className = "active-scale flex-1 bg-indigo-500 hover:bg-indigo-600 text-slate-950 text-xs font-bold rounded-2xl py-3 text-center transition";
+                    pinLockBtn.className = "active-scale flex-1 bg-indigo-500 hover:bg-indigo-600 text-black text-xs font-bold rounded-2xl py-3 text-center transition";
                     pinLockBadge.textContent = "Disabled";
-                    pinLockBadge.className = "bg-slate-950 text-slate-500 border border-slate-800 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider";
+                    pinLockBadge.className = "bg-black text-zinc-600 border border-zinc-900 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider";
                     showToast('PIN security disabled', 'success');
                 } else {
                     // Enable Lock
@@ -1340,9 +1340,9 @@ function doPost(e) {
                 pingElement.className = "absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-0";
                 headerBadge.className = "active-scale transition-all-custom flex items-center gap-2 bg-rose-500/10 border border-rose-500/20 rounded-full px-3 py-1.5 text-xs text-rose-400";
             } else {
-                dotElement.className = "relative inline-flex rounded-full h-2 w-2 bg-slate-500";
-                pingElement.className = "absolute inline-flex h-full w-full rounded-full bg-slate-400 opacity-0";
-                headerBadge.className = "active-scale transition-all-custom flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-full px-3 py-1.5 text-xs text-slate-400";
+                dotElement.className = "relative inline-flex rounded-full h-2 w-2 bg-zinc-700";
+                pingElement.className = "absolute inline-flex h-full w-full rounded-full bg-zinc-600 opacity-0";
+                headerBadge.className = "active-scale transition-all-custom flex items-center gap-2 bg-zinc-950 border border-zinc-900 rounded-full px-3 py-1.5 text-xs text-zinc-400";
             }
         }
 
@@ -1365,10 +1365,10 @@ function doPost(e) {
 
                     tabs.forEach(t => {
                         t.classList.remove('text-emerald-400');
-                        t.classList.add('text-slate-500');
+                        t.classList.add('text-zinc-600');
                     });
                     tab.classList.add('text-emerald-400');
-                    tab.classList.remove('text-slate-500');
+                    tab.classList.remove('text-zinc-600');
                 });
             });
 
@@ -1567,7 +1567,7 @@ function doPost(e) {
             if (balance < 0) {
                 el.className = "text-xs font-bold text-rose-400 mt-0.5";
             } else if (balance === 0) {
-                el.className = "text-xs font-bold text-slate-500 mt-0.5";
+                el.className = "text-xs font-bold text-zinc-600 mt-0.5";
             } else {
                 el.className = "text-xs font-bold text-emerald-400 mt-0.5";
             }
@@ -1589,9 +1589,9 @@ function doPost(e) {
 
             if (txSlice.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center p-6 bg-slate-900/40 rounded-2xl border border-slate-900/60">
-                        <i class="fa-solid fa-receipt text-slate-600 text-2xl mb-2 block"></i>
-                        <p class="text-xs text-slate-500 font-medium">No recorded transactions yet</p>
+                    <div class="text-center p-6 bg-zinc-950/40 rounded-2xl border border-zinc-900">
+                        <i class="fa-solid fa-receipt text-zinc-800 text-2xl mb-2 block"></i>
+                        <p class="text-xs text-zinc-600 font-medium">No recorded transactions yet</p>
                     </div>
                 `;
                 return;
@@ -1601,13 +1601,13 @@ function doPost(e) {
                 const isIncome = tx.type === 'income';
                 const symbol = isIncome ? '+' : '-';
                 const colorClass = isIncome ? 'text-emerald-400' : 'text-slate-100';
-                const iconBgClass = isIncome ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-slate-800/80 text-slate-400 border border-slate-700/50';
+                const iconBgClass = isIncome ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-zinc-900 text-zinc-500 border border-zinc-850';
                 
                 const iconHtml = getCategoryEmoji(tx.category);
                 const walletTag = tx.account ? tx.account : 'Cash';
 
                 const div = document.createElement('div');
-                div.className = "active-scale transition-all-custom bg-slate-900/40 hover:bg-slate-900 border border-slate-900/60 rounded-2xl p-3.5 flex items-center justify-between";
+                div.className = "active-scale transition-all-custom bg-zinc-950/40 hover:bg-zinc-950 border border-zinc-900 rounded-2xl p-3.5 flex items-center justify-between";
                 div.innerHTML = `
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${iconBgClass}">
@@ -1615,14 +1615,14 @@ function doPost(e) {
                         </div>
                         <div>
                             <p class="text-xs font-semibold text-white">${escapeHtml(tx.title)}</p>
-                            <p class="text-[10px] text-slate-500 mt-0.5">${tx.date} • <span class="text-slate-400 font-medium">${walletTag}</span> • ${tx.category}</p>
+                            <p class="text-[10px] text-zinc-500 mt-0.5">${tx.date} • <span class="text-zinc-400 font-medium">${walletTag}</span> • ${tx.category}</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-3">
                         <span class="text-xs font-bold ${colorClass}">${symbol}${formatCurrency(tx.amount)}</span>
                         <div class="flex items-center gap-1.5">
-                            <button onclick="editTransaction('${tx.id}')" class="text-slate-500 hover:text-white p-1.5"><i class="fa-solid fa-pen-to-square text-xs"></i></button>
-                            <button onclick="deleteTransaction('${tx.id}')" class="text-slate-500 hover:text-rose-400 p-1.5"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                            <button onclick="editTransaction('${tx.id}')" class="text-zinc-600 hover:text-white p-1.5"><i class="fa-solid fa-pen-to-square text-xs"></i></button>
+                            <button onclick="deleteTransaction('${tx.id}')" class="text-zinc-600 hover:text-rose-400 p-1.5"><i class="fa-solid fa-trash-can text-xs"></i></button>
                         </div>
                     </div>
                 `;
@@ -1658,9 +1658,9 @@ function doPost(e) {
 
             if (budgets.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center p-6 bg-slate-900/40 rounded-2xl border border-slate-900/60">
-                        <i class="fa-solid fa-gauge-high text-slate-600 text-2xl mb-2 block"></i>
-                        <p class="text-xs text-slate-500 italic p-4 text-center bg-slate-900/40 rounded-2xl border border-slate-900/60">No active limits set</p>
+                    <div class="text-center p-6 bg-zinc-950/40 rounded-2xl border border-zinc-900">
+                        <i class="fa-solid fa-gauge-high text-zinc-800 text-2xl mb-2 block"></i>
+                        <p class="text-xs text-zinc-600 italic p-4 text-center bg-zinc-950/40 rounded-2xl border border-zinc-900">No active limits set</p>
                     </div>
                 `;
                 return;
@@ -1672,7 +1672,7 @@ function doPost(e) {
                 
                 // 85% Warning Banners Logic (Priority 5)
                 let barColor = 'bg-emerald-400';
-                let textColor = 'text-slate-300';
+                let textColor = 'text-zinc-400';
                 if (percent >= 100) {
                     barColor = 'bg-rose-500';
                     textColor = 'text-rose-400 font-bold';
@@ -1682,13 +1682,13 @@ function doPost(e) {
                 }
 
                 const div = document.createElement('div');
-                div.className = "bg-slate-900/40 border border-slate-900/60 rounded-2xl p-4 space-y-2";
+                div.className = "bg-zinc-950/40 border border-zinc-900 rounded-2xl p-4 space-y-2";
                 div.innerHTML = `
                     <div class="flex justify-between text-xs font-semibold">
-                        <span class="text-slate-400">${getCategoryEmoji(b.category)} ${b.category} Budget</span>
-                        <span class="${textColor}">${formatCurrency(spent)} <span class="text-slate-600">/ ${formatCurrency(b.amount)}</span></span>
+                        <span class="text-zinc-500">${getCategoryEmoji(b.category)} ${b.category} Budget</span>
+                        <span class="${textColor}">${formatCurrency(spent)} <span class="text-zinc-700">/ ${formatCurrency(b.amount)}</span></span>
                     </div>
-                    <div class="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-900">
+                    <div class="w-full bg-black rounded-full h-2 overflow-hidden border border-zinc-900">
                         <div class="h-full ${barColor} rounded-full" style="width: ${percent}%"></div>
                     </div>
                 `;
@@ -1708,9 +1708,9 @@ function doPost(e) {
             let totalExpenseSum = expenses.reduce((sum, tx) => sum + Number(tx.amount), 0);
 
             if (totalExpenseSum === 0) {
-                svgChart.innerHTML = `<circle cx="18" cy="18" r="15.915" fill="none" stroke="#1e293b" stroke-width="3"></circle>`;
+                svgChart.innerHTML = `<circle cx="18" cy="18" r="15.915" fill="none" stroke="#09090b" stroke-width="3"></circle>`;
                 percentageText.textContent = "0%";
-                legendContainer.innerHTML = `<p class="text-[10px] text-slate-500 italic">No allocation logs registered yet</p>`;
+                legendContainer.innerHTML = `<p class="text-[10px] text-zinc-600 italic">No allocation logs registered yet</p>`;
                 return;
             }
 
@@ -1727,10 +1727,10 @@ function doPost(e) {
                 'Shopping': '#ec4899', 
                 'Loan Given': '#0ea5e9', 
                 'Loan Repayment': '#ef4444',
-                'Other': '#64748b' 
+                'Other': '#27272a' 
             };
 
-            let svgContent = `<circle cx="18" cy="18" r="15.915" fill="none" stroke="#0f172a" stroke-width="3.5"></circle>`;
+            let svgContent = `<circle cx="18" cy="18" r="15.915" fill="none" stroke="#000000" stroke-width="3.5"></circle>`;
             let cumulativePercent = 0;
 
             const categoryEntries = Object.entries(categoriesSum).sort((a,b) => b[1] - a[1]);
@@ -1752,13 +1752,13 @@ function doPost(e) {
                 cumulativePercent += sharePercent;
 
                 const li = document.createElement('div');
-                li.className = "flex justify-between items-center text-[10px] font-semibold text-slate-400";
+                li.className = "flex justify-between items-center text-[10px] font-semibold text-zinc-500";
                 li.innerHTML = `
                     <span class="flex items-center gap-1.5">
                         <span class="w-2 h-2 rounded-full" style="background-color: ${color}"></span>
                         ${cat}
                     </span>
-                    <span class="text-slate-300 font-mono">${Math.round(sharePercent)}%</span>
+                    <span class="text-zinc-400 font-mono">${Math.round(sharePercent)}%</span>
                 `;
                 legendContainer.appendChild(li);
             });
@@ -1772,11 +1772,11 @@ function doPost(e) {
             btn.addEventListener('click', (e) => {
                 vibrateTouch(10);
                 periodButtons.forEach(b => {
-                    b.classList.remove('bg-slate-800', 'text-white', 'shadow');
-                    b.classList.add('text-slate-400', 'hover:text-white');
+                    b.classList.remove('bg-zinc-900', 'text-white', 'shadow');
+                    b.classList.add('text-zinc-500', 'hover:text-white');
                 });
-                btn.classList.add('bg-slate-800', 'text-white', 'shadow');
-                btn.classList.remove('text-slate-400', 'hover:text-white');
+                btn.classList.add('bg-zinc-900', 'text-white', 'shadow');
+                btn.classList.remove('text-zinc-500', 'hover:text-white');
                 
                 const period = btn.getAttribute('data-period');
                 renderAnalyticsPeriod(period);
@@ -1809,7 +1809,7 @@ function doPost(e) {
             const lastN = chronologically.slice(-limit);
 
             if (lastN.length === 0) {
-                container.innerHTML = `<div class="text-xs text-slate-500 italic w-full text-center pb-8">Insufficient data points to generate visual bars</div>`;
+                container.innerHTML = `<div class="text-xs text-zinc-600 italic w-full text-center pb-8">Insufficient data points to generate visual bars</div>`;
             } else {
                 const maxVal = Math.max(...lastN.map(t => Number(t.amount)), 1);
 
@@ -1821,11 +1821,11 @@ function doPost(e) {
                     const div = document.createElement('div');
                     div.className = "flex flex-col items-center flex-1 group relative h-full justify-end";
                     div.innerHTML = `
-                        <div class="absolute bottom-full mb-1 bg-slate-900 border border-slate-800 text-slate-100 text-[9px] px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-250 pointer-events-none z-50 whitespace-nowrap shadow-xl">
+                        <div class="absolute bottom-full mb-1 bg-zinc-950 border border-zinc-900 text-zinc-100 text-[9px] px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition duration-250 pointer-events-none z-50 whitespace-nowrap shadow-xl">
                             ${tx.title}: ${formatCurrency(tx.amount)}
                         </div>
                         <div class="w-2.5 rounded-full ${color} transition-all-custom" style="height: ${height}%"></div>
-                        <span class="text-[9px] text-slate-500 mt-2 font-semibold truncate max-w-[40px]">${tx.date.substring(5)}</span>
+                        <span class="text-[9px] text-zinc-600 mt-2 font-semibold truncate max-w-[40px]">${tx.date.substring(5)}</span>
                     `;
                     container.appendChild(div);
                 });
@@ -1843,7 +1843,7 @@ function doPost(e) {
             const rankings = Object.entries(totalsByCategory).sort((a, b) => b[1] - a[1]);
 
             if (rankings.length === 0) {
-                rankContainer.innerHTML = `<p class="text-xs text-slate-500 italic p-4 text-center">No expense logs found for this period</p>`;
+                rankContainer.innerHTML = `<p class="text-xs text-zinc-600 italic p-4 text-center">No expense logs found for this period</p>`;
                 return;
             }
 
@@ -1855,16 +1855,16 @@ function doPost(e) {
                 div.className = "space-y-1.5";
                 div.innerHTML = `
                     <div class="flex justify-between items-center text-xs">
-                        <span class="flex items-center gap-1.5 font-semibold text-slate-300">
+                        <span class="flex items-center gap-1.5 font-semibold text-zinc-400">
                             <span>${emoji}</span> ${cat}
                         </span>
                         <div class="flex items-center gap-2">
                             <span class="font-bold text-white">${formatCurrency(val)}</span>
-                            <span class="text-[10px] text-slate-500 font-bold bg-slate-900/60 border border-slate-800 px-1.5 py-0.5 rounded-md">${share}%</span>
+                            <span class="text-[10px] text-zinc-600 font-bold bg-black border border-zinc-900 px-1.5 py-0.5 rounded-md">${share}%</span>
                         </div>
                     </div>
-                    <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
-                        <div class="h-full bg-slate-700 rounded-full" style="width: ${share}%"></div>
+                    <div class="w-full bg-black rounded-full h-1.5 overflow-hidden">
+                        <div class="h-full bg-zinc-800 rounded-full" style="width: ${share}%"></div>
                     </div>
                 `;
                 rankContainer.appendChild(div);
@@ -1883,10 +1883,10 @@ function doPost(e) {
 
             if (budgets.length === 0) {
                 container.innerHTML = `
-                    <div class="text-center py-12 bg-slate-900/40 rounded-3xl border border-slate-900/60 p-6">
-                        <i class="fa-solid fa-receipt text-slate-600 text-3xl mb-3 block"></i>
-                        <p class="text-xs text-slate-500 font-semibold">No targets established yet.</p>
-                        <p class="text-[11px] text-slate-600 mt-1 max-w-[80%] mx-auto">Create monthly caps or click the "Auto-Fill" system generator to analyze spending.</p>
+                    <div class="text-center py-12 bg-zinc-950/40 rounded-3xl border border-zinc-900 p-6">
+                        <i class="fa-solid fa-receipt text-zinc-800 text-3xl mb-3 block"></i>
+                        <p class="text-xs text-zinc-600 font-semibold">No targets established yet.</p>
+                        <p class="text-[11px] text-zinc-700 mt-1 max-w-[80%] mx-auto">Create monthly caps or click the "Auto-Fill" system generator to analyze spending.</p>
                     </div>
                 `;
                 return;
@@ -1911,29 +1911,29 @@ function doPost(e) {
                 }
 
                 const div = document.createElement('div');
-                div.className = "bg-slate-900/50 border border-slate-900 rounded-3xl p-5 space-y-3";
+                div.className = "bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-3";
                 div.innerHTML = `
                     <div class="flex justify-between items-start">
                         <div>
-                            <span class="text-xs text-slate-500 font-bold uppercase tracking-widest">${b.category} Cap</span>
+                            <span class="text-xs text-zinc-600 font-bold uppercase tracking-widest">${b.category} Cap</span>
                             <h4 class="text-md font-bold text-white mt-0.5">${getCategoryEmoji(b.category)} ${b.category} limit</h4>
                         </div>
                         <span class="text-[9px] font-extrabold px-2 py-0.5 rounded-full border ${statusClass}">${statusText}</span>
                     </div>
 
                     <div class="flex justify-between items-baseline text-xs">
-                        <span class="text-slate-400">Spent: <strong class="text-white">${formatCurrency(spent)}</strong></span>
-                        <span class="text-slate-500">Target Max: ${formatCurrency(b.amount)}</span>
+                        <span class="text-zinc-400">Spent: <strong class="text-white">${formatCurrency(spent)}</strong></span>
+                        <span class="text-zinc-600">Target Max: ${formatCurrency(b.amount)}</span>
                     </div>
 
-                    <div class="w-full bg-slate-950 rounded-full h-2.5 overflow-hidden border border-slate-900">
+                    <div class="w-full bg-black rounded-full h-2.5 overflow-hidden border border-zinc-900">
                         <div class="h-full ${barColor} rounded-full" style="width: ${percent}%"></div>
                     </div>
 
-                    <div class="flex justify-between items-center pt-2 border-t border-slate-800/40 text-xs">
-                        <span class="text-slate-500 font-semibold">${Math.round(percent)}% consumed</span>
+                    <div class="flex justify-between items-center pt-2 border-t border-zinc-900 text-xs">
+                        <span class="text-zinc-600 font-semibold">${Math.round(percent)}% consumed</span>
                         <div class="flex gap-2">
-                            <button onclick="editBudget('${b.id}')" class="text-[11px] font-bold text-slate-400 hover:text-white px-2.5 py-1.5 bg-slate-950 border border-slate-850 rounded-xl transition">
+                            <button onclick="editBudget('${b.id}')" class="text-[11px] font-bold text-zinc-400 hover:text-white px-2.5 py-1.5 bg-black border border-zinc-900 rounded-xl transition">
                                 Edit Limit
                             </button>
                             <button onclick="deleteBudget('${b.id}')" class="text-rose-400 hover:text-rose-300 p-2 text-xs">
@@ -1958,26 +1958,26 @@ function doPost(e) {
             const borrowedLoans = loans.filter(l => l.type === 'borrowed');
 
             if (lentLoans.length === 0) {
-                lentContainer.innerHTML = `<p class="text-xs text-slate-600 italic p-4 text-center bg-slate-900/20 border border-slate-900 rounded-2xl">No receivables logged</p>`;
+                lentContainer.innerHTML = `<p class="text-xs text-zinc-700 italic p-4 text-center bg-zinc-950/40 border border-zinc-900 rounded-2xl">No receivables logged</p>`;
             } else {
                 lentLoans.forEach(l => {
                     const received = l.originalAmount - l.currentBalance;
                     const percent = Math.min((received / l.originalAmount) * 100, 100);
                     const div = document.createElement('div');
-                    div.className = "bg-slate-900/50 border border-slate-900 p-4 rounded-2xl space-y-2.5";
+                    div.className = "bg-zinc-950 border border-zinc-900 p-4 rounded-2xl space-y-2.5";
                     div.innerHTML = `
                         <div class="flex justify-between items-start">
                             <div>
-                                <h5 class="text-xs font-bold text-slate-200">${escapeHtml(l.title)}</h5>
-                                <p class="text-[10px] text-slate-500 mt-0.5">Original: ${formatCurrency(l.originalAmount)}</p>
+                                <h5 class="text-xs font-bold text-zinc-200">${escapeHtml(l.title)}</h5>
+                                <p class="text-[10px] text-zinc-600 mt-0.5">Original: ${formatCurrency(l.originalAmount)}</p>
                             </div>
-                            <span class="text-xs font-bold text-emerald-400">${formatCurrency(l.currentBalance)} <span class="text-[9px] text-slate-500 font-medium">left</span></span>
+                            <span class="text-xs font-bold text-emerald-400">${formatCurrency(l.currentBalance)} <span class="text-[9px] text-zinc-600 font-medium">left</span></span>
                         </div>
-                        <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
+                        <div class="w-full bg-black rounded-full h-1.5 overflow-hidden">
                             <div class="h-full bg-emerald-400 rounded-full" style="width: ${percent}%"></div>
                         </div>
-                        <div class="flex justify-between items-center pt-2 border-t border-slate-800/40 text-[10px]">
-                            <span class="text-slate-400">${Math.round(percent)}% recovered</span>
+                        <div class="flex justify-between items-center pt-2 border-t border-zinc-900 text-[10px]">
+                            <span class="text-zinc-500">${Math.round(percent)}% recovered</span>
                             <div class="flex gap-2">
                                 <button onclick="triggerLoanPayment('${l.id}')" class="bg-emerald-500/10 hover:bg-emerald-500/15 border border-emerald-500/20 text-emerald-400 font-bold px-2.5 py-1 rounded-lg transition active-scale">
                                     🤝 Record Return
@@ -1993,31 +1993,31 @@ function doPost(e) {
             }
 
             if (borrowedLoans.length === 0) {
-                borrowedContainer.innerHTML = `<p class="text-xs text-slate-600 italic p-4 text-center bg-slate-900/20 border border-slate-900 rounded-2xl">No debts logged (e.g., PTPTN)</p>`;
+                borrowedContainer.innerHTML = `<p class="text-xs text-zinc-700 italic p-4 text-center bg-zinc-950/40 border border-zinc-900 rounded-2xl">No debts logged (e.g., PTPTN)</p>`;
             } else {
                 borrowedLoans.forEach(l => {
                     const paid = l.originalAmount - l.currentBalance;
                     const percent = Math.min((paid / l.originalAmount) * 100, 100);
                     const div = document.createElement('div');
-                    div.className = "bg-slate-900/50 border border-slate-900 p-4 rounded-2xl space-y-2.5";
+                    div.className = "bg-zinc-950 border border-zinc-900 p-4 rounded-2xl space-y-2.5";
                     div.innerHTML = `
                         <div class="flex justify-between items-start">
                             <div>
-                                <h5 class="text-xs font-bold text-slate-200">${escapeHtml(l.title)}</h5>
-                                <p class="text-[10px] text-slate-500 mt-0.5">Original Principal: ${formatCurrency(l.originalAmount)}</p>
+                                <h5 class="text-xs font-bold text-zinc-200">${escapeHtml(l.title)}</h5>
+                                <p class="text-[10px] text-zinc-600 mt-0.5">Original Principal: ${formatCurrency(l.originalAmount)}</p>
                             </div>
-                            <span class="text-xs font-bold text-rose-400">${formatCurrency(l.currentBalance)} <span class="text-[9px] text-slate-500 font-medium">left</span></span>
+                            <span class="text-xs font-bold text-rose-400">${formatCurrency(l.currentBalance)} <span class="text-[9px] text-zinc-600 font-medium">left</span></span>
                         </div>
-                        <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
+                        <div class="w-full bg-black rounded-full h-1.5 overflow-hidden">
                             <div class="h-full bg-rose-500 rounded-full" style="width: ${percent}%"></div>
                         </div>
-                        <div class="flex justify-between items-center pt-2 border-t border-slate-800/40 text-[10px]">
-                            <span class="text-slate-400">${Math.round(percent)}% paid off</span>
+                        <div class="flex justify-between items-center pt-2 border-t border-zinc-900 text-[10px]">
+                            <span class="text-zinc-500">${Math.round(percent)}% paid off</span>
                             <div class="flex gap-2">
                                 <button onclick="triggerLoanPayment('${l.id}')" class="bg-rose-500/10 hover:bg-rose-500/15 border border-rose-500/20 text-rose-400 font-bold px-2.5 py-1 rounded-lg transition active-scale">
                                     📉 Record Payment
                                 </button>
-                                <button onclick="deleteLoan('${l.id}')" class="text-slate-500 hover:text-rose-400 p-1.5">
+                                <button onclick="deleteLoan('${l.id}')" class="text-zinc-600 hover:text-rose-400 p-1.5">
                                     <i class="fa-solid fa-trash-can text-xs"></i>
                                 </button>
                             </div>
@@ -2090,7 +2090,7 @@ function doPost(e) {
             vibrateTouch(10);
             selectedType = 'expense';
             expenseBtn.className = "py-2 text-xs font-bold rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/25";
-            incomeBtn.className = "py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white";
+            incomeBtn.className = "py-2 text-xs font-medium rounded-lg text-zinc-500 hover:text-white";
             document.getElementById('modal-indicator').className = "w-2.5 h-2.5 rounded-full bg-rose-500";
             updateCategoryDropdown('expense');
         });
@@ -2099,7 +2099,7 @@ function doPost(e) {
             vibrateTouch(10);
             selectedType = 'income';
             incomeBtn.className = "py-2 text-xs font-bold rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/25";
-            expenseBtn.className = "py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white";
+            expenseBtn.className = "py-2 text-xs font-medium rounded-lg text-zinc-500 hover:text-white";
             document.getElementById('modal-indicator').className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
             updateCategoryDropdown('income');
         });
@@ -2111,14 +2111,14 @@ function doPost(e) {
             vibrateTouch(10);
             selectedLoanType = 'lent';
             loanTypeLentBtn.className = "py-2 text-xs font-bold rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/25";
-            loanTypeBorrowedBtn.className = "py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white";
+            loanTypeBorrowedBtn.className = "py-2 text-xs font-medium rounded-lg text-zinc-500 hover:text-white";
         });
 
         loanTypeBorrowedBtn.addEventListener('click', () => {
             vibrateTouch(10);
             selectedLoanType = 'borrowed';
             loanTypeBorrowedBtn.className = "py-2 text-xs font-bold rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/25";
-            loanTypeLentBtn.className = "py-2 text-xs font-medium rounded-lg text-slate-400 hover:text-white";
+            loanTypeLentBtn.className = "py-2 text-xs font-medium rounded-lg text-zinc-500 hover:text-white";
         });
 
         function openModal(modal) {
@@ -2375,7 +2375,7 @@ function doPost(e) {
                     }, 5000);
 
                     purgeBtn.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-xs mr-1"></i> Tap Again to Purge Ledger (5s)`;
-                    purgeBtn.className = "active-scale transition-all-custom w-full bg-rose-500 hover:bg-rose-600 text-slate-950 text-xs font-black py-2.5 rounded-2xl shadow-lg shadow-rose-500/10";
+                    purgeBtn.className = "active-scale transition-all-custom w-full bg-rose-500 hover:bg-rose-600 text-black text-xs font-black py-2.5 rounded-2xl shadow-lg shadow-rose-500/10";
                     showToast("Tap again within 5 seconds to confirm complete reset", "error");
                     return;
                 }
