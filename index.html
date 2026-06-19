@@ -592,12 +592,15 @@ function doPost(e) {
             <!-- Form Body -->
             <div class="space-y-4">
                 <!-- Toggle Type Option -->
-                <div class="grid grid-cols-2 gap-1 bg-black p-1 rounded-xl border border-zinc-900">
-                    <button id="type-expense-btn" class="py-2 text-xs font-bold rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/25">
-                        <i class="fa-solid fa-circle-arrow-up text-[10px] mr-1"></i> Expense
+                <div class="grid grid-cols-3 gap-1 bg-black p-1 rounded-xl border border-zinc-900">
+                    <button id="type-expense-btn" class="py-2 text-[11px] font-bold rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/25">
+                        <i class="fa-solid fa-circle-arrow-up text-[9px] mr-1"></i> Expense
                     </button>
-                    <button id="type-income-btn" class="py-2 text-xs font-medium rounded-lg text-zinc-500 hover:text-white">
-                        <i class="fa-solid fa-circle-arrow-down text-[10px] mr-1"></i> Income
+                    <button id="type-income-btn" class="py-2 text-[11px] font-medium rounded-lg text-zinc-500 hover:text-white">
+                        <i class="fa-solid fa-circle-arrow-down text-[9px] mr-1"></i> Income
+                    </button>
+                    <button id="type-transfer-btn" class="py-2 text-[11px] font-medium rounded-lg text-zinc-500 hover:text-white">
+                        <i class="fa-solid fa-right-left text-[9px] mr-1"></i> Transfer
                     </button>
                 </div>
 
@@ -617,8 +620,8 @@ function doPost(e) {
                         <input type="text" id="tx-title" placeholder="e.g. Starbucks, Paycheck, John's Loan" class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 placeholder-zinc-800 focus:outline-none focus:border-emerald-500 transition-all">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
+                    <div class="grid grid-cols-2 gap-3" id="tx-category-account-row">
+                        <div id="tx-account-container">
                             <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Account / Wallet</label>
                             <select id="tx-account" class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 focus:outline-none focus:border-emerald-500 transition-all appearance-none cursor-pointer">
                                 <option value="RHB Bank">🏦 RHB Bank</option>
@@ -626,9 +629,28 @@ function doPost(e) {
                                 <option value="Cash">💵 Cash</option>
                             </select>
                         </div>
-                        <div>
+                        <div id="tx-category-container">
                             <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">Category</label>
                             <select id="tx-category" class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 focus:outline-none focus:border-emerald-500 transition-all appearance-none cursor-pointer">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="tx-transfer-container" class="grid grid-cols-2 gap-3 hidden">
+                        <div>
+                            <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">From Account (Source)</label>
+                            <select id="tx-from-account" class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 focus:outline-none focus:border-emerald-500 transition-all appearance-none cursor-pointer">
+                                <option value="RHB Bank">🏦 RHB Bank</option>
+                                <option value="Bank Islam">🕌 Bank Islam</option>
+                                <option value="Cash">💵 Cash</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider ml-1">To Account (Destination)</label>
+                            <select id="tx-to-account" class="w-full bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-zinc-300 focus:outline-none focus:border-emerald-500 transition-all appearance-none cursor-pointer">
+                                <option value="Bank Islam">🕌 Bank Islam</option>
+                                <option value="RHB Bank">🏦 RHB Bank</option>
+                                <option value="Cash">💵 Cash</option>
                             </select>
                         </div>
                     </div>
@@ -2162,25 +2184,70 @@ function doPost(e) {
 
         const expenseBtn = document.getElementById('type-expense-btn');
         const incomeBtn = document.getElementById('type-income-btn');
+        const transferBtn = document.getElementById('type-transfer-btn');
         let selectedType = 'expense';
 
         expenseBtn.addEventListener('click', () => {
             vibrateTouch(10);
             selectedType = 'expense';
-            expenseBtn.className = "py-2 text-xs font-bold rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/25";
-            incomeBtn.className = "py-2 text-xs font-medium rounded-lg text-zinc-500 hover:text-white";
+            expenseBtn.className = "py-2 text-[11px] font-bold rounded-lg bg-rose-500/15 text-rose-400 border border-rose-500/25";
+            incomeBtn.className = "py-2 text-[11px] font-medium rounded-lg text-zinc-500 hover:text-white";
+            transferBtn.className = "py-2 text-[11px] font-medium rounded-lg text-zinc-500 hover:text-white";
             document.getElementById('modal-indicator').className = "w-2.5 h-2.5 rounded-full bg-rose-500";
+            
+            document.getElementById('tx-category-container').classList.remove('hidden');
+            document.getElementById('tx-account-container').classList.remove('hidden');
+            document.getElementById('tx-category-account-row').classList.remove('grid-cols-1');
+            document.getElementById('tx-category-account-row').classList.add('grid-cols-2');
+            document.getElementById('tx-transfer-container').classList.add('hidden');
+            
             updateCategoryDropdown('expense');
         });
 
         incomeBtn.addEventListener('click', () => {
             vibrateTouch(10);
             selectedType = 'income';
-            incomeBtn.className = "py-2 text-xs font-bold rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/25";
-            expenseBtn.className = "py-2 text-xs font-medium rounded-lg text-zinc-500 hover:text-white";
+            incomeBtn.className = "py-2 text-[11px] font-bold rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/25";
+            expenseBtn.className = "py-2 text-[11px] font-medium rounded-lg text-zinc-500 hover:text-white";
+            transferBtn.className = "py-2 text-[11px] font-medium rounded-lg text-zinc-500 hover:text-white";
             document.getElementById('modal-indicator').className = "w-2.5 h-2.5 rounded-full bg-emerald-500";
+            
+            document.getElementById('tx-category-container').classList.remove('hidden');
+            document.getElementById('tx-account-container').classList.remove('hidden');
+            document.getElementById('tx-category-account-row').classList.remove('grid-cols-1');
+            document.getElementById('tx-category-account-row').classList.add('grid-cols-2');
+            document.getElementById('tx-transfer-container').classList.add('hidden');
+            
             updateCategoryDropdown('income');
         });
+
+        transferBtn.addEventListener('click', () => {
+            vibrateTouch(10);
+            selectedType = 'transfer';
+            transferBtn.className = "py-2 text-[11px] font-bold rounded-lg bg-indigo-500/15 text-indigo-400 border border-indigo-500/25";
+            expenseBtn.className = "py-2 text-[11px] font-medium rounded-lg text-zinc-500 hover:text-white";
+            incomeBtn.className = "py-2 text-[11px] font-medium rounded-lg text-zinc-500 hover:text-white";
+            document.getElementById('modal-indicator').className = "w-2.5 h-2.5 rounded-full bg-indigo-500";
+            
+            document.getElementById('tx-category-container').classList.add('hidden');
+            document.getElementById('tx-account-container').classList.add('hidden');
+            document.getElementById('tx-category-account-row').classList.remove('grid-cols-2');
+            document.getElementById('tx-category-account-row').classList.add('grid-cols-1');
+            document.getElementById('tx-transfer-container').classList.remove('hidden');
+            
+            updateTransferTitle();
+        });
+
+        function updateTransferTitle() {
+            if (selectedType === 'transfer') {
+                const fromAcc = document.getElementById('tx-from-account').value;
+                const toAcc = document.getElementById('tx-to-account').value;
+                document.getElementById('tx-title').value = `Transfer: ${fromAcc} ➡️ ${toAcc}`;
+            }
+        }
+
+        document.getElementById('tx-from-account').addEventListener('change', updateTransferTitle);
+        document.getElementById('tx-to-account').addEventListener('change', updateTransferTitle);
 
         const loanTypeLentBtn = document.getElementById('loan-type-lent-btn');
         const loanTypeBorrowedBtn = document.getElementById('loan-type-borrowed-btn');
@@ -2223,23 +2290,99 @@ function doPost(e) {
                 const amount = Number(document.getElementById('tx-amount').value);
                 const account = document.getElementById('tx-account').value;
                 const category = document.getElementById('tx-category').value;
-                const date = document.getElementById('tx-date').value;
+                const date = document.getElementById('tx-date').value || getRecentDateOffset(0);
 
                 if (!title || !amount || isNaN(amount) || amount <= 0) {
                     showToast('Please provide a valid Title and Amount', 'error');
                     return;
                 }
 
+                updateSyncWidget('syncing', 'Updating Cloud...');
+
+                if (selectedType === 'transfer') {
+                    const fromAccount = document.getElementById('tx-from-account').value;
+                    const toAccount = document.getElementById('tx-to-account').value;
+
+                    if (fromAccount === toAccount) {
+                        showToast('Source and Destination wallets must be different!', 'error');
+                        updateSyncWidget('synced', 'Error');
+                        return;
+                    }
+
+                    const transferGroupId = 'tg_' + Math.random().toString(36).substr(2, 9);
+
+                    // Payload 1: Outflow Debit representation
+                    const outflowPayload = {
+                        title: `[Out] Transfer to ${toAccount}`,
+                        amount: amount,
+                        type: 'expense',
+                        category: 'Other',
+                        account: fromAccount,
+                        date: date,
+                        transferGroupId: transferGroupId
+                    };
+
+                    // Payload 2: Inflow Credit representation
+                    const inflowPayload = {
+                        title: `[In] Transfer from ${fromAccount}`,
+                        amount: amount,
+                        type: 'income',
+                        category: 'Other',
+                        account: toAccount,
+                        date: date,
+                        transferGroupId: transferGroupId
+                    };
+
+                    if (db && currentUserId) {
+                        try {
+                            if (activeEditTxId) {
+                                const originalTx = transactions.find(t => t.id === activeEditTxId);
+                                if (originalTx && originalTx.transferGroupId) {
+                                    const related = transactions.filter(t => t.transferGroupId === originalTx.transferGroupId);
+                                    for (let r of related) {
+                                        await deleteDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `transactions`, r.id));
+                                    }
+                                } else {
+                                    await deleteDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `transactions`, activeEditTxId));
+                                }
+                            }
+
+                            const id1 = 'tx_' + Math.random().toString(36).substr(2, 9);
+                            const id2 = 'tx_' + Math.random().toString(36).substr(2, 9);
+
+                            await setDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `transactions`, id1), outflowPayload);
+                            await setDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `transactions`, id2), inflowPayload);
+                        } catch (err) {
+                            console.error("Failed Cloud Transfer Save: ", err);
+                        }
+                    } else {
+                        if (activeEditTxId) {
+                            const originalTx = transactions.find(t => t.id === activeEditTxId);
+                            if (originalTx && originalTx.transferGroupId) {
+                                transactions = transactions.filter(t => t.transferGroupId !== originalTx.transferGroupId);
+                            } else {
+                                transactions = transactions.filter(t => t.id !== activeEditTxId);
+                            }
+                        }
+                        transactions.push({ id: 'tx_' + Math.random().toString(36).substr(2, 9), ...outflowPayload });
+                        transactions.push({ id: 'tx_' + Math.random().toString(36).substr(2, 9), ...inflowPayload });
+                        renderApp();
+                    }
+
+                    showToast('Transfer completed successfully!', 'success');
+                    closeModal(modalTx);
+                    return;
+                }
+
+                // Standard Transaction Save (Expense / Income)
                 const payload = {
                     title,
                     amount,
                     type: selectedType,
                     category,
                     account: account || 'Cash',
-                    date: date || getRecentDateOffset(0)
+                    date: date
                 };
-
-                updateSyncWidget('syncing', 'Updating Cloud...');
 
                 if (activeEditTxId) {
                     if (db && currentUserId) {
@@ -2504,39 +2647,63 @@ function doPost(e) {
             document.getElementById('modal-title-text').textContent = "Modify Transaction";
             document.getElementById('tx-title').value = target.title;
             document.getElementById('tx-amount').value = target.amount;
-            document.getElementById('tx-account').value = target.account || 'Cash';
             document.getElementById('tx-date').value = target.date;
             
-            if (target.type === 'income') {
-                incomeBtn.click();
+            if (target.transferGroupId) {
+                const pair = transactions.filter(t => t.transferGroupId === target.transferGroupId);
+                const outflow = pair.find(t => t.type === 'expense') || target;
+                const inflow = pair.find(t => t.type === 'income') || target;
+
+                transferBtn.click();
+                document.getElementById('tx-from-account').value = outflow.account || 'Cash';
+                document.getElementById('tx-to-account').value = inflow.account || 'Cash';
+                document.getElementById('tx-title').value = target.title;
             } else {
-                expenseBtn.click();
+                document.getElementById('tx-account').value = target.account || 'Cash';
+                if (target.type === 'income') {
+                    incomeBtn.click();
+                } else {
+                    expenseBtn.click();
+                }
+                document.getElementById('tx-category').value = target.category;
             }
 
-            document.getElementById('tx-category').value = target.category;
             openModal(modalTx);
         };
 
         // Delete transaction
         window.deleteTransaction = async function(txId) {
             vibrateTouch(25);
-            const index = transactions.findIndex(t => t.id === txId);
-            if (index === -1) return;
+            const targetTx = transactions.find(t => t.id === txId);
+            if (!targetTx) return;
 
             updateSyncWidget('syncing', 'Updating Cloud...');
 
             if (db && currentUserId) {
                 try {
-                    await deleteDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `transactions`, txId));
-                    showToast('Transaction deleted', 'success');
+                    if (targetTx.transferGroupId) {
+                        const linkedTxs = transactions.filter(t => t.transferGroupId === targetTx.transferGroupId);
+                        for (let l of linkedTxs) {
+                            await deleteDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `transactions`, l.id));
+                        }
+                        showToast('Transfer pair deleted', 'success');
+                    } else {
+                        await deleteDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `transactions`, txId));
+                        showToast('Transaction deleted', 'success');
+                    }
                 } catch (err) {
                     console.error("Failed cloud deletion:", err);
                     showToast('Cloud sync failure', 'error');
                 }
             } else {
-                transactions.splice(index, 1);
+                if (targetTx.transferGroupId) {
+                    transactions = transactions.filter(t => t.transferGroupId !== targetTx.transferGroupId);
+                    showToast('Transfer pair deleted', 'success');
+                } else {
+                    transactions = transactions.filter(t => t.id !== txId);
+                    showToast('Transaction deleted', 'success');
+                }
                 renderApp();
-                showToast('Transaction deleted', 'success');
             }
         };
 
