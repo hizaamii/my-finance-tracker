@@ -41,18 +41,35 @@
         .safe-bottom {
             padding-bottom: calc(env(safe-area-inset-bottom) + 1rem);
         }
-        /* Tap feedback animations */
-        .active-scale:active {
-            transform: scale(0.96);
+        
+        /* Dynamic Spring Physics Curve */
+        .spring-bounce {
+            transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        /* Smooth transitions */
-        .transition-all-custom {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .active-scale {
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .active-scale:active {
+            transform: scale(0.95) !important;
         }
         /* Lock screen numerical animations */
         .keypad-btn:active {
             background-color: rgb(24, 24, 27);
             transform: scale(0.9);
+        }
+        /* Skeletal Shimmer Glow Animation */
+        @keyframes shimmerGlow {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        .shimmer-bg {
+            background: linear-gradient(90deg, #09090b 25%, #1c1917 50%, #09090b 75%);
+            background-size: 200% 100%;
+            animation: shimmerGlow 1.6s infinite linear;
         }
     </style>
 </head>
@@ -253,6 +270,41 @@
                     <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg bg-zinc-900 text-white shadow" data-period="all">All-Time</button>
                     <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg text-zinc-500 hover:text-white" data-period="month">This Month</button>
                     <button class="analytics-period-btn active-scale py-1.5 text-xs font-medium rounded-lg text-zinc-500 hover:text-white" data-period="week">This Week</button>
+                </div>
+
+                <!-- PREMIUM INTERACTIVE NET WORTH CHART -->
+                <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-4">
+                    <div class="flex justify-between items-center">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-zinc-500">Net Worth Rolling Timeline</h4>
+                        <div id="chart-tooltip" class="text-[10px] font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-500/20 px-2 py-0.5 rounded-md opacity-0 transition-opacity duration-200">
+                            RM0.00
+                        </div>
+                    </div>
+                    
+                    <div class="relative h-44 w-full">
+                        <svg id="net-worth-line-chart" class="w-full h-full cursor-crosshair overflow-visible">
+                            <defs>
+                                <linearGradient id="chart-glow" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.25"/>
+                                    <stop offset="100%" stop-color="#10b981" stop-opacity="0.0"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- Ambient glowing gradient baseline fill -->
+                            <path id="chart-area-path" fill="url(#chart-glow)" d=""></path>
+                            <!-- Dynamic trend line -->
+                            <path id="chart-trend-line" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d=""></path>
+                            
+                            <!-- Dynamic Interactive Guides -->
+                            <line id="chart-tracker-line" x1="0" y1="0" x2="0" y2="100%" stroke="#27272a" stroke-width="1" stroke-dasharray="3" class="opacity-0 pointer-events-none"></line>
+                            <circle id="chart-tracker-dot" r="5" fill="#10b981" stroke="#ffffff" stroke-width="1.5" class="opacity-0 pointer-events-none drop-shadow-[0_0_8px_rgba(16,185,129,0.6)]"></circle>
+                        </svg>
+                    </div>
+                    
+                    <div class="flex justify-between text-[9px] text-zinc-600 font-bold px-1">
+                        <span id="chart-start-date">--</span>
+                        <span class="text-zinc-500">Drag to audit rolling net worth</span>
+                        <span id="chart-end-date">--</span>
+                    </div>
                 </div>
 
                 <!-- PREMIUM PREDICTIVE RUNWAY CALCULATOR ENGINE -->
@@ -497,7 +549,7 @@
 
     <!-- OVERLAY MODAL: GOOGLE APPS SCRIPT CODE VIEWER -->
     <div id="modal-script-viewer" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
-        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-4 transform translate-y-full transition-transform duration-300 max-h-[85vh] flex flex-col">
+        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-4 transform translate-y-full spring-bounce max-h-[85vh] flex flex-col">
             <div class="flex justify-between items-center shrink-0">
                 <h3 class="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Spreadsheet Script Setup
@@ -576,9 +628,28 @@ function doPost(e) {
         </div>
     </div>
 
-    <!-- OVERLAY MODAL: ADD TRANSACTION -->
+    <!-- OVERLAY MODAL: ALL TRANSACTIONS (RECENT LEDGER LAST 10) -->
+    <div id="modal-all-transactions" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
+        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-4 transform translate-y-full spring-bounce max-h-[80vh] flex flex-col">
+            <div class="flex justify-between items-center shrink-0">
+                <h3 class="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Recent Ledger (Last 10)
+                </h3>
+                <button id="close-all-tx-modal-btn" class="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-500 hover:text-white">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <!-- Scrollable transaction list container -->
+            <div id="all-transactions-list" class="overflow-y-auto space-y-3 flex-1 pr-1 hide-scrollbar">
+                <!-- Dynamic transactions loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- OVERLAY MODAL: ADD/EDIT TRANSACTION -->
     <div id="modal-transaction" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
-        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
+        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full spring-bounce">
             <div class="flex justify-between items-center">
                 <h3 class="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500" id="modal-indicator"></span> 
@@ -670,7 +741,7 @@ function doPost(e) {
 
     <!-- OVERLAY MODAL: SET BUDGET -->
     <div id="modal-budget" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
-        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
+        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full spring-bounce">
             <div class="flex justify-between items-center">
                 <h3 class="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Limit Category Budget
@@ -712,7 +783,7 @@ function doPost(e) {
 
     <!-- OVERLAY MODAL: CREATE LOAN TRACKER -->
     <div id="modal-loan" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
-        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
+        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full spring-bounce">
             <div class="flex justify-between items-center">
                 <h3 class="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span> Create Loan Tracker
@@ -728,7 +799,7 @@ function doPost(e) {
                     <button id="loan-type-lent-btn" class="py-2 text-xs font-bold rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
                         <i class="fa-solid fa-arrow-down text-[10px] mr-1"></i> Lent to Someone
                     </button>
-                    <button id="loan-type-borrowed-btn" class="py-2 text-xs font-medium rounded-lg text-zinc-500 hover:text-white">
+                    <button id="loan-type-borrowed-btn" class="py-2 text-xs font-bold rounded-lg text-zinc-500 hover:text-white">
                         <i class="fa-solid fa-arrow-up text-[10px] mr-1"></i> My Debt (e.g., PTPTN)
                     </button>
                 </div>
@@ -755,7 +826,7 @@ function doPost(e) {
 
     <!-- OVERLAY MODAL: RECORD LOAN PAYMENT -->
     <div id="modal-loan-payment" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
-        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full transition-transform duration-300">
+        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-5 transform translate-y-full spring-bounce">
             <div class="flex justify-between items-center">
                 <h3 class="text-md font-bold text-white uppercase tracking-wider" id="loan-payment-header">Record Payment</h3>
                 <button id="close-loan-payment-modal-btn" class="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-500 hover:text-white">
@@ -866,6 +937,7 @@ function doPost(e) {
         let activePaymentLoanId = null;
         let deleteConfirmTimer = null;
         let selectedLoanType = 'lent';
+        let netWorthTimelinePoints = []; // Holds structured {x, y, balance, date} points for rolling chart interactivity
 
         // CAROUSEL NAV STATE VARIABLES
         let startX = 0;
@@ -1243,6 +1315,9 @@ function doPost(e) {
                     return;
                 }
 
+                // Render micro-shimmer state elements to reflect processing latency elegantly
+                renderSkeletalShimmerStates();
+
                 updateSyncWidget('syncing', 'Pulling Sheet data...');
                 showToast('Connecting to spreadsheet...', 'success');
 
@@ -1272,6 +1347,7 @@ function doPost(e) {
                     console.error("Sheets integration failed:", err);
                     showToast('Pull failed. Confirm script URL is deployed correctly.', 'error');
                     updateSyncWidget('error', 'Sync failure');
+                    renderApp(); // Fallback back to standard cache
                 }
             });
 
@@ -1480,10 +1556,19 @@ function doPost(e) {
                 currentIndex = 2;
                 updateActiveScreenUI();
             });
+
+            // "See All" opens the Scrollable bottom sheet directly on overview screen (no tab movement)
+            const modalAllTx = document.getElementById('modal-all-transactions');
             document.getElementById('view-transactions-shortcut').addEventListener('click', () => {
-                currentIndex = 1;
-                updateActiveScreenUI();
+                vibrateTouch(20);
+                renderAllTransactionsList();
+                openModal(modalAllTx);
             });
+
+            document.getElementById('close-all-tx-modal-btn').addEventListener('click', () => {
+                closeModal(modalAllTx);
+            });
+
             document.getElementById('sync-status-btn').addEventListener('click', () => {
                 currentIndex = 4;
                 updateActiveScreenUI();
@@ -1566,8 +1651,157 @@ function doPost(e) {
             renderAnalyticsPeriod('all'); 
             renderBudgetsPage();
             renderLoansDashboard();
+            
+            renderInteractiveNetWorthGraph(sortedTxs, totalLiquidCash);
 
             saveLocalData();
+        }
+
+        function renderSkeletalShimmerStates() {
+            const containers = ['dashboard-transactions', 'analytics-categories-list', 'budgets-management-list'];
+            containers.forEach(id => {
+                const target = document.getElementById(id);
+                if (!target) return;
+                target.innerHTML = `
+                    <div class="space-y-3.5 w-full">
+                        <div class="shimmer-bg h-14 w-full rounded-2xl border border-zinc-900/40"></div>
+                        <div class="shimmer-bg h-14 w-full rounded-2xl border border-zinc-900/40"></div>
+                        <div class="shimmer-bg h-14 w-full rounded-2xl border border-zinc-900/40"></div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderInteractiveNetWorthGraph(sortedTxs, currentLiquid) {
+            const svg = document.getElementById('net-worth-line-chart');
+            if (!svg) return;
+
+            // Clear any old mouse/touch events to avoid multiple listeners stacking
+            svg.onmousemove = null;
+            svg.ontouchmove = null;
+            svg.onmouseleave = null;
+            svg.ontouchend = null;
+
+            // Sort oldest to newest to build rolling timeline calculations
+            const chronological = [...sortedTxs].sort((a, b) => new Date(a.date) - new Date(b.date));
+            
+            if (chronological.length === 0) {
+                document.getElementById('chart-start-date').textContent = "No Data";
+                document.getElementById('chart-end-date').textContent = "No Data";
+                return;
+            }
+
+            // Group transactions by Date and calculate chronological Rolling Balance steps
+            let runningBalance = currentLiquid;
+            
+            // Start from current liquid balance and rewind/recompute historical path
+            const timelineMap = [];
+            chronological.forEach(tx => {
+                const amt = Number(tx.amount);
+                const isIncome = tx.type === 'income';
+                const delta = isIncome ? amt : -amt;
+                runningBalance += delta;
+                timelineMap.push({
+                    date: tx.date,
+                    balance: runningBalance
+                });
+            });
+
+            // Set dynamic chart headers
+            document.getElementById('chart-start-date').textContent = chronological[0].date;
+            document.getElementById('chart-end-date').textContent = chronological[chronological.length - 1].date;
+
+            // Map layout metrics inside scalable viewport coordinate box
+            const width = svg.clientWidth || 350;
+            const height = svg.clientHeight || 176;
+
+            const balances = timelineMap.map(t => t.balance);
+            const minBal = Math.min(...balances) * 0.95; // 5% buffer bottom
+            const maxBal = Math.max(...balances) * 1.05; // 5% buffer top
+            const balRange = (maxBal - minBal) || 1;
+
+            // Calculate exact (x, y) coordinates for path points
+            const totalPoints = timelineMap.length;
+            netWorthTimelinePoints = timelineMap.map((pt, index) => {
+                const x = totalPoints > 1 ? (index / (totalPoints - 1)) * (width - 20) + 10 : width / 2;
+                // Invert y coordinate because SVG counts down from top-left
+                const y = height - (((pt.balance - minBal) / balRange) * (height - 30) + 15);
+                return {
+                    x,
+                    y,
+                    balance: pt.balance,
+                    date: pt.date
+                };
+            });
+
+            // Construct drawing vectors for the line path
+            let dLine = "";
+            let dArea = "";
+
+            if (netWorthTimelinePoints.length > 0) {
+                dLine = `M ${netWorthTimelinePoints[0].x} ${netWorthTimelinePoints[0].y}`;
+                dArea = `M ${netWorthTimelinePoints[0].x} ${height} L ${netWorthTimelinePoints[0].x} ${netWorthTimelinePoints[0].y}`;
+                
+                for (let i = 1; i < netWorthTimelinePoints.length; i++) {
+                    dLine += ` L ${netWorthTimelinePoints[i].x} ${netWorthTimelinePoints[i].y}`;
+                    dArea += ` L ${netWorthTimelinePoints[i].x} ${netWorthTimelinePoints[i].y}`;
+                }
+                
+                dArea += ` L ${netWorthTimelinePoints[netWorthTimelinePoints.length - 1].x} ${height} Z`;
+            }
+
+            document.getElementById('chart-trend-line').setAttribute('d', dLine);
+            document.getElementById('chart-area-path').setAttribute('d', dArea);
+
+            // Establish tracker overlays
+            const lineTracker = document.getElementById('chart-tracker-line');
+            const dotTracker = document.getElementById('chart-tracker-dot');
+            const tooltip = document.getElementById('chart-tooltip');
+
+            // Interactive Tracking Logic
+            const handleInteract = (clientX) => {
+                const rect = svg.getBoundingClientRect();
+                const touchX = clientX - rect.left;
+
+                // Find closest timeline coordinate index
+                let closestPt = netWorthTimelinePoints[0];
+                let minDistance = Math.abs(touchX - closestPt.x);
+
+                for (let i = 1; i < netWorthTimelinePoints.length; i++) {
+                    const dist = Math.abs(touchX - netWorthTimelinePoints[i].x);
+                    if (dist < minDistance) {
+                        minDistance = dist;
+                        closestPt = netWorthTimelinePoints[i];
+                    }
+                }
+
+                // Render dynamic track coordinate alignments
+                if (closestPt) {
+                    lineTracker.setAttribute('x1', closestPt.x);
+                    lineTracker.setAttribute('x2', closestPt.x);
+                    lineTracker.className = "opacity-100 pointer-events-none transition-all duration-75";
+
+                    dotTracker.setAttribute('cx', closestPt.x);
+                    dotTracker.setAttribute('cy', closestPt.y);
+                    dotTracker.className = "opacity-100 pointer-events-none transition-all duration-75";
+
+                    tooltip.textContent = `${closestPt.date}: ${formatCurrency(closestPt.balance)}`;
+                    tooltip.className = "text-[10px] font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-500/20 px-2 py-0.5 rounded-md opacity-100 transition-opacity duration-150";
+                }
+            };
+
+            const handleEnd = () => {
+                lineTracker.className = "opacity-0 pointer-events-none transition-opacity duration-200";
+                dotTracker.className = "opacity-0 pointer-events-none transition-opacity duration-200";
+                tooltip.className = "text-[10px] font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-500/20 px-2 py-0.5 rounded-md opacity-0 transition-opacity duration-200";
+            };
+
+            svg.onmousemove = (e) => handleInteract(e.clientX);
+            svg.ontouchmove = (e) => {
+                if(e.touches.length > 0) handleInteract(e.touches[0].clientX);
+            };
+            svg.onmouseleave = handleEnd;
+            svg.ontouchend = handleEnd;
         }
 
         // PREDICTIVE CASHFLOW SYSTEM ENGINE
@@ -1682,6 +1916,7 @@ function doPost(e) {
             }).format(num);
         }
 
+        // Renders the standard list limit of 4 on Overview
         function renderDashboardTxs(txSlice) {
             const container = document.getElementById('dashboard-transactions');
             if(!container) return;
@@ -1729,6 +1964,69 @@ function doPost(e) {
                 container.appendChild(div);
             });
         }
+
+        // Renders the scrollable top 10 ledger on Overview "See All" bottom sheet
+        function renderAllTransactionsList() {
+            const container = document.getElementById('all-transactions-list');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const sortedTxs = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
+            const limitList = sortedTxs.slice(0, 10);
+
+            if (limitList.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12">
+                        <i class="fa-solid fa-receipt text-zinc-800 text-3xl mb-3 block"></i>
+                        <p class="text-xs text-zinc-600 font-medium">No recorded transactions found</p>
+                    </div>
+                `;
+                return;
+            }
+
+            limitList.forEach(tx => {
+                const isIncome = tx.type === 'income';
+                const symbol = isIncome ? '+' : '-';
+                const colorClass = isIncome ? 'text-emerald-400' : 'text-slate-100';
+                const iconBgClass = isIncome ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-zinc-900 text-zinc-500 border border-zinc-850';
+                const iconHtml = getCategoryEmoji(tx.category);
+                const walletTag = tx.account ? tx.account : 'Cash';
+
+                const div = document.createElement('div');
+                div.className = "active-scale transition-all-custom bg-zinc-900/40 border border-zinc-900/60 rounded-2xl p-3.5 flex items-center justify-between";
+                div.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${iconBgClass}">
+                            <span class="text-lg">${iconHtml}</span>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold text-white">${escapeHtml(tx.title)}</p>
+                            <p class="text-[10px] text-zinc-500 mt-0.5">${tx.date} • <span class="text-zinc-400 font-medium">${walletTag}</span> • ${tx.category}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-bold ${colorClass}">${symbol}${formatCurrency(tx.amount)}</span>
+                        <div class="flex items-center gap-1.5">
+                            <button onclick="editFromModal('${tx.id}')" class="text-zinc-600 hover:text-white p-1.5"><i class="fa-solid fa-pen-to-square text-xs"></i></button>
+                            <button onclick="deleteFromModal('${tx.id}')" class="text-zinc-600 hover:text-rose-400 p-1.5"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        window.editFromModal = function(txId) {
+            closeModal(document.getElementById('modal-all-transactions'));
+            setTimeout(() => {
+                editTransaction(txId);
+            }, 300);
+        };
+
+        window.deleteFromModal = async function(txId) {
+            await deleteTransaction(txId);
+            renderAllTransactionsList(); // Live refresh bottom list context
+        };
 
         function getCategoryEmoji(cat) {
             switch(cat) {
