@@ -131,7 +131,8 @@
                 </svg>
             </div>
             <div>
-                <p class="text-[9px] text-emerald-400 font-bold tracking-wider uppercase">Welcome Back, Adham</p>
+                <!-- Transient welcome banner that morphs dynamically -->
+                <p id="header-greeting" class="text-[9px] text-emerald-400 font-bold tracking-wider uppercase transition-opacity duration-1000 select-none">Welcome Back, Adham</p>
                 <h1 class="text-base font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Finance Tracker</h1>
             </div>
         </div>
@@ -1120,6 +1121,24 @@ function doPost(e) {
             });
         }
 
+        // TRANSITION WELCOME BANNER TO SYSTEM DATE
+        function initializeHeaderTransition() {
+            setTimeout(() => {
+                const greeting = document.getElementById('header-greeting');
+                if (greeting) {
+                    greeting.style.opacity = '0';
+                    setTimeout(() => {
+                        const now = new Date();
+                        const options = { weekday: 'long', day: 'numeric', month: 'short' };
+                        greeting.textContent = now.toLocaleDateString('en-MY', options).toUpperCase();
+                        // Transition layout style from active green welcome alert to premium slate-zinc info key
+                        greeting.className = "text-[9px] text-zinc-500 font-bold tracking-wider uppercase transition-opacity duration-1000 select-none";
+                        greeting.style.opacity = '1';
+                    }, 1000);
+                }
+            }, 5000);
+        }
+
         // ON INITIAL LOAD
         window.onload = async function() {
             setNavEvents();
@@ -1129,6 +1148,7 @@ function doPost(e) {
             setupGoogleSheetsEvents();
             setupSecuritySettings();
             verifyAppLockerGateway(); 
+            initializeHeaderTransition();
             renderApp();
 
             if (rawConfig) {
