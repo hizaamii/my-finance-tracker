@@ -71,6 +71,11 @@
             background-size: 200% 100%;
             animation: shimmerGlow 1.6s infinite linear;
         }
+
+        #header-greeting {
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s ease;
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="h-full flex flex-col overflow-hidden max-w-md mx-auto shadow-2xl bg-black border-x border-zinc-900 relative">
@@ -132,18 +137,28 @@
             </div>
             <div>
                 <!-- Transient welcome banner that morphs dynamically -->
-                <p id="header-greeting" class="text-[9px] text-emerald-400 font-bold tracking-wider uppercase transition-opacity duration-1000 select-none">Welcome Back, Adham</p>
+                <p id="header-greeting" class="text-[9px] text-emerald-400 font-bold tracking-wider uppercase select-none">Welcome Back, Adham</p>
                 <h1 class="text-base font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent">Finance Tracker</h1>
             </div>
         </div>
-        <!-- Cloud Sync Status Widget Indicator -->
-        <button id="sync-status-btn" class="active-scale transition-all-custom flex items-center gap-2 bg-zinc-950 border border-zinc-900 rounded-full px-3 py-1.5 text-xs text-zinc-300">
-            <span class="relative flex h-2 w-2">
-                <span id="sync-ping" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                <span id="sync-dot" class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-            </span>
-            <span id="sync-text" class="font-medium">Connecting...</span>
-        </button>
+        <div class="flex items-center gap-2">
+            <!-- Gemini Sparkle Assistant Button -->
+            <button id="ai-hub-btn" class="active-scale w-8 h-8 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center shadow-md relative" title="AI Assistant">
+                <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
+                <span class="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-indigo-500"></span>
+                </span>
+            </button>
+            <!-- Cloud Sync Status Widget Indicator -->
+            <button id="sync-status-btn" class="active-scale transition-all-custom flex items-center gap-2 bg-zinc-950 border border-zinc-900 rounded-full px-3 py-1.5 text-xs text-zinc-300">
+                <span class="relative flex h-2 w-2">
+                    <span id="sync-ping" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                    <span id="sync-dot" class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                </span>
+                <span id="sync-text" class="font-medium">Connecting...</span>
+            </button>
+        </div>
     </header>
 
     <!-- MAIN INTERACTIVE SCREENS CAROUSEL TRACK -->
@@ -545,6 +560,112 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <!-- OVERLAY MODAL: GEMINI AI ASSISTANT & SMART LOGGER HUB -->
+    <div id="modal-ai-assistant" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
+        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-4 transform translate-y-full spring-bounce h-[85vh] flex flex-col">
+            <div class="flex justify-between items-center shrink-0">
+                <h3 class="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-indigo-500 animate-pulse"></span> Gemini Smart AI Hub
+                </h3>
+                <button id="close-ai-modal-btn" class="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-500 hover:text-white">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <!-- AI Sub-Tabs Trigger Selector -->
+            <div class="grid grid-cols-2 gap-1 bg-black p-1 rounded-xl border border-zinc-900 shrink-0">
+                <button id="ai-tab-chat-btn" class="py-1.5 text-xs font-bold rounded-lg bg-zinc-900 text-indigo-400 border border-indigo-500/10">
+                    <i class="fa-solid fa-message text-[10px] mr-1.5"></i> Live Advisor
+                </button>
+                <button id="ai-tab-log-btn" class="py-1.5 text-xs font-semibold rounded-lg text-zinc-500 hover:text-white">
+                    <i class="fa-solid fa-robot text-[10px] mr-1.5"></i> Smart Ingestion
+                </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto hide-scrollbar space-y-4 flex flex-col min-h-0">
+                <!-- PANEL 1: LIVE CHAT AND ADVISOR PANEL -->
+                <div id="ai-panel-chat" class="flex-1 flex flex-col min-h-0 space-y-3">
+                    <div class="bg-indigo-950/10 border border-indigo-500/10 p-3 rounded-2xl text-[11px] text-zinc-400">
+                        🤖 <strong class="text-indigo-400">System State Loaded:</strong> Your advisor has full access to your transactions, budgets, and cash holdings. Ask anything about your financial targets!
+                    </div>
+
+                    <!-- Chat Threads Window -->
+                    <div id="ai-chat-thread" class="flex-1 overflow-y-auto space-y-3 pr-1 hide-scrollbar bg-black/40 rounded-2xl p-3 border border-zinc-900">
+                        <div class="flex items-start gap-2.5 max-w-[85%]">
+                            <div class="w-6 h-6 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-[10px] font-bold shrink-0">AI</div>
+                            <div class="bg-zinc-900/40 border border-zinc-900 p-2.5 rounded-2xl text-xs text-zinc-300 leading-relaxed">
+                                Hello Adham! I am your real-time Gemini Advisor. What aspects of your wealth ledger or budget can I optimize for you today?
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommended Quick Queries -->
+                    <div class="flex gap-1.5 overflow-x-auto hide-scrollbar shrink-0 py-1">
+                        <button class="ai-quick-prompt text-[10px] bg-zinc-900 border border-zinc-850 hover:bg-zinc-850 px-3 py-1.5 rounded-full text-zinc-400 whitespace-nowrap active-scale" onclick="triggerQuickAIQuery('Analyze my monthly budgets and expenses')">Analyze Budgets</button>
+                        <button class="ai-quick-prompt text-[10px] bg-zinc-900 border border-zinc-850 hover:bg-zinc-850 px-3 py-1.5 rounded-full text-zinc-400 whitespace-nowrap active-scale" onclick="triggerQuickAIQuery('How is my safety cash runway looking right now?')">Check Runway</button>
+                        <button class="ai-quick-prompt text-[10px] bg-zinc-900 border border-zinc-850 hover:bg-zinc-850 px-3 py-1.5 rounded-full text-zinc-400 whitespace-nowrap active-scale" onclick="triggerQuickAIQuery('Provide 3 tips to increase my savings based on my transaction logs')">Get Savings Tips</button>
+                    </div>
+
+                    <!-- Prompt Text Box Area -->
+                    <div class="flex gap-2 shrink-0">
+                        <input type="text" id="ai-chat-input" placeholder="Ask your advisor anything..." class="flex-1 bg-black border border-zinc-900 rounded-xl px-4 py-3 text-xs text-zinc-300 placeholder-zinc-800 focus:outline-none focus:border-indigo-500 font-medium">
+                        <button id="ai-chat-send-btn" class="active-scale w-12 h-12 rounded-xl bg-indigo-500 text-black flex items-center justify-center shadow-lg hover:bg-indigo-600 transition">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PANEL 2: SMART LOGGER HUB & RECEIPT SCANNER -->
+                <div id="ai-panel-log" class="hidden flex-1 space-y-5">
+                    <!-- SECTION A: NATURAL VOICE / STRING INPUT WRITER -->
+                    <div class="space-y-2">
+                        <h4 class="text-xs font-bold text-zinc-300 uppercase tracking-widest flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Smart Natural Logger
+                        </h4>
+                        <p class="text-[10px] text-zinc-500 leading-relaxed">Simply type out what occurred, and Gemini will automatically structure, categorize, and save the transaction directly into your account balances.</p>
+                        <div class="space-y-2">
+                            <textarea id="ai-nlp-input" placeholder="e.g. yesterday i spent RM18.50 on dinner from my bank islam wallet..." rows="2" class="w-full bg-black border border-zinc-900 rounded-2xl p-3 text-xs text-zinc-300 placeholder-zinc-800 focus:outline-none focus:border-indigo-500 resize-none font-medium"></textarea>
+                            <button id="ai-nlp-submit-btn" class="active-scale w-full bg-emerald-500 hover:bg-emerald-600 text-black font-bold py-3 rounded-2xl text-xs flex items-center justify-center gap-1.5 transition">
+                                <i class="fa-solid fa-bolt text-xs"></i> AI Parse & Inject Transaction
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SECTION B: MODERN RECEIPT CAMERA SCANNER -->
+                    <div class="space-y-3 pt-4 border-t border-zinc-900">
+                        <h4 class="text-xs font-bold text-zinc-300 uppercase tracking-widest flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span> Receipts OCR Parser
+                        </h4>
+                        <p class="text-[10px] text-zinc-500 leading-relaxed">Capture or upload any receipt from Jaya Grocer, Starbucks, Shell, etc. Gemini will automatically extract the key values to populate the logger.</p>
+                        
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="active-scale cursor-pointer bg-zinc-950 border border-zinc-900 rounded-2xl p-4 flex flex-col items-center justify-center text-center hover:bg-zinc-900 transition">
+                                <i class="fa-solid fa-image text-zinc-500 text-lg mb-1"></i>
+                                <span class="text-[10px] font-bold text-zinc-400">Upload Photo</span>
+                                <input type="file" id="ai-receipt-upload" accept="image/*" class="hidden">
+                            </label>
+                            <label class="active-scale cursor-pointer bg-zinc-950 border border-zinc-900 rounded-2xl p-4 flex flex-col items-center justify-center text-center hover:bg-zinc-900 transition">
+                                <i class="fa-solid fa-camera text-zinc-500 text-lg mb-1"></i>
+                                <span class="text-[10px] font-bold text-zinc-400">Snap Camera</span>
+                                <input type="file" id="ai-receipt-camera" accept="image/*" capture="environment" class="hidden">
+                            </label>
+                        </div>
+
+                        <!-- Image Loading / Preview placeholder container -->
+                        <div id="ai-ocr-preview-box" class="hidden relative rounded-2xl border border-zinc-900 overflow-hidden bg-black/40 flex items-center justify-center h-28">
+                            <img id="ai-ocr-preview-img" class="object-contain h-full w-full">
+                            <button id="ai-ocr-clear-img" class="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/80 text-rose-500 flex items-center justify-center text-xs"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
+
+                        <button id="ai-ocr-submit-btn" class="active-scale w-full bg-indigo-500 hover:bg-indigo-600 text-black font-bold py-3 rounded-2xl text-xs flex items-center justify-center gap-1.5 transition hidden">
+                            <i class="fa-solid fa-eye text-xs"></i> Gemini Optical Extraction
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -950,6 +1071,9 @@ function doPost(e) {
         let currentIndex = 0; // 0 to 4
         const screensCount = 5;
 
+        // Header Welcome Timer Reference
+        let welcomeTransitionTimer = null;
+
         // EXPOSED SECURITY LOCK KEYS
         let activeAppLockPin = localStorage.getItem('apex_app_lock_pin') || '';
         let enteredPinStream = '';
@@ -1121,9 +1245,9 @@ function doPost(e) {
             });
         }
 
-        // TRANSITION WELCOME BANNER TO SYSTEM DATE
-        function initializeHeaderTransition() {
-            setTimeout(() => {
+        function startHeaderWelcomeTransition() {
+            if (welcomeTransitionTimer) return; // Prevent double triggers
+            welcomeTransitionTimer = setTimeout(() => {
                 const greeting = document.getElementById('header-greeting');
                 if (greeting) {
                     greeting.style.opacity = '0';
@@ -1131,10 +1255,12 @@ function doPost(e) {
                         const now = new Date();
                         const options = { weekday: 'long', day: 'numeric', month: 'short' };
                         greeting.textContent = now.toLocaleDateString('en-MY', options).toUpperCase();
-                        // Transition layout style from active green welcome alert to premium slate-zinc info key
-                        greeting.className = "text-[9px] text-zinc-500 font-bold tracking-wider uppercase transition-opacity duration-1000 select-none";
+                        
+                        // Shift layout coloring from glowing emerald to high-contrast slate gray
+                        greeting.classList.remove('text-emerald-400');
+                        greeting.classList.add('text-zinc-500');
                         greeting.style.opacity = '1';
-                    }, 1000);
+                    }, 800);
                 }
             }, 5000);
         }
@@ -1148,7 +1274,7 @@ function doPost(e) {
             setupGoogleSheetsEvents();
             setupSecuritySettings();
             verifyAppLockerGateway(); 
-            initializeHeaderTransition();
+            setupGeminiAIEventHandlers();
             renderApp();
 
             if (rawConfig) {
@@ -1198,6 +1324,7 @@ function doPost(e) {
                 updatePinDotsUI();
             } else {
                 screen.classList.add('hidden');
+                startHeaderWelcomeTransition(); // Transition immediately if security lock is deactivated
             }
         }
 
@@ -1213,6 +1340,7 @@ function doPost(e) {
                         vibrateTouch([15, 30, 15]);
                         document.getElementById('screen-lock').classList.add('hidden');
                         showToast('Secure session unlocked!', 'success');
+                        startHeaderWelcomeTransition(); // Start welcome countdown precisely when dashboard unlocks
                     } else {
                         vibrateTouch(150);
                         document.getElementById('lock-status-msg').textContent = "Access Denied. Try Again.";
@@ -3122,6 +3250,426 @@ function doPost(e) {
                     '/': '&#x2F;'
                 }[s];
             });
+        }
+
+        // ==========================================
+        // GEMINI AI INTEGRATION ENGINE & CONTROLLERS
+        // ==========================================
+        let activeAiTab = 'chat';
+        let base64ReceiptImgData = null;
+
+        function setupGeminiAIEventHandlers() {
+            const aiModal = document.getElementById('modal-ai-assistant');
+            const aiTriggerBtn = document.getElementById('ai-hub-btn');
+            const closeAiBtn = document.getElementById('close-ai-modal-btn');
+
+            if (aiTriggerBtn) {
+                aiTriggerBtn.addEventListener('click', () => {
+                    vibrateTouch(30);
+                    openModal(aiModal);
+                });
+            }
+
+            if (closeAiBtn) {
+                closeAiBtn.addEventListener('click', () => {
+                    closeModal(aiModal);
+                });
+            }
+
+            // AI Sub-Tab Controllers
+            const chatTabBtn = document.getElementById('ai-tab-chat-btn');
+            const logTabBtn = document.getElementById('ai-tab-log-btn');
+            const panelChat = document.getElementById('ai-panel-chat');
+            const panelLog = document.getElementById('ai-panel-log');
+
+            chatTabBtn.addEventListener('click', () => {
+                vibrateTouch(15);
+                activeAiTab = 'chat';
+                chatTabBtn.className = "py-1.5 text-xs font-bold rounded-lg bg-zinc-900 text-indigo-400 border border-indigo-500/10";
+                logTabBtn.className = "py-1.5 text-xs font-semibold rounded-lg text-zinc-500 hover:text-white";
+                panelChat.classList.remove('hidden');
+                panelLog.classList.add('hidden');
+            });
+
+            logTabBtn.addEventListener('click', () => {
+                vibrateTouch(15);
+                activeAiTab = 'log';
+                logTabBtn.className = "py-1.5 text-xs font-bold rounded-lg bg-zinc-900 text-indigo-400 border border-indigo-500/10";
+                chatTabBtn.className = "py-1.5 text-xs font-semibold rounded-lg text-zinc-500 hover:text-white";
+                panelLog.classList.remove('hidden');
+                panelChat.classList.add('hidden');
+            });
+
+            // Live chat submission trigger
+            const chatSendBtn = document.getElementById('ai-chat-send-btn');
+            const chatInput = document.getElementById('ai-chat-input');
+            
+            chatSendBtn.addEventListener('click', submitChatToGemini);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') submitChatToGemini();
+            });
+
+            // NLP Parsing Submission Trigger
+            document.getElementById('ai-nlp-submit-btn').addEventListener('click', parseNLPWithGemini);
+
+            // Receipt file parsing triggers
+            document.getElementById('ai-receipt-upload').addEventListener('change', handleReceiptImageSelection);
+            document.getElementById('ai-receipt-camera').addEventListener('change', handleReceiptImageSelection);
+            document.getElementById('ai-ocr-clear-img').addEventListener('click', clearReceiptPreview);
+            document.getElementById('ai-ocr-submit-btn').addEventListener('click', parseReceiptOCRWithGemini);
+        }
+
+        // AI LIVE ADVISOR CHAT CONTROLLER
+        async function submitChatToGemini() {
+            const chatInput = document.getElementById('ai-chat-input');
+            const prompt = chatInput.value.trim();
+            if (!prompt) return;
+
+            vibrateTouch(25);
+            chatInput.value = '';
+            appendAiChatMessage('user', prompt);
+
+            // Create loading placeholder response card
+            const loadingId = appendAiChatMessage('ai', '<i class="fa-solid fa-circle-notch animate-spin mr-1.5"></i> Synthesizing ledger data...', true);
+
+            // Prepare Live App Metadata contextual payload to ground the LLM
+            const aggregatedBalances = getUnifiedBalancesForContext();
+            const payloadContext = {
+                ownerName: "Adham",
+                totalLiquidSavings: aggregatedBalances.totalCash,
+                walletBalances: {
+                    rhb: aggregatedBalances.rhb,
+                    bankIslam: aggregatedBalances.bankIslam,
+                    cash: aggregatedBalances.cash
+                },
+                monthlyEnvelopes: budgets,
+                outstandingLentReceivables: loans.filter(l => l.type === 'lent'),
+                outstandingDebts: loans.filter(l => l.type === 'borrowed'),
+                recentTransactions: transactions.slice(0, 15) // Token efficiency truncation limit
+            };
+
+            const systemPrompt = `You are Adham's personal elite Financial Advisor. You are inside the "Finance Tracker" mobile dashboard app.
+            You have live visibility to Adham's actual tracker stats:
+            - RHB Bank Wallet: RM${payloadContext.walletBalances.rhb}
+            - Bank Islam Wallet: RM${payloadContext.walletBalances.bankIslam}
+            - Cash Wallet: RM${payloadContext.walletBalances.cash}
+            - Safety Cash Runway: ${document.getElementById('predictive-runway').textContent}
+            - Monthly Budget caps: ${JSON.stringify(payloadContext.monthlyEnvelopes)}
+            - Loans & Liabilities: ${JSON.stringify(loans)}
+            - Last 15 Ledger Records: ${JSON.stringify(payloadContext.recentTransactions)}
+
+            Keep your responses short, professional, motivating, and incredibly specific to Adham's balances and metrics. Use RM (Malaysian Ringgit) as the default currency context. Always format your responses in elegant markdown with bold weights where needed. Do not use generic explanations, give high-impact numerical projections!`;
+
+            try {
+                const responseText = await callGeminiAPI(prompt, systemPrompt);
+                removeAiChatPlaceholder(loadingId);
+                appendAiChatMessage('ai', responseText);
+            } catch (err) {
+                console.error(err);
+                removeAiChatPlaceholder(loadingId);
+                appendAiChatMessage('ai', "❌ Failed to connect to the Gemini intelligence grid. Check your connection or retry shortly!");
+            }
+        }
+
+        window.triggerQuickAIQuery = function(promptText) {
+            document.getElementById('ai-chat-input').value = promptText;
+            submitChatToGemini();
+        };
+
+        function appendAiChatMessage(sender, text, isHtml = false) {
+            const thread = document.getElementById('ai-chat-thread');
+            if(!thread) return;
+
+            const div = document.createElement('div');
+            const isUser = sender === 'user';
+            div.className = isUser ? "flex items-start gap-2.5 max-w-[85%] self-end flex-row-reverse ml-auto" : "flex items-start gap-2.5 max-w-[85%]";
+            
+            const avatarBg = isUser ? "bg-emerald-500/20 text-emerald-300" : "bg-indigo-500/20 text-indigo-300";
+            const avatarTxt = isUser ? "ME" : "AI";
+            const bubbleBg = isUser ? "bg-emerald-950/20 border border-emerald-500/10 text-emerald-100" : "bg-zinc-900/40 border border-zinc-900 text-zinc-300";
+
+            div.innerHTML = `
+                <div class="w-6 h-6 rounded-lg ${avatarBg} flex items-center justify-center text-[10px] font-bold shrink-0">${avatarTxt}</div>
+                <div class="${bubbleBg} p-2.5 rounded-2xl text-xs leading-relaxed break-words whitespace-pre-wrap">
+                    ${isHtml ? text : formatMarkdownSimple(text)}
+                </div>
+            `;
+            
+            const messageId = 'ai_msg_' + Math.random().toString(36).substr(2, 9);
+            div.id = messageId;
+            thread.appendChild(div);
+            
+            // Scroll dynamically to bottom boundary of thread
+            thread.scrollTop = thread.scrollHeight;
+            return messageId;
+        }
+
+        function removeAiChatPlaceholder(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        function formatMarkdownSimple(text) {
+            // Safely parse elementary Markdown symbols (**bold**, *italics*, lists) inside terminal dialogs
+            let processed = escapeHtml(text);
+            processed = processed.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            processed = processed.replace(/\*(.*?)\*/g, '<em>$1</em>');
+            processed = processed.replace(/^- (.*?)$/gm, '• $1');
+            return processed;
+        }
+
+        // NATURAL LANGUAGE LOGGING ENGINE
+        async function parseNLPWithGemini() {
+            const nlpInput = document.getElementById('ai-nlp-input');
+            const textPrompt = nlpInput.value.trim();
+            if (!textPrompt) {
+                showToast("Type something first! e.g., 'Spent RM10 on snacks yesterday'", "error");
+                return;
+            }
+
+            vibrateTouch(30);
+            const submitBtn = document.getElementById('ai-nlp-submit-btn');
+            const originalBtnText = submitBtn.innerHTML;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin mr-1.5"></i> Gemini parsing and auditing context...`;
+
+            const systemPrompt = `You are a strict data structuring parser inside a Malaysian finance ledger app.
+            Analyze the user's natural text entry. Extract the transaction and represent it precisely as a JSON object adhering to this schema:
+            {
+              "title": "String (the merchant or short activity name)",
+              "amount": Number (always positive absolute decimal values, e.g. 15.50),
+              "type": "expense" OR "income",
+              "category": "Food", "Transport", "Utilities", "Entertainment", "Shopping", "Salary", "Investment", or "Other",
+              "account": "RHB Bank", "Bank Islam", or "Cash" (If unspecified, default to "Cash"),
+              "date": "YYYY-MM-DD" (If unspecified or 'yesterday' relative to today, adjust to matches. Today is ${new Date().toISOString().split('T')[0]})
+            }
+            Return ONLY raw JSON. No markdown backticks, no markdown formatting. Just the plain JSON object block.`;
+
+            try {
+                const responseJsonText = await callGeminiAPI(textPrompt, systemPrompt, "application/json");
+                const cleanJson = responseJsonText.replace(/```json/gi, '').replace(/```/g, '').trim();
+                const transactionPayload = JSON.parse(cleanJson);
+
+                if (transactionPayload && transactionPayload.amount) {
+                    // Populate main transaction parameters
+                    const targetId = 'tx_' + Math.random().toString(36).substr(2, 9);
+                    
+                    if (db && currentUserId) {
+                        await setDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `transactions`, targetId), transactionPayload);
+                    } else {
+                        transactions.push({ id: targetId, ...transactionPayload });
+                        renderApp();
+                    }
+
+                    showToast(`AI Logged: ${transactionPayload.title} (RM${transactionPayload.amount})`, 'success');
+                    nlpInput.value = '';
+                    closeModal(document.getElementById('modal-ai-assistant'));
+                } else {
+                    throw new Error("Validation mismatch");
+                }
+            } catch (err) {
+                console.error(err);
+                showToast("Failed to structure text log. Double check details!", "error");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        }
+
+        // VISION OCR PARSER FOR RECEIPT IMAGES
+        function handleReceiptImageSelection(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            vibrateTouch(15);
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                base64ReceiptImgData = event.target.result.split(',')[1]; // Strip base64 headers
+                
+                // Show preview interface context
+                document.getElementById('ai-ocr-preview-img').src = event.target.result;
+                document.getElementById('ai-ocr-preview-box').classList.remove('hidden');
+                document.getElementById('ai-ocr-submit-btn').classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearReceiptPreview() {
+            vibrateTouch(10);
+            base64ReceiptImgData = null;
+            document.getElementById('ai-receipt-upload').value = '';
+            document.getElementById('ai-receipt-camera').value = '';
+            document.getElementById('ai-ocr-preview-box').classList.add('hidden');
+            document.getElementById('ai-ocr-submit-btn').classList.add('hidden');
+        }
+
+        async function parseReceiptOCRWithGemini() {
+            if (!base64ReceiptImgData) return;
+
+            vibrateTouch(40);
+            const submitBtn = document.getElementById('ai-ocr-submit-btn');
+            const originalBtnText = submitBtn.innerHTML;
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin mr-1.5"></i> Gemini OCR Scanning receipt...`;
+
+            const userPrompt = "Parse this receipt. Extract merchant name as title, final calculated cash/card amount paid as amount, correct category, matched bank/cash wallet if visible on transaction slips (default Cash if unspecified), and the calendar transaction date.";
+            const systemPrompt = `You are a high-speed receipt visual parsing robot. You must return a single, plain JSON block. No markdown envelopes. No other text.
+            Schema rules:
+            {
+              "title": "Merchant Name String",
+              "amount": Number (decimal value of total cash paid),
+              "type": "expense",
+              "category": "Food", "Transport", "Utilities", "Entertainment", "Shopping", "Salary", "Investment", or "Other",
+              "account": "RHB Bank", "Bank Islam", or "Cash" (Identify from invoice payment tags e.g. VISA RHB, Cash, credit card Islam. If unknown, default "Cash"),
+              "date": "YYYY-MM-DD"
+            }`;
+
+            try {
+                const responseJsonText = await callGeminiVisionAPI(userPrompt, base64ReceiptImgData, systemPrompt);
+                const cleanJson = responseJsonText.replace(/```json/gi, '').replace(/```/g, '').trim();
+                const transactionPayload = JSON.parse(cleanJson);
+
+                if (transactionPayload && transactionPayload.amount) {
+                    vibrateTouch([20, 50, 20]);
+                    
+                    // Auto populate standard modal layout values instantly for user confirmation
+                    document.getElementById('tx-title').value = transactionPayload.title || '';
+                    document.getElementById('tx-amount').value = transactionPayload.amount || '';
+                    document.getElementById('tx-date').value = transactionPayload.date || getRecentDateOffset(0);
+                    
+                    // Match Wallet option selectors
+                    const accSelector = document.getElementById('tx-account');
+                    accSelector.value = transactionPayload.account || 'Cash';
+
+                    // Update categorizations layout selections
+                    expenseBtn.click(); // Standard expense assertion
+                    document.getElementById('tx-category').value = transactionPayload.category || 'Other';
+
+                    // Switch modal windows
+                    closeModal(document.getElementById('modal-ai-assistant'));
+                    clearReceiptPreview();
+                    
+                    setTimeout(() => {
+                        document.getElementById('modal-title-text').textContent = "Confirm AI Parsed Receipt";
+                        openModal(modalTx);
+                    }, 400);
+
+                    showToast("Receipt parsed! Confirm and save the record.", "success");
+                } else {
+                    throw new Error("OCR parsing mismatch");
+                }
+            } catch (err) {
+                console.error(err);
+                showToast("Failed to parse receipt. Verify picture clarity!", "error");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            }
+        }
+
+        // REUSABLE GEMINI CONNECTOR HELPER WITH EXPONENTIAL BACKOFF RETRIES
+        async function callGeminiAPI(userQuery, systemInstruction = "", mimeType = "text/plain", retryCount = 0) {
+            const apiKey = ""; // Canvas runtime parses keys directly
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: systemInstruction ? { parts: [{ text: systemInstruction }] } : undefined
+            };
+
+            if (mimeType === 'application/json') {
+                payload.generationConfig = { responseMimeType: "application/json" };
+            }
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.status === 429 && retryCount < 4) {
+                    // Backoff delay formula
+                    const backoffDelay = Math.pow(2, retryCount) * 1000;
+                    await new Promise(res => setTimeout(res, backoffDelay));
+                    return callGeminiAPI(userQuery, systemInstruction, mimeType, retryCount + 1);
+                }
+
+                if (!response.ok) throw new Error("Gemini API call failed");
+                const result = await response.json();
+                return result.candidates?.[0]?.content?.parts?.[0]?.text || '';
+            } catch (err) {
+                if (retryCount < 4) {
+                    const backoffDelay = Math.pow(2, retryCount) * 1000;
+                    await new Promise(res => setTimeout(res, backoffDelay));
+                    return callGeminiAPI(userQuery, systemInstruction, mimeType, retryCount + 1);
+                }
+                throw err;
+            }
+        }
+
+        // REUSABLE GEMINI VISION CONNECTOR HELPER WITH EXPONENTIAL BACKOFF
+        async function callGeminiVisionAPI(userQuery, base64ImgData, systemInstruction = "", retryCount = 0) {
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{
+                    role: "user",
+                    parts: [
+                        { text: userQuery },
+                        { inlineData: { mimeType: "image/png", data: base64ImgData } }
+                    ]
+                }],
+                systemInstruction: systemInstruction ? { parts: [{ text: systemInstruction }] } : undefined,
+                generationConfig: { responseMimeType: "application/json" }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.status === 429 && retryCount < 4) {
+                    const backoffDelay = Math.pow(2, retryCount) * 1000;
+                    await new Promise(res => setTimeout(res, backoffDelay));
+                    return callGeminiVisionAPI(userQuery, base64ImgData, systemInstruction, retryCount + 1);
+                }
+
+                if (!response.ok) throw new Error("Gemini Vision call failed");
+                const result = await response.json();
+                return result.candidates?.[0]?.content?.parts?.[0]?.text || '';
+            } catch (err) {
+                if (retryCount < 4) {
+                    const backoffDelay = Math.pow(2, retryCount) * 1000;
+                    await new Promise(res => setTimeout(res, backoffDelay));
+                    return callGeminiVisionAPI(userQuery, base64ImgData, systemInstruction, retryCount + 1);
+                }
+                throw err;
+            }
+        }
+
+        function getUnifiedBalancesForContext() {
+            let balRHB = 0, balIslam = 0, balCash = 0;
+            transactions.forEach(tx => {
+                const amt = Number(tx.amount);
+                const isIncome = tx.type === 'income';
+                const delta = isIncome ? amt : -amt;
+                const account = tx.account || 'Cash';
+                if (account === 'RHB Bank') balRHB += delta;
+                else if (account === 'Bank Islam') balIslam += delta;
+                else balCash += delta;
+            });
+            return {
+                rhb: balRHB,
+                bankIslam: balIslam,
+                cash: balCash,
+                totalCash: balRHB + balIslam + balCash
+            };
         }
     </script>
 </body>
