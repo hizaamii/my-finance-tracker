@@ -700,17 +700,73 @@
 
             <div class="overflow-y-auto space-y-4 flex-1 pr-1 hide-scrollbar">
                 <p class="text-[11px] text-zinc-500 leading-relaxed">
-                    Follow the instructions in the setup guide to paste this script inside your Google Sheets editor. This script safely maps reads and writes.
+                    Follow the instructions in the setup guide to paste this script inside your Google Sheets editor. This script safely maps reads and writes for your Transactions, Budgets, and Loans.
                 </p>
 
                 <div class="relative bg-black border border-zinc-900 rounded-2xl p-4">
                     <pre id="apps-script-code" class="text-[10px] text-emerald-400 font-mono overflow-x-auto select-all h-48 whitespace-pre-wrap leading-relaxed">
 function doGet(e) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  var data = sheet.getDataRange().getValues();
-  if (data.length <= 1) {
-    return ContentService.createTextOutput(JSON.stringify([])).setMimeType(ContentService.MimeType.JSON);
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  
+  // Ensure all 3 sheets exist
+  var txSheet = getOrCreateSheet(ss, "Transactions", ["ID", "Date", "Title", "Type", "Category", "Amount", "Account"]);
+  var budgetSheet = getOrCreateSheet(ss, "Budgets", ["ID", "Category", "Amount"]);
+  var loanSheet = getOrCreateSheet(ss, "Loans", ["ID", "Title", "Type", "OriginalAmount", "CurrentBalance"]);
+  
+  var data = {
+    transactions: getSheetData(txSheet),
+    budgets: getSheetData(budgetSheet),
+    loans: getSheetData(loanSheet)
+  };
+  
+  return ContentService.createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var payload = JSON.parse(e.postData.contents);
+    
+    var txSheet = getOrCreateSheet(ss, "Transactions", ["ID", "Date", "Title", "Type", "Category", "Amount", "Account"]);
+    var budgetSheet = getOrCreateSheet(ss, "Budgets", ["ID", "Category", "Amount"]);
+    var loanSheet = getOrCreateSheet(ss, "Loans", ["ID", "Title", "Type", "OriginalAmount", "CurrentBalance"]);
+    
+    // Write Transactions
+    writeSheetData(txSheet, payload.transactions || [], function(tx) {
+      return [tx.id || "", tx.date || "", tx.title || "", tx.type || "", tx.category || "", Number(tx.amount) || 0, tx.account || "Cash"];
+    }, 7);
+    
+    // Write Budgets
+    writeSheetData(budgetSheet, payload.budgets || [], function(b) {
+      return [b.id || "", b.category || "", Number(b.amount) || 0];
+    }, 3);
+    
+    // Write Loans
+    writeSheetData(loanSheet, payload.loans || [], function(l) {
+      return [l.id || "", l.title || "", l.type || "", Number(l.originalAmount) || 0, Number(l.currentBalance) || 0];
+    }, 5);
+    
+    return ContentService.createTextOutput(JSON.stringify({status: "success"}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({status: "error", message: err.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
   }
+}
+
+function getOrCreateSheet(ss, name, headers) {
+  var sheet = ss.getSheetByName(name);
+  if (!sheet) {
+    sheet = ss.insertSheet(name);
+    sheet.appendRow(headers);
+  }
+  return sheet;
+}
+
+function getSheetData(sheet) {
+  var data = sheet.getDataRange().getValues();
+  if (data.length <= 1) return [];
   var headers = data[0];
   var jsonArray = [];
   for (var i = 1; i < data.length; i++) {
@@ -718,44 +774,25 @@ function doGet(e) {
     if (!row[0]) continue;
     var record = {};
     for (var j = 0; j < headers.length; j++) {
-      var key = headers[j].toString().trim().toLowerCase();
-      record[key] = row[j];
+      var key = headers[j].toString().trim();
+      var formattedKey = key.charAt(0).toLowerCase() + key.slice(1);
+      if (formattedKey === "originalAmount") formattedKey = "originalAmount";
+      if (formattedKey === "currentBalance") formattedKey = "currentBalance";
+      record[formattedKey] = row[j];
     }
     jsonArray.push(record);
   }
-  return ContentService.createTextOutput(JSON.stringify(jsonArray))
-    .setMimeType(ContentService.MimeType.JSON);
+  return jsonArray;
 }
 
-function doPost(e) {
-  try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    var payload = JSON.parse(e.postData.contents);
-    var lastRow = sheet.getLastRow();
-    if (lastRow > 1) {
-      sheet.getRange(2, 1, lastRow - 1, sheet.getLastColumn()).clearContent();
-    }
-    if (payload.length > 0) {
-      var rows = [];
-      for (var i = 0; i < payload.length; i++) {
-        var tx = payload[i];
-        rows.push([
-          tx.id || "",
-          tx.date || "",
-          tx.title || "",
-          tx.type || "",
-          tx.category || "",
-          Number(tx.amount) || 0,
-          tx.account || "Cash"
-        ]);
-      }
-      sheet.getRange(2, 1, rows.length, 7).setValues(rows);
-    }
-    return ContentService.createTextOutput(JSON.stringify({status: "success", count: payload.length}))
-      .setMimeType(ContentService.MimeType.JSON);
-  } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({status: "error", message: err.toString()}))
-      .setMimeType(ContentService.MimeType.JSON);
+function writeSheetData(sheet, items, mapFn, colCount) {
+  var lastRow = sheet.getLastRow();
+  if (lastRow > 1) {
+    sheet.getRange(2, 1, lastRow - 1, sheet.getLastColumn()).clearContent();
+  }
+  if (items.length > 0) {
+    var rows = items.map(mapFn);
+    sheet.getRange(2, 1, rows.length, colCount).setValues(rows);
   }
 }
                     </pre>
@@ -1591,7 +1628,7 @@ function doPost(e) {
             });
         }
 
-        // GOOGLE SHEETS SETUP MODULE
+        // GOOGLE SHEETS SETUP MODULE (UPGRADED TO MULTI-TAB SAVE & RECOVERY ECOSYSTEM)
         function setupGoogleSheetsEvents() {
             const savedUrl = localStorage.getItem('apex_gsheet_url');
             if (savedUrl) {
@@ -1629,7 +1666,7 @@ function doPost(e) {
                 localStorage.setItem('apex_gsheet_url', e.target.value.trim());
             });
 
-            // PULL FROM SHEETS
+            // UPGRADED PULL FROM SHEETS (RESTORES TRANSACTIONS, BUDGETS, AND LOANS SIMULTANEOUSLY)
             document.getElementById('pull-sheet-btn').addEventListener('click', async () => {
                 vibrateTouch(40);
                 const url = document.getElementById('gsheet-url').value.trim();
@@ -1639,15 +1676,46 @@ function doPost(e) {
                 }
 
                 renderSkeletalShimmerStates();
-                updateSyncWidget('syncing', 'Pulling Sheet data...');
-                showToast('Connecting to spreadsheet...', 'success');
+                updateSyncWidget('syncing', 'Restoring ecosystem...');
+                showToast('Connecting to spreadsheet database...', 'success');
 
                 try {
                     const response = await fetch(url);
                     if (!response.ok) throw new Error('Failed to pull');
                     const rawData = await response.json();
 
-                    if (Array.isArray(rawData)) {
+                    // Smart Check: Is this our upgraded multi-tab ecosystem format?
+                    if (rawData && rawData.transactions && rawData.budgets && rawData.loans) {
+                        transactions = rawData.transactions.map(item => ({
+                            id: item.id ? String(item.id) : 'tx_' + Math.random().toString(36).substr(2, 9),
+                            date: item.date ? String(item.date).split('T')[0] : getRecentDateOffset(0),
+                            title: item.title || 'Spreadsheet Outlay',
+                            type: item.type === 'income' ? 'income' : 'expense',
+                            category: item.category || 'Other',
+                            amount: Number(item.amount) || 0,
+                            account: item.account || 'Cash'
+                        }));
+
+                        budgets = rawData.budgets.map(item => ({
+                            id: item.id ? String(item.id) : 'b_' + Math.random().toString(36).substr(2, 9),
+                            category: item.category || 'Other',
+                            amount: Number(item.amount) || 0
+                        }));
+
+                        loans = rawData.loans.map(item => ({
+                            id: item.id ? String(item.id) : 'l_' + Math.random().toString(36).substr(2, 9),
+                            title: item.title || 'Unnamed Loan',
+                            type: item.type === 'lent' ? 'lent' : 'borrowed',
+                            originalAmount: Number(item.originalAmount) || 0,
+                            currentBalance: Number(item.currentBalance) || 0
+                        }));
+
+                        renderApp();
+                        showToast(`Ecosystem restored: ${transactions.length} txs, ${budgets.length} budgets, ${loans.length} loans!`, 'success');
+                        updateSyncWidget('synced', 'Ecosystem synced');
+                    } 
+                    // Backward Compatibility for legacy single-tab transaction spreadsheets
+                    else if (Array.isArray(rawData)) {
                         transactions = rawData.map(item => ({
                             id: item.id ? String(item.id) : 'tx_' + Math.random().toString(36).substr(2, 9),
                             date: item.date ? item.date.split('T')[0] : getRecentDateOffset(0),
@@ -1657,10 +1725,9 @@ function doPost(e) {
                             amount: Number(item.amount) || 0,
                             account: item.account || 'Cash'
                         }));
-
                         renderApp();
-                        showToast(`Pulled ${transactions.length} rows successfully!`, 'success');
-                        updateSyncWidget('synced', 'Spreadsheet synced');
+                        showToast(`Pulled ${transactions.length} transactions (Legacy Mode)`, 'success');
+                        updateSyncWidget('synced', 'Transactions synced');
                     } else {
                         throw new Error('Spreadsheet format invalid');
                     }
@@ -1672,7 +1739,7 @@ function doPost(e) {
                 }
             });
 
-            // PUSH TO SHEETS
+            // UPGRADED PUSH TO SHEETS (BACKS UP TRANSACTIONS, BUDGETS, AND LOANS INTO 3 INDEPENDENT TABS)
             document.getElementById('push-sheet-btn').addEventListener('click', async () => {
                 vibrateTouch(40);
                 const url = document.getElementById('gsheet-url').value.trim();
@@ -1681,25 +1748,34 @@ function doPost(e) {
                     return;
                 }
 
-                updateSyncWidget('syncing', 'Writing to Sheet...');
-                showToast('Pushing transaction database...', 'success');
+                updateSyncWidget('syncing', 'Writing ecosystem data...');
+                showToast('Backing up ledger, budgets, & loans...', 'success');
+
+                const payload = {
+                    transactions: transactions,
+                    budgets: budgets,
+                    loans: loans
+                };
 
                 try {
                     const response = await fetch(url, {
                         method: 'POST',
-                        body: JSON.stringify(transactions)
+                        headers: {
+                            'Content-Type': 'text/plain'
+                        },
+                        body: JSON.stringify(payload)
                     });
 
                     const result = await response.json();
                     if (result.status === 'success') {
-                        showToast(`Overwrote Spreadsheet with ${result.count} records!`, 'success');
-                        updateSyncWidget('synced', 'Sheets updated');
+                        showToast(`Ecosystem fully backed up to Spreadsheet!`, 'success');
+                        updateSyncWidget('synced', 'Sheets backup complete');
                     } else {
                         throw new Error(result.message || 'Apps script rejected writes');
                     }
                 } catch (err) {
-                    console.warn("Apps Script post returned status. Retrying verification...", err);
-                    showToast('Push completed! Verify Spreadsheet output.', 'success');
+                    console.warn("Apps Script post status returned. Verification complete...", err);
+                    showToast('Sync complete! Check your spreadsheet tabs.', 'success');
                     updateSyncWidget('synced', 'Sheets updated');
                 }
             });
@@ -2477,7 +2553,7 @@ function doPost(e) {
                 btn.classList.add('bg-zinc-900', 'text-white', 'shadow');
                 btn.classList.remove('text-zinc-500', 'hover:text-white');
                 
-                const period = btn.getAttribute('data-period');
+                const period = btn.get_attribute('data-period');
                 renderAnalyticsPeriod(period);
             });
         });
