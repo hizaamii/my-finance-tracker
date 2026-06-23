@@ -1,0 +1,24 @@
+{
+  "name": "Finance Tracker",
+  "short_name": "Finance Tracker",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "description": "Premium standalone AMOLED wealth and budgeting system custom-tailored for Adham.",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='128' fill='%23000000'/><circle cx='256' cy='256' r='180' fill='none' stroke='%2310b981' stroke-width='16'/><path d='M180 340 L240 280 L290 310 L360 210' stroke='%2334d399' stroke-width='24' stroke-linecap='round' stroke-linejoin='round' fill='none'/><polygon points='360,210 310,210 360,250' fill='%2334d399'/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='128' fill='%23000000'/><circle cx='256' cy='256' r='180' fill='none' stroke='%2310b981' stroke-width='16'/><path d='M180 340 L240 280 L290 310 L360 210' stroke='%2334d399' stroke-width='24' stroke-linecap='round' stroke-linejoin='round' fill='none'/><polygon points='360,210 310,210 360,250' fill='%2334d399'/></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
