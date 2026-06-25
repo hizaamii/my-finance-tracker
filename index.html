@@ -53,11 +53,6 @@
         .active-scale:active {
             transform: scale(0.95) !important;
         }
-        /* Lock screen numerical animations */
-        .keypad-btn:active {
-            background-color: rgb(24, 24, 27);
-            transform: scale(0.9);
-        }
         /* Skeletal Shimmer Glow Animation */
         @keyframes shimmerGlow {
             0% {
@@ -76,72 +71,26 @@
 </head>
 <body class="h-full flex flex-col overflow-hidden max-w-md mx-auto shadow-2xl bg-black border-x border-zinc-900 relative">
 
-
-    <!-- SECURE PASSCODE APP LOCK SCREEN -->
-    <div id="screen-lock" class="absolute inset-0 bg-black z-[999] flex flex-col items-center justify-between p-8 hidden">
-        <div class="flex flex-col items-center mt-16 space-y-4">
-            <!-- Branded Growth Logo Icon -->
-            <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-                <svg class="w-9 h-9 text-black" viewBox="0 0 512 512" fill="currentColor">
-                    <circle cx="256" cy="256" r="180" fill="none" stroke="currentColor" stroke-width="24"/>
-                    <path d="M180 340 L240 280 L290 310 L360 210" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    <polygon points="360,210 310,210 360,260" fill="currentColor"/>
-                </svg>
-            </div>
-            <div class="text-center">
-                <h2 class="text-lg font-bold text-white tracking-tight">Finance Tracker</h2>
-                <p id="lock-status-msg" class="text-xs text-zinc-500 mt-1">Enter your 4-digit security PIN</p>
-            </div>
-            
-            <!-- Pin Dots Display -->
-            <div class="flex justify-center gap-4 pt-6">
-                <div id="pin-dot-1" class="w-3.5 h-3.5 rounded-full border-2 border-zinc-850 transition-all duration-150"></div>
-                <div id="pin-dot-2" class="w-3.5 h-3.5 rounded-full border-2 border-zinc-850 transition-all duration-150"></div>
-                <div id="pin-dot-3" class="w-3.5 h-3.5 rounded-full border-2 border-zinc-850 transition-all duration-150"></div>
-                <div id="pin-dot-4" class="w-3.5 h-3.5 rounded-full border-2 border-zinc-850 transition-all duration-150"></div>
-            </div>
-        </div>
-
-        <!-- Numerical Screen Keypad -->
-        <div class="w-full max-w-xs mx-auto grid grid-cols-3 gap-4 mb-8">
-            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('1')">1</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('2')">2</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('3')">3</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('4')">4</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('5')">5</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('6')">6</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('7')">7</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('8')">8</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('9')">9</button>
-            <button class="w-16 h-16 rounded-full flex items-center justify-center text-xs text-rose-500 hover:text-rose-400 font-semibold" onclick="clearLockPin()">Reset</button>
-            <button class="keypad-btn w-16 h-16 rounded-full bg-zinc-950 border border-zinc-900 flex items-center justify-center text-xl font-bold text-white transition active-scale" onclick="inputLockPin('0')">0</button>
-            <button class="w-16 h-16 rounded-full flex items-center justify-center text-lg text-zinc-500 hover:text-white" onclick="backspaceLockPin()">
-                <i class="fa-solid fa-delete-left"></i>
-            </button>
-        </div>
-    </div>
-
-    <!-- IMMERSIVE POST-PASSCODE IMMERSIVE WELCOME SPLASH -->
-    <div id="welcome-splash" class="absolute inset-0 bg-black z-[998] flex flex-col items-center justify-center p-8 transition-opacity duration-700 ease-out hidden">
+    <!-- IMMERSIVE WELCOME SPLASH (No passcode lock, automatically transitions on load) -->
+    <div id="welcome-splash" class="absolute inset-0 bg-black z-[998] flex flex-col items-center justify-center p-8 transition-opacity duration-500 ease-out">
         <div class="flex flex-col items-center space-y-6 text-center">
-            <!-- Pulsing custom emerald growth icon -->
-            <div class="w-24 h-24 rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-2xl shadow-emerald-500/20 animate-pulse">
-                <svg class="w-14 h-14 text-black" viewBox="0 0 512 512" fill="currentColor">
+            <!-- Pulsing emerald growth vector icon -->
+            <div class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-2xl shadow-emerald-500/20 animate-pulse">
+                <svg class="w-11 h-11 text-black" viewBox="0 0 512 512" fill="currentColor">
                     <circle cx="256" cy="256" r="180" fill="none" stroke="currentColor" stroke-width="24"/>
                     <path d="M180 340 L240 280 L290 310 L360 210" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
                     <polygon points="360,210 310,210 360,260" fill="currentColor"/>
                 </svg>
             </div>
-            <div class="space-y-2">
-                <h2 class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300 tracking-tight">Welcome Back, Adham</h2>
-                <div class="flex items-center justify-center gap-2 text-zinc-500 text-xs mt-1">
-                    <i class="fa-solid fa-shield-halved animate-pulse text-emerald-500"></i>
-                    <span>Ledger decrypted successfully...</span>
+            <div class="space-y-1.5">
+                <h2 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300 tracking-tight">Welcome, Adham</h2>
+                <div class="flex items-center justify-center gap-1.5 text-zinc-500 text-[10px] uppercase tracking-wider font-semibold">
+                    <i class="fa-solid fa-shield-halved text-emerald-500"></i>
+                    <span>Ecosystem Loaded Successfully</span>
                 </div>
             </div>
         </div>
     </div>
-
 
     <!-- ULTRA-MINIMALIST SYSTEM HEADER -->
     <header class="bg-black/90 backdrop-blur-md sticky top-0 z-40 px-6 pt-6 pb-4 border-b border-zinc-900/80 flex justify-between items-center shrink-0">
@@ -157,14 +106,6 @@
             <h1 class="text-sm font-extrabold tracking-wider bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent uppercase">Finance Tracker</h1>
         </div>
         <div class="flex items-center gap-2 shrink-0">
-            <!-- Gemini Sparkle Assistant Button -->
-            <button id="ai-hub-btn" class="active-scale w-8 h-8 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center shadow-md relative" title="AI Assistant">
-                <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
-                <span class="absolute -top-1 -right-1 flex h-2 w-2">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-                </span>
-            </button>
             <!-- Cloud Sync Status Widget Indicator -->
             <button id="sync-status-btn" class="active-scale transition-all-custom flex items-center gap-2 bg-zinc-950 border border-zinc-900 rounded-full px-3 py-1.5 text-xs text-zinc-300">
                 <span class="relative flex h-2 w-2">
@@ -190,7 +131,7 @@
                     
                     <div class="flex justify-between items-start mb-4">
                         <div>
-                            <p class="text-xs text-zinc-500 font-semibold uppercase tracking-widest">Net Wealth Balance</p>
+                            <p class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Net Wealth Balance</p>
                             <h2 id="total-balance" class="text-4xl font-black text-white mt-1 tracking-tight">RM0.00</h2>
                             <!-- Dynamic Financial Health Indicators -->
                             <div class="flex flex-wrap gap-2 mt-2">
@@ -243,6 +184,11 @@
                     </div>
                 </div>
 
+                <!-- MONTH-OVER-MONTH PACING INDEX BADGE -->
+                <div id="mom-pacing-widget" class="w-full">
+                    <!-- Loaded dynamically via JavaScript -->
+                </div>
+
                 <!-- BUDGET PACING SECTION -->
                 <div>
                     <div class="flex justify-between items-center mb-3 px-1">
@@ -287,7 +233,6 @@
                     <div id="dashboard-transactions" class="space-y-3"></div>
                 </div>
             </div>
-
 
             <!-- SCREEN 2: ANALYTICS & STATS VIEW -->
             <div id="screen-analytics" class="w-[20%] h-full overflow-y-auto px-5 py-4 space-y-6 hide-scrollbar shrink-0 select-none">
@@ -340,7 +285,7 @@
                 <div class="bg-gradient-to-br from-indigo-950/20 via-zinc-950 to-indigo-950/20 border border-indigo-500/10 rounded-3xl p-5 space-y-4">
                     <div class="flex justify-between items-center">
                         <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i> Predictive Runway Engine
+                            <i class="fa-solid fa-hourglass"></i> Predictive Runway Engine
                         </h4>
                         <span class="text-[9px] bg-indigo-500/20 text-indigo-300 font-bold px-2 py-0.5 rounded-full border border-indigo-500/25 font-mono">FORECAST</span>
                     </div>
@@ -400,17 +345,6 @@
                     </button>
                 </div>
 
-                <!-- AUTO-ENVELOPE DISPATCH ENGINE -->
-                <div class="bg-zinc-950 border border-zinc-900 rounded-2xl p-4 flex items-center justify-between">
-                    <div>
-                        <h4 class="text-xs font-bold text-zinc-200">Smart Auto-Budgeting</h4>
-                        <p class="text-[10px] text-zinc-500 mt-0.5">Let algorithm analysis provision envelopes.</p>
-                    </div>
-                    <button id="auto-budget-generate-btn" class="active-scale bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 text-indigo-300 font-bold px-3 py-1.5 rounded-xl text-xs transition">
-                        <i class="fa-solid fa-wand-magic-sparkles text-[10px] mr-1"></i> Auto-Fill
-                    </button>
-                </div>
-
                 <div id="budgets-management-list" class="space-y-4"></div>
             </div>
 
@@ -465,30 +399,6 @@
                 <div>
                     <h3 class="text-lg font-bold text-white mb-1">Settings & Sync</h3>
                     <p class="text-xs text-zinc-500">Manage database sync bridges and device security lockers.</p>
-                </div>
-
-                <!-- APP SECURITY LOCKER (LOCAL LOCK PIN) -->
-                <div class="bg-zinc-950 border border-zinc-900 rounded-3xl p-5 space-y-4">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h4 class="text-sm font-bold text-white flex items-center gap-1.5">
-                                <i class="fa-solid fa-shield-halved text-indigo-400"></i> Local PIN Passcode Lock
-                            </h4>
-                            <p class="text-xs text-zinc-500 mt-1">Require a code every time the application starts up.</p>
-                        </div>
-                        <span id="pin-lock-status-badge" class="bg-black text-zinc-600 border border-zinc-900 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-                            Disabled
-                        </span>
-                    </div>
-
-                    <div class="space-y-3">
-                        <div class="flex gap-2">
-                            <input type="password" id="input-pin-lock" placeholder="4-Digit PIN" pattern="[0-9]*" inputmode="numeric" maxlength="4" class="bg-black border border-zinc-900 rounded-2xl px-4 py-3 text-xs text-center font-bold text-zinc-200 placeholder-zinc-800 w-28 focus:outline-none focus:border-indigo-500 font-mono">
-                            <button id="toggle-pin-lock-btn" class="active-scale flex-1 bg-indigo-500 hover:bg-indigo-600 text-black text-xs font-bold rounded-2xl py-3 text-center transition">
-                                Enable App Lock
-                            </button>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- GOOGLE SHEETS SYNC INTEGRATION CARD -->
@@ -576,113 +486,6 @@
                 </div>
             </div>
 
-        </div>
-    </div>
-
-
-    <!-- OVERLAY MODAL: GEMINI AI ASSISTANT & SMART LOGGER HUB -->
-    <div id="modal-ai-assistant" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
-        <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-4 transform translate-y-full spring-bounce h-[85vh] flex flex-col">
-            <div class="flex justify-between items-center shrink-0">
-                <h3 class="text-md font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                    <span class="w-2.5 h-2.5 rounded-full bg-indigo-500 animate-pulse"></span> Gemini Smart AI Hub
-                </h3>
-                <button id="close-ai-modal-btn" class="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-500 hover:text-white">
-                    <i class="fa-solid fa-xmark text-sm"></i>
-                </button>
-            </div>
-
-            <!-- AI Sub-Tabs Trigger Selector -->
-            <div class="grid grid-cols-2 gap-1 bg-black p-1 rounded-xl border border-zinc-900 shrink-0">
-                <button id="ai-tab-chat-btn" class="py-1.5 text-xs font-bold rounded-lg bg-zinc-900 text-indigo-400 border border-indigo-500/10">
-                    <i class="fa-solid fa-message text-[10px] mr-1.5"></i> Live Advisor
-                </button>
-                <button id="ai-tab-log-btn" class="py-1.5 text-xs font-semibold rounded-lg text-zinc-500 hover:text-white">
-                    <i class="fa-solid fa-robot text-[10px] mr-1.5"></i> Smart Ingestion
-                </button>
-            </div>
-
-            <div class="flex-1 overflow-y-auto hide-scrollbar space-y-4 flex flex-col min-h-0">
-                <!-- PANEL 1: LIVE CHAT AND ADVISOR PANEL -->
-                <div id="ai-panel-chat" class="flex-1 flex flex-col min-h-0 space-y-3">
-                    <div class="bg-indigo-950/10 border border-indigo-500/10 p-3 rounded-2xl text-[11px] text-zinc-400">
-                        🤖 <strong class="text-indigo-400">System State Loaded:</strong> Your advisor has full access to your transactions, budgets, and cash holdings. Ask anything about your financial targets!
-                    </div>
-
-                    <!-- Chat Threads Window -->
-                    <div id="ai-chat-thread" class="flex-1 overflow-y-auto space-y-3 pr-1 hide-scrollbar bg-black/40 rounded-2xl p-3 border border-zinc-900">
-                        <div class="flex items-start gap-2.5 max-w-[85%]">
-                            <div class="w-6 h-6 rounded-lg bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-[10px] font-bold shrink-0">AI</div>
-                            <div class="bg-zinc-900/40 border border-zinc-900 p-2.5 rounded-2xl text-xs text-zinc-300 leading-relaxed">
-                                Hello Adham! I am your real-time Gemini Advisor. What aspects of your wealth ledger or budget can I optimize for you today?
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Recommended Quick Queries -->
-                    <div class="flex gap-1.5 overflow-x-auto hide-scrollbar shrink-0 py-1">
-                        <button class="ai-quick-prompt text-[10px] bg-zinc-900 border border-zinc-850 hover:bg-zinc-850 px-3 py-1.5 rounded-full text-zinc-400 whitespace-nowrap active-scale" onclick="triggerQuickAIQuery('Analyze my monthly budgets and expenses')">Analyze Budgets</button>
-                        <button class="ai-quick-prompt text-[10px] bg-zinc-900 border border-zinc-850 hover:bg-zinc-850 px-3 py-1.5 rounded-full text-zinc-400 whitespace-nowrap active-scale" onclick="triggerQuickAIQuery('How is my safety cash runway looking right now?')">Check Runway</button>
-                        <button class="ai-quick-prompt text-[10px] bg-zinc-900 border border-zinc-850 hover:bg-zinc-850 px-3 py-1.5 rounded-full text-zinc-400 whitespace-nowrap active-scale" onclick="triggerQuickAIQuery('Provide 3 tips to increase my savings based on my transaction logs')">Get Savings Tips</button>
-                    </div>
-
-                    <!-- Prompt Text Box Area -->
-                    <div class="flex gap-2 shrink-0">
-                        <input type="text" id="ai-chat-input" placeholder="Ask your advisor anything..." class="flex-1 bg-black border border-zinc-900 rounded-xl px-4 py-3 text-xs text-zinc-300 placeholder-zinc-800 focus:outline-none focus:border-indigo-500 font-medium font-sans">
-                        <button id="ai-chat-send-btn" class="active-scale w-12 h-12 rounded-xl bg-indigo-500 text-black flex items-center justify-center shadow-lg hover:bg-indigo-600 transition">
-                            <i class="fa-solid fa-arrow-up"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- PANEL 2: SMART LOGGER HUB & RECEIPT SCANNER -->
-                <div id="ai-panel-log" class="hidden flex-1 space-y-5">
-                    <!-- SECTION A: NATURAL VOICE / STRING INPUT WRITER -->
-                    <div class="space-y-2">
-                        <h4 class="text-xs font-bold text-zinc-300 uppercase tracking-widest flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Smart Natural Logger
-                        </h4>
-                        <p class="text-[10px] text-zinc-500 leading-relaxed">Simply type out what occurred, and Gemini will automatically structure, categorize, and save the transaction directly into your account balances.</p>
-                        <div class="space-y-2">
-                            <textarea id="ai-nlp-input" placeholder="e.g. yesterday i spent RM18.50 on dinner from my bank islam wallet..." rows="2" class="w-full bg-black border border-zinc-900 rounded-2xl p-3 text-xs text-zinc-300 placeholder-zinc-800 focus:outline-none focus:border-indigo-500 resize-none font-medium font-sans"></textarea>
-                            <button id="ai-nlp-submit-btn" class="active-scale w-full bg-emerald-500 hover:bg-emerald-600 text-black font-bold py-3 rounded-2xl text-xs flex items-center justify-center gap-1.5 transition">
-                                <i class="fa-solid fa-bolt text-xs"></i> AI Parse & Inject Transaction
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- SECTION B: MODERN RECEIPT CAMERA SCANNER -->
-                    <div class="space-y-3 pt-4 border-t border-zinc-900">
-                        <h4 class="text-xs font-bold text-zinc-300 uppercase tracking-widest flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-indigo-400"></span> Receipts OCR Parser
-                        </h4>
-                        <p class="text-[10px] text-zinc-500 leading-relaxed">Capture or upload any receipt from Jaya Grocer, Starbucks, Shell, etc. Gemini will automatically extract the key values to populate the logger.</p>
-                        
-                        <div class="grid grid-cols-2 gap-2">
-                            <label class="active-scale cursor-pointer bg-zinc-950 border border-zinc-900 rounded-2xl p-4 flex flex-col items-center justify-center text-center hover:bg-zinc-900 transition">
-                                <i class="fa-solid fa-image text-zinc-500 text-lg mb-1"></i>
-                                <span class="text-[10px] font-bold text-zinc-400">Upload Photo</span>
-                                <input type="file" id="ai-receipt-upload" accept="image/*" class="hidden">
-                            </label>
-                            <label class="active-scale cursor-pointer bg-zinc-950 border border-zinc-900 rounded-2xl p-4 flex flex-col items-center justify-center text-center hover:bg-zinc-900 transition">
-                                <i class="fa-solid fa-camera text-zinc-500 text-lg mb-1"></i>
-                                <span class="text-[10px] font-bold text-zinc-400">Snap Camera</span>
-                                <input type="file" id="ai-receipt-camera" accept="image/*" capture="environment" class="hidden">
-                            </label>
-                        </div>
-
-                        <!-- Image Loading / Preview placeholder container -->
-                        <div id="ai-ocr-preview-box" class="hidden relative rounded-2xl border border-zinc-900 overflow-hidden bg-black/40 flex items-center justify-center h-28">
-                            <img id="ai-ocr-preview-img" class="object-contain h-full w-full">
-                            <button id="ai-ocr-clear-img" class="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/80 text-rose-500 flex items-center justify-center text-xs"><i class="fa-solid fa-trash-can"></i></button>
-                        </div>
-
-                        <button id="ai-ocr-submit-btn" class="active-scale w-full bg-indigo-500 hover:bg-indigo-600 text-black font-bold py-3 rounded-2xl text-xs flex items-center justify-center gap-1.5 transition hidden">
-                            <i class="fa-solid fa-eye text-xs"></i> Gemini Optical Extraction
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -821,8 +624,7 @@ function writeSheetData(sheet, items, mapFn, colCount) {
         </div>
     </div>
 
-
-    <!-- OVERLAY MODAL: CATEGORY BREAKDOWN DETAIL WINDOW (NEW INTERACTIVE UX ELEMENT) -->
+    <!-- OVERLAY MODAL: CATEGORY BREAKDOWN DETAIL WINDOW (CLICKABLE AUDITS) -->
     <div id="modal-category-breakdown" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-end justify-center hidden opacity-0 transition-all duration-300">
         <div class="bg-zinc-950 border-t border-zinc-900 rounded-t-[2.5rem] w-full max-w-md p-6 pb-8 space-y-4 transform translate-y-full spring-bounce max-h-[80vh] flex flex-col">
             <div class="flex justify-between items-center shrink-0">
@@ -1110,13 +912,13 @@ function writeSheetData(sheet, items, mapFn, colCount) {
         </div>
     </nav>
 
-
     <!-- FIREBASE AND APP LIFECYCLE SCRIPTS -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, deleteDoc, updateDoc, onSnapshot, collection, query, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, deleteDoc, updateDoc, onSnapshot, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // Service Worker registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
@@ -1149,10 +951,6 @@ function writeSheetData(sheet, items, mapFn, colCount) {
         let currentX = 0;
         let currentIndex = 0; 
         const screensCount = 5;
-
-        // EXPOSED SECURITY LOCK KEYS
-        let activeAppLockPin = localStorage.getItem('apex_app_lock_pin') || '';
-        let enteredPinStream = '';
 
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'personal-finance-tracker';
         const rawConfig = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
@@ -1192,11 +990,34 @@ function writeSheetData(sheet, items, mapFn, colCount) {
             });
         }
 
+        // Dynamically compute baseline mock dates relative to user's local day-of-month calendar
+        const now = new Date();
+        const currentYear = now.getFullYear();
+        const currentMonth = now.getMonth();
+        let prevMonth = currentMonth - 1;
+        let prevYear = currentYear;
+        if (prevMonth < 0) {
+            prevMonth = 11;
+            prevYear -= 1;
+        }
+
+        function formatDate(year, month, day) {
+            const m = String(month + 1).padStart(2, '0');
+            const d = String(day).padStart(2, '0');
+            return `${year}-${m}-${d}`;
+        }
+
+        // Mock data spans previous month up to today's date for solid pacing index math
         const defaultMockTransactions = [
-            { id: 'm1', title: 'Salary Paycheck', amount: 4800.00, type: 'income', category: 'Salary', date: getRecentDateOffset(0), account: 'RHB Bank' },
-            { id: 'm2', title: 'Jaya Grocer Basket', amount: 164.50, type: 'expense', category: 'Food', date: getRecentDateOffset(-1), account: 'Bank Islam' },
-            { id: 'm3', title: 'Shell Petrol Station', amount: 45.00, type: 'expense', category: 'Transport', date: getRecentDateOffset(-2), account: 'Cash' },
-            { id: 'm4', title: 'Unifi Fiber Bill', amount: 129.00, type: 'expense', category: 'Utilities', date: getRecentDateOffset(-3), account: 'RHB Bank' }
+            { id: 'm1', title: 'Salary Paycheck', amount: 4800.00, type: 'income', category: 'Salary', date: formatDate(currentYear, currentMonth, 1), account: 'RHB Bank' },
+            { id: 'm2', title: 'Jaya Grocer Basket', amount: 164.50, type: 'expense', category: 'Food', date: formatDate(currentYear, currentMonth, Math.max(1, now.getDate() - 1)), account: 'Bank Islam' },
+            { id: 'm3', title: 'Shell Petrol Station', amount: 45.00, type: 'expense', category: 'Transport', date: formatDate(currentYear, currentMonth, Math.max(1, now.getDate() - 2)), account: 'Cash' },
+            { id: 'm4', title: 'Unifi Fiber Bill', amount: 129.00, type: 'expense', category: 'Utilities', date: formatDate(currentYear, currentMonth, Math.max(1, now.getDate() - 3)), account: 'RHB Bank' },
+            
+            // Baseline spend matching last month on exact date
+            { id: 'p1', title: 'Jaya Grocer Prev', amount: 210.00, type: 'expense', category: 'Food', date: formatDate(prevYear, prevMonth, Math.max(1, now.getDate() - 1)), account: 'Bank Islam' },
+            { id: 'p2', title: 'Shell Petrol Prev', amount: 65.00, type: 'expense', category: 'Transport', date: formatDate(prevYear, prevMonth, Math.max(1, now.getDate() - 2)), account: 'Cash' },
+            { id: 'p3', title: 'Unifi Fiber Bill Prev', amount: 129.00, type: 'expense', category: 'Utilities', date: formatDate(prevYear, prevMonth, Math.max(1, now.getDate() - 3)), account: 'RHB Bank' }
         ];
 
         const defaultMockBudgets = [
@@ -1208,12 +1029,6 @@ function writeSheetData(sheet, items, mapFn, colCount) {
             { id: 'l1', title: 'PTPTN Study Debt', type: 'borrowed', originalAmount: 15000.00, currentBalance: 12500.00 },
             { id: 'l2', title: 'Loan to Ali', type: 'lent', originalAmount: 500.00, currentBalance: 350.00 }
         ];
-
-        function getRecentDateOffset(daysOffset) {
-            const date = new Date();
-            date.setDate(date.getDate() + daysOffset);
-            return date.toISOString().split('T')[0];
-        }
 
         window.vibrateTouch = function(dur = 15) {
             if (navigator.vibrate) {
@@ -1312,89 +1127,18 @@ function writeSheetData(sheet, items, mapFn, colCount) {
             });
         }
 
-        // POST-UNLOCK SEQUENTIAL SPLASH SCREEN (NEW UX FLOW)
-        function triggerUnlockWelcomeSplash() {
+        function triggerWelcomeSplashFadeout() {
             const splash = document.getElementById('welcome-splash');
             if (!splash) return;
-
-            // Trigger immersive AMOLED screen
-            splash.classList.remove('hidden');
-            splash.classList.remove('opacity-0');
-            splash.classList.add('opacity-100');
 
             vibrateTouch([20, 50, 20]);
 
             setTimeout(() => {
-                // Smoothly fade out screen after duration
                 splash.classList.add('opacity-0');
                 setTimeout(() => {
                     splash.classList.add('hidden');
-                }, 700);
-            }, 2200);
-        }
-
-        // VERIFY PIN ENTRY GATEWAY
-        function verifyAppLockerGateway() {
-            const screen = document.getElementById('screen-lock');
-            if (activeAppLockPin && activeAppLockPin.length === 4) {
-                screen.classList.remove('hidden');
-                document.getElementById('lock-status-msg').textContent = "Enter your 4-digit security PIN";
-                document.getElementById('lock-status-msg').className = "text-xs text-zinc-500 mt-1";
-                enteredPinStream = '';
-                updatePinDotsUI();
-            } else {
-                screen.classList.add('hidden');
-                // No passcode lock: show the brief welcoming splash on very first session load
-                triggerUnlockWelcomeSplash();
-            }
-        }
-
-        window.inputLockPin = function(num) {
-            vibrateTouch(25);
-            if (enteredPinStream.length < 4) {
-                enteredPinStream += num;
-                updatePinDotsUI();
-            }
-            if (enteredPinStream.length === 4) {
-                setTimeout(() => {
-                    if (enteredPinStream === activeAppLockPin) {
-                        vibrateTouch([15, 30, 15]);
-                        document.getElementById('screen-lock').classList.add('hidden');
-                        
-                        // Fire the premium welcoming splash immediately after unlocking!
-                        triggerUnlockWelcomeSplash();
-                    } else {
-                        vibrateTouch(150);
-                        document.getElementById('lock-status-msg').textContent = "Access Denied. Try Again.";
-                        document.getElementById('lock-status-msg').className = "text-xs text-rose-400 mt-1 font-bold animate-pulse";
-                        enteredPinStream = '';
-                        updatePinDotsUI();
-                    }
-                }, 180);
-            }
-        };
-
-        window.clearLockPin = function() {
-            vibrateTouch(10);
-            enteredPinStream = '';
-            updatePinDotsUI();
-        };
-
-        window.backspaceLockPin = function() {
-            vibrateTouch(15);
-            enteredPinStream = enteredPinStream.slice(0, -1);
-            updatePinDotsUI();
-        };
-
-        function updatePinDotsUI() {
-            for (let i = 1; i <= 4; i++) {
-                const dot = document.getElementById(`pin-dot-${i}`);
-                if (enteredPinStream.length >= i) {
-                    dot.className = "w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-emerald-400 scale-110 transition-all";
-                } else {
-                    dot.className = "w-3.5 h-3.5 rounded-full border-2 border-zinc-850 transition-all";
-                }
-            }
+                }, 500);
+            }, 1500);
         }
 
         // INITIAL ONLOAD LIFECYCLE
@@ -1404,9 +1148,7 @@ function writeSheetData(sheet, items, mapFn, colCount) {
             setupFormEvents();
             loadLocalFallbackData();
             setupGoogleSheetsEvents();
-            setupSecuritySettings();
-            verifyAppLockerGateway(); 
-            setupGeminiAIEventHandlers();
+            triggerWelcomeSplashFadeout(); 
             renderApp();
 
             if (rawConfig) {
@@ -1445,8 +1187,7 @@ function writeSheetData(sheet, items, mapFn, colCount) {
             }
         };
 
-        
-        // INTERACTIVE CATEGORY AUDIT POPUP WINDOW (NEW UX ADDITION)
+        // INTERACTIVE CATEGORY AUDIT POPUP WINDOW
         window.showCategoryBreakdown = function(categoryName) {
             vibrateTouch(30);
             const breakdownModal = document.getElementById('modal-category-breakdown');
@@ -1534,10 +1275,81 @@ function writeSheetData(sheet, items, mapFn, colCount) {
 
         window.deleteFromBreakdown = async function(txId, categoryName) {
             await deleteTransaction(txId);
-            showCategoryBreakdown(categoryName); // Soft refresh breakdown lists dynamically
+            showCategoryBreakdown(categoryName); 
         };
 
-        // RENDER OUTLAY BREAKDOWNS (Tap to Audit hooked here)
+        // MONTH-OVER-MONTH SPEND PACING ALGORITHM
+        function calculateMoMPacing(sortedTxs) {
+            const currentDay = now.getDate();
+            
+            // Avoid day-overflows in short months (e.g. March 31 vs Feb 28 baseline)
+            let safePrevDay = currentDay;
+            const tempDate = new Date(prevYear, prevMonth + 1, 0); 
+            if (safePrevDay > tempDate.getDate()) {
+                safePrevDay = tempDate.getDate();
+            }
+
+            // Current Month Expenses up to today's date
+            const currMonthExpenses = sortedTxs.filter(t => {
+                if (t.type !== 'expense') return false;
+                const d = new Date(t.date);
+                return d.getFullYear() === currentYear &&
+                       d.getMonth() === currentMonth &&
+                       d.getDate() <= currentDay;
+            });
+
+            // Previous Month Expenses up to safe same day of month
+            const prevMonthExpenses = sortedTxs.filter(t => {
+                if (t.type !== 'expense') return false;
+                const d = new Date(t.date);
+                return d.getFullYear() === prevYear &&
+                       d.getMonth() === prevMonth &&
+                       d.getDate() <= safePrevDay;
+            });
+
+            const currSum = currMonthExpenses.reduce((sum, t) => sum + Number(t.amount), 0);
+            const prevSum = prevMonthExpenses.reduce((sum, t) => sum + Number(t.amount), 0);
+
+            const pacingWidget = document.getElementById('mom-pacing-widget');
+            if (!pacingWidget) return;
+
+            if (prevSum === 0) {
+                pacingWidget.innerHTML = `
+                    <div class="flex items-center justify-center p-4 bg-zinc-950 border border-zinc-900 rounded-2xl text-center">
+                        <p class="text-[10px] text-zinc-500 uppercase font-bold tracking-wider">MoM Spend Pacing: Establishing Baseline...</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const diffPct = ((currSum - prevSum) / prevSum) * 100;
+            const absPct = Math.abs(diffPct).toFixed(1);
+
+            if (diffPct <= 0) {
+                // Spending is lower (Good progress!) - Emerald Glow Capsule
+                pacingWidget.innerHTML = `
+                    <div class="flex items-center justify-between w-full bg-emerald-500/5 border border-emerald-500/10 rounded-2xl p-4 shadow-[0_0_20px_rgba(16,185,129,0.05)]">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span class="text-[10px] font-extrabold uppercase tracking-widest text-emerald-400">On Pace</span>
+                        </div>
+                        <span class="text-[11px] text-zinc-400 font-medium">Spending is <strong class="text-emerald-400 font-bold font-mono">${absPct}% lower</strong> than last month at Day ${currentDay}</span>
+                    </div>
+                `;
+            } else {
+                // Spending is higher (Warning pace!) - Rose Warning Capsule
+                pacingWidget.innerHTML = `
+                    <div class="flex items-center justify-between w-full bg-rose-500/5 border border-rose-500/10 rounded-2xl p-4 shadow-[0_0_20px_rgba(239,68,68,0.05)]">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-rose-400 animate-pulse"></span>
+                            <span class="text-[10px] font-extrabold uppercase tracking-widest text-rose-400">Over Pace</span>
+                        </div>
+                        <span class="text-[11px] text-zinc-400 font-medium">Spending is <strong class="text-rose-400 font-bold font-mono">${absPct}% higher</strong> than last month at Day ${currentDay}</span>
+                    </div>
+                `;
+            }
+        }
+
         function renderAnalyticsPeriod(period) {
             const container = document.getElementById('trend-bars-container');
             const rankContainer = document.getElementById('analytics-categories-list');
@@ -1606,7 +1418,6 @@ function writeSheetData(sheet, items, mapFn, colCount) {
                 const share = Math.round((val / totalOutlays) * 100);
                 const emoji = getCategoryEmoji(cat);
 
-                // Clicking category items will launch deep analysis popups!
                 const div = document.createElement('div');
                 div.className = "space-y-1.5 cursor-pointer group active-scale transition-all duration-200";
                 div.setAttribute('onclick', `showCategoryBreakdown('${cat}')`);
@@ -1628,7 +1439,6 @@ function writeSheetData(sheet, items, mapFn, colCount) {
             });
         }
 
-        // GOOGLE SHEETS SETUP MODULE (UPGRADED TO MULTI-TAB SAVE & RECOVERY ECOSYSTEM)
         function setupGoogleSheetsEvents() {
             const savedUrl = localStorage.getItem('apex_gsheet_url');
             if (savedUrl) {
@@ -1666,7 +1476,6 @@ function writeSheetData(sheet, items, mapFn, colCount) {
                 localStorage.setItem('apex_gsheet_url', e.target.value.trim());
             });
 
-            // UPGRADED PULL FROM SHEETS (RESTORES TRANSACTIONS, BUDGETS, AND LOANS SIMULTANEOUSLY)
             document.getElementById('pull-sheet-btn').addEventListener('click', async () => {
                 vibrateTouch(40);
                 const url = document.getElementById('gsheet-url').value.trim();
@@ -1684,11 +1493,10 @@ function writeSheetData(sheet, items, mapFn, colCount) {
                     if (!response.ok) throw new Error('Failed to pull');
                     const rawData = await response.json();
 
-                    // Smart Check: Is this our upgraded multi-tab ecosystem format?
                     if (rawData && rawData.transactions && rawData.budgets && rawData.loans) {
                         transactions = rawData.transactions.map(item => ({
                             id: item.id ? String(item.id) : 'tx_' + Math.random().toString(36).substr(2, 9),
-                            date: item.date ? String(item.date).split('T')[0] : getRecentDateOffset(0),
+                            date: item.date ? String(item.date).split('T')[0] : formatDate(currentYear, currentMonth, now.getDate()),
                             title: item.title || 'Spreadsheet Outlay',
                             type: item.type === 'income' ? 'income' : 'expense',
                             category: item.category || 'Other',
@@ -1713,12 +1521,10 @@ function writeSheetData(sheet, items, mapFn, colCount) {
                         renderApp();
                         showToast(`Ecosystem restored: ${transactions.length} txs, ${budgets.length} budgets, ${loans.length} loans!`, 'success');
                         updateSyncWidget('synced', 'Ecosystem synced');
-                    } 
-                    // Backward Compatibility for legacy single-tab transaction spreadsheets
-                    else if (Array.isArray(rawData)) {
+                    } else if (Array.isArray(rawData)) {
                         transactions = rawData.map(item => ({
                             id: item.id ? String(item.id) : 'tx_' + Math.random().toString(36).substr(2, 9),
-                            date: item.date ? item.date.split('T')[0] : getRecentDateOffset(0),
+                            date: item.date ? item.date.split('T')[0] : formatDate(currentYear, currentMonth, now.getDate()),
                             title: item.title || 'Spreadsheet Outlay',
                             type: item.type === 'income' ? 'income' : 'expense',
                             category: item.category || 'Other',
@@ -1739,7 +1545,6 @@ function writeSheetData(sheet, items, mapFn, colCount) {
                 }
             });
 
-            // UPGRADED PUSH TO SHEETS (BACKS UP TRANSACTIONS, BUDGETS, AND LOANS INTO 3 INDEPENDENT TABS)
             document.getElementById('push-sheet-btn').addEventListener('click', async () => {
                 vibrateTouch(40);
                 const url = document.getElementById('gsheet-url').value.trim();
@@ -1938,7 +1743,6 @@ function writeSheetData(sheet, items, mapFn, colCount) {
             }
         }
 
-
         function setNavEvents() {
             const tabs = document.querySelectorAll('.nav-tab');
 
@@ -2044,6 +1848,7 @@ function writeSheetData(sheet, items, mapFn, colCount) {
             document.getElementById('total-borrowed').textContent = formatCurrency(outstandingBorrowedSum);
 
             calculateCashflowRunway(totalLiquidCash, sortedTxs);
+            calculateMoMPacing(sortedTxs);
 
             renderDashboardTxs(sortedTxs.slice(0, 4));
             renderDashboardBudgets();
@@ -2230,50 +2035,6 @@ function writeSheetData(sheet, items, mapFn, colCount) {
                 }
             }
         }
-
-
-        document.getElementById('auto-budget-generate-btn').addEventListener('click', async () => {
-            vibrateTouch([20, 50, 20]);
-            
-            const expenses = transactions.filter(t => t.type === 'expense');
-            if (expenses.length === 0) {
-                showToast("Need some Expense history to auto-fill", "error");
-                return;
-            }
-
-            const groupedTotals = {};
-            expenses.forEach(e => {
-                groupedTotals[e.category] = (groupedTotals[e.category] || 0) + Number(e.amount);
-            });
-
-            let generatedCount = 0;
-            for (let [cat, totalAmt] of Object.entries(groupedTotals)) {
-                if (cat === 'Loan Given' || cat === 'Loan Repayment') continue;
-                
-                const recommendedBudget = Math.max(Math.ceil((totalAmt * 1.15) / 50) * 50, 100); 
-                const existingIndex = budgets.findIndex(b => b.category === cat);
-                const targetId = existingIndex !== -1 ? budgets[existingIndex].id : 'b_' + Math.random().toString(36).substr(2, 9);
-                const payload = { category: cat, amount: recommendedBudget };
-
-                if (db && currentUserId) {
-                    try {
-                        await setDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `budgets`, targetId), payload);
-                    } catch (err) {
-                        console.error(err);
-                    }
-                } else {
-                    if (existingIndex !== -1) {
-                        budgets[existingIndex].amount = recommendedBudget;
-                    } else {
-                        budgets.push({ id: targetId, ...payload });
-                    }
-                }
-                generatedCount++;
-            }
-
-            renderApp();
-            showToast(`Auto-configured ${generatedCount} category envelopes!`, "success");
-        });
 
         function styleWalletText(elementId, balance) {
             const el = document.getElementById(elementId);
@@ -2470,7 +2231,6 @@ function writeSheetData(sheet, items, mapFn, colCount) {
             });
         }
 
-
         function renderDonutAllocation(sortedTxs) {
             const legendContainer = document.getElementById('donut-legend');
             const svgChart = document.getElementById('donut-chart-svg');
@@ -2553,7 +2313,7 @@ function writeSheetData(sheet, items, mapFn, colCount) {
                 btn.classList.add('bg-zinc-900', 'text-white', 'shadow');
                 btn.classList.remove('text-zinc-500', 'hover:text-white');
                 
-                const period = btn.get_attribute('data-period');
+                const period = btn.getAttribute('data-period');
                 renderAnalyticsPeriod(period);
             });
         });
@@ -2573,7 +2333,7 @@ function writeSheetData(sheet, items, mapFn, colCount) {
                     <div class="text-center py-12 bg-zinc-950/40 rounded-3xl border border-zinc-900 p-6">
                         <i class="fa-solid fa-receipt text-zinc-800 text-3xl mb-3 block"></i>
                         <p class="text-xs text-zinc-600 font-semibold">No targets established yet.</p>
-                        <p class="text-[11px] text-zinc-700 mt-1 max-w-[80%] mx-auto">Create monthly caps or click the "Auto-Fill" system generator to analyze spending.</p>
+                        <p class="text-[11px] text-zinc-700 mt-1 max-w-[80%] mx-auto">Create monthly caps dynamically using the Add (+) button above.</p>
                     </div>
                 `;
                 return;
@@ -2632,7 +2392,6 @@ function writeSheetData(sheet, items, mapFn, colCount) {
                 container.appendChild(div);
             });
         }
-
 
         function renderLoansDashboard() {
             const lentContainer = document.getElementById('loans-lent-list');
@@ -2870,7 +2629,6 @@ function writeSheetData(sheet, items, mapFn, colCount) {
             }, 300);
         }
 
-
         function setupFormEvents() {
             document.getElementById('save-tx-btn').addEventListener('click', async () => {
                 vibrateTouch(25);
@@ -2878,7 +2636,7 @@ function writeSheetData(sheet, items, mapFn, colCount) {
                 const amount = Number(document.getElementById('tx-amount').value);
                 const account = document.getElementById('tx-account').value;
                 const category = document.getElementById('tx-category').value;
-                const date = document.getElementById('tx-date').value || getRecentDateOffset(0);
+                const date = document.getElementById('tx-date').value || formatDate(currentYear, currentMonth, now.getDate());
 
                 if (!title || !amount || isNaN(amount) || amount <= 0) {
                     showToast('Please provide a valid Title and Amount', 'error');
@@ -3077,7 +2835,7 @@ function writeSheetData(sheet, items, mapFn, colCount) {
 
                 const payAmount = Number(document.getElementById('loan-payment-amount').value);
                 const account = document.getElementById('loan-payment-account').value;
-                const date = document.getElementById('loan-payment-date').value || getRecentDateOffset(0);
+                const date = document.getElementById('loan-payment-date').value || formatDate(currentYear, currentMonth, now.getDate());
 
                 if (!payAmount || isNaN(payAmount) || payAmount <= 0) {
                     showToast('Please type in a valid payment amount', 'error');
@@ -3216,7 +2974,6 @@ function writeSheetData(sheet, items, mapFn, colCount) {
                 }
             });
         }
-
 
         window.editTransaction = function(txId) {
             vibrateTouch(15);
@@ -3381,447 +3138,6 @@ function writeSheetData(sheet, items, mapFn, colCount) {
                     '/': '&#x2F;'
                 }[s];
             });
-        }
-
-        function setupSecuritySettings() {
-            const pinLockInput = document.getElementById('input-pin-lock');
-            const pinLockBtn = document.getElementById('toggle-pin-lock-btn');
-            const pinLockBadge = document.getElementById('pin-lock-status-badge');
-
-            if (activeAppLockPin) {
-                pinLockInput.value = activeAppLockPin;
-                pinLockBtn.textContent = "Disable App Lock";
-                pinLockBtn.className = "active-scale flex-1 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/20 text-rose-400 text-xs font-bold rounded-2xl py-3 text-center transition";
-                pinLockBadge.textContent = "Enabled";
-                pinLockBadge.className = "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider";
-            }
-
-            pinLockBtn.addEventListener('click', () => {
-                vibrateTouch(30);
-                const pinVal = pinLockInput.value.trim();
-                if (activeAppLockPin) {
-                    activeAppLockPin = '';
-                    localStorage.removeItem('apex_app_lock_pin');
-                    pinLockInput.value = '';
-                    pinLockBtn.textContent = "Enable App Lock";
-                    pinLockBtn.className = "active-scale flex-1 bg-indigo-500 hover:bg-indigo-600 text-black text-xs font-bold rounded-2xl py-3 text-center transition";
-                    pinLockBadge.textContent = "Disabled";
-                    pinLockBadge.className = "bg-black text-zinc-600 border border-zinc-900 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider";
-                    showToast('PIN security disabled', 'success');
-                } else {
-                    if (pinVal.length !== 4 || isNaN(Number(pinVal))) {
-                        showToast('PIN code must be exactly 4 digits', 'error');
-                        return;
-                    }
-                    activeAppLockPin = pinVal;
-                    localStorage.setItem('apex_app_lock_pin', pinVal);
-                    pinLockBtn.textContent = "Disable App Lock";
-                    pinLockBtn.className = "active-scale flex-1 bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/20 text-rose-400 text-xs font-bold rounded-2xl py-3 text-center transition";
-                    pinLockBadge.textContent = "Enabled";
-                    pinLockBadge.className = "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider";
-                    showToast('PIN security locker configured!', 'success');
-                }
-            });
-        }
-
-
-        // ==========================================
-        // GEMINI AI INTEGRATION ENGINE & CONTROLLERS
-        // ==========================================
-        let activeAiTab = 'chat';
-        let base64ReceiptImgData = null;
-
-        function setupGeminiAIEventHandlers() {
-            const aiModal = document.getElementById('modal-ai-assistant');
-            const aiTriggerBtn = document.getElementById('ai-hub-btn');
-            const closeAiBtn = document.getElementById('close-ai-modal-btn');
-
-            if (aiTriggerBtn) {
-                aiTriggerBtn.addEventListener('click', () => {
-                    vibrateTouch(30);
-                    openModal(aiModal);
-                });
-            }
-
-            if (closeAiBtn) {
-                closeAiBtn.addEventListener('click', () => {
-                    closeModal(aiModal);
-                });
-            }
-
-            const chatTabBtn = document.getElementById('ai-tab-chat-btn');
-            const logTabBtn = document.getElementById('ai-tab-log-btn');
-            const panelChat = document.getElementById('ai-panel-chat');
-            const panelLog = document.getElementById('ai-panel-log');
-
-            chatTabBtn.addEventListener('click', () => {
-                vibrateTouch(15);
-                activeAiTab = 'chat';
-                chatTabBtn.className = "py-1.5 text-xs font-bold rounded-lg bg-zinc-900 text-indigo-400 border border-indigo-500/10";
-                logTabBtn.className = "py-1.5 text-xs font-semibold rounded-lg text-zinc-500 hover:text-white";
-                panelChat.classList.remove('hidden');
-                panelLog.classList.add('hidden');
-            });
-
-            logTabBtn.addEventListener('click', () => {
-                vibrateTouch(15);
-                activeAiTab = 'log';
-                logTabBtn.className = "py-1.5 text-xs font-bold rounded-lg bg-zinc-900 text-indigo-400 border border-indigo-500/10";
-                chatTabBtn.className = "py-1.5 text-xs font-semibold rounded-lg text-zinc-500 hover:text-white";
-                panelLog.classList.remove('hidden');
-                panelChat.classList.add('hidden');
-            });
-
-            const chatSendBtn = document.getElementById('ai-chat-send-btn');
-            const chatInput = document.getElementById('ai-chat-input');
-            
-            chatSendBtn.addEventListener('click', submitChatToGemini);
-            chatInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') submitChatToGemini();
-            });
-
-            document.getElementById('ai-nlp-submit-btn').addEventListener('click', parseNLPWithGemini);
-            document.getElementById('ai-receipt-upload').addEventListener('change', handleReceiptImageSelection);
-            document.getElementById('ai-receipt-camera').addEventListener('change', handleReceiptImageSelection);
-            document.getElementById('ai-ocr-clear-img').addEventListener('click', clearReceiptPreview);
-            document.getElementById('ai-ocr-submit-btn').addEventListener('click', parseReceiptOCRWithGemini);
-        }
-
-        async function submitChatToGemini() {
-            const chatInput = document.getElementById('ai-chat-input');
-            const prompt = chatInput.value.trim();
-            if (!prompt) return;
-
-            vibrateTouch(25);
-            chatInput.value = '';
-            appendAiChatMessage('user', prompt);
-
-            const loadingId = appendAiChatMessage('ai', '<i class="fa-solid fa-circle-notch animate-spin mr-1.5"></i> Synthesizing ledger data...', true);
-
-            const aggregatedBalances = getUnifiedBalancesForContext();
-            const payloadContext = {
-                ownerName: "Adham",
-                totalLiquidSavings: aggregatedBalances.totalCash,
-                walletBalances: {
-                    rhb: aggregatedBalances.rhb,
-                    bankIslam: aggregatedBalances.bankIslam,
-                    cash: aggregatedBalances.cash
-                },
-                monthlyEnvelopes: budgets,
-                outstandingLentReceivables: loans.filter(l => l.type === 'lent'),
-                outstandingDebts: loans.filter(l => l.type === 'borrowed'),
-                recentTransactions: transactions.slice(0, 15) 
-            };
-
-            const systemPrompt = `You are Adham's personal elite Financial Advisor. You are inside the "Finance Tracker" mobile dashboard app.
-            You have live visibility to Adham's actual tracker stats:
-            - RHB Bank Wallet: RM${payloadContext.walletBalances.rhb}
-            - Bank Islam Wallet: RM${payloadContext.walletBalances.bankIslam}
-            - Cash Wallet: RM${payloadContext.walletBalances.cash}
-            - Safety Cash Runway: ${document.getElementById('predictive-runway').textContent}
-            - Monthly Budget caps: ${JSON.stringify(payloadContext.monthlyEnvelopes)}
-            - Loans & Liabilities: ${JSON.stringify(loans)}
-            - Last 15 Ledger Records: ${JSON.stringify(payloadContext.recentTransactions)}
-
-            Keep your responses short, professional, motivating, and incredibly specific to Adham's balances and metrics. Use RM (Malaysian Ringgit) as the default currency context. Always format your responses in elegant markdown with bold weights where needed. Do not use generic explanations, give high-impact numerical projections!`;
-
-            try {
-                const responseText = await callGeminiAPI(prompt, systemPrompt);
-                removeAiChatPlaceholder(loadingId);
-                appendAiChatMessage('ai', responseText);
-            } catch (err) {
-                console.error(err);
-                removeAiChatPlaceholder(loadingId);
-                appendAiChatMessage('ai', "❌ Failed to connect to the Gemini intelligence grid. Check your connection or retry shortly!");
-            }
-        }
-
-        window.triggerQuickAIQuery = function(promptText) {
-            document.getElementById('ai-chat-input').value = promptText;
-            submitChatToGemini();
-        };
-
-        function appendAiChatMessage(sender, text, isHtml = false) {
-            const thread = document.getElementById('ai-chat-thread');
-            if(!thread) return;
-
-            const div = document.createElement('div');
-            const isUser = sender === 'user';
-            div.className = isUser ? "flex items-start gap-2.5 max-w-[85%] self-end flex-row-reverse ml-auto" : "flex items-start gap-2.5 max-w-[85%]";
-            
-            const avatarBg = isUser ? "bg-emerald-500/20 text-emerald-300" : "bg-indigo-500/20 text-indigo-300";
-            const avatarTxt = isUser ? "ME" : "AI";
-            const bubbleBg = isUser ? "bg-emerald-950/20 border border-emerald-500/10 text-emerald-100" : "bg-zinc-900/40 border border-zinc-900 text-zinc-300";
-
-            div.innerHTML = `
-                <div class="w-6 h-6 rounded-lg ${avatarBg} flex items-center justify-center text-[10px] font-bold shrink-0">${avatarTxt}</div>
-                <div class="${bubbleBg} p-2.5 rounded-2xl text-xs leading-relaxed break-words whitespace-pre-wrap">
-                    ${isHtml ? text : formatMarkdownSimple(text)}
-                </div>
-            `;
-            
-            const messageId = 'ai_msg_' + Math.random().toString(36).substr(2, 9);
-            div.id = messageId;
-            thread.appendChild(div);
-            
-            thread.scrollTop = thread.scrollHeight;
-            return messageId;
-        }
-
-        function removeAiChatPlaceholder(id) {
-            const el = document.getElementById(id);
-            if (el) el.remove();
-        }
-
-        function formatMarkdownSimple(text) {
-            let processed = escapeHtml(text);
-            processed = processed.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            processed = processed.replace(/\*(.*?)\*/g, '<em>$1</em>');
-            processed = processed.replace(/^- (.*?)$/gm, '• $1');
-            return processed;
-        }
-
-        async function parseNLPWithGemini() {
-            const nlpInput = document.getElementById('ai-nlp-input');
-            const textPrompt = nlpInput.value.trim();
-            if (!textPrompt) {
-                showToast("Type something first! e.g., 'Spent RM10 on snacks yesterday'", "error");
-                return;
-            }
-
-            vibrateTouch(30);
-            const submitBtn = document.getElementById('ai-nlp-submit-btn');
-            const originalBtnText = submitBtn.innerHTML;
-            
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin mr-1.5"></i> Gemini parsing...`;
-
-            const systemPrompt = `You are a strict data structuring parser inside a Malaysian finance ledger app.
-            Analyze the user's natural text entry. Extract the transaction and represent it precisely as a JSON object adhering to this schema:
-            {
-              "title": "String (the merchant or short activity name)",
-              "amount": Number (always positive absolute decimal values, e.g. 15.50),
-              "type": "expense" OR "income",
-              "category": "Food", "Transport", "Utilities", "Entertainment", "Shopping", "Salary", "Investment", or "Other",
-              "account": "RHB Bank", "Bank Islam", or "Cash" (If unspecified, default to "Cash"),
-              "date": "YYYY-MM-DD" (If unspecified or 'yesterday' relative to today, adjust to matches. Today is ${new Date().toISOString().split('T')[0]})
-            }
-            Return ONLY raw JSON. No markdown backticks, no markdown formatting. Just the plain JSON object block.`;
-
-            try {
-                const responseJsonText = await callGeminiAPI(textPrompt, systemPrompt, "application/json");
-                const cleanJson = responseJsonText.replace(/```json/gi, '').replace(/```/g, '').trim();
-                const transactionPayload = JSON.parse(cleanJson);
-
-                if (transactionPayload && transactionPayload.amount) {
-                    const targetId = 'tx_' + Math.random().toString(36).substr(2, 9);
-                    
-                    if (db && currentUserId) {
-                        await setDoc(doc(db, `artifacts`, appId, `users`, currentUserId, `transactions`, targetId), transactionPayload);
-                    } else {
-                        transactions.push({ id: targetId, ...transactionPayload });
-                        renderApp();
-                    }
-
-                    showToast(`AI Logged: ${transactionPayload.title} (RM${transactionPayload.amount})`, 'success');
-                    nlpInput.value = '';
-                    closeModal(document.getElementById('modal-ai-assistant'));
-                } else {
-                    throw new Error("Validation mismatch");
-                }
-            } catch (err) {
-                console.error(err);
-                showToast("Failed to structure text log. Double check details!", "error");
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
-            }
-        }
-
-        function handleReceiptImageSelection(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            vibrateTouch(15);
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                base64ReceiptImgData = event.target.result.split(',')[1]; 
-                
-                document.getElementById('ai-ocr-preview-img').src = event.target.result;
-                document.getElementById('ai-ocr-preview-box').classList.remove('hidden');
-                document.getElementById('ai-ocr-submit-btn').classList.remove('hidden');
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function clearReceiptPreview() {
-            vibrateTouch(10);
-            base64ReceiptImgData = null;
-            document.getElementById('ai-receipt-upload').value = '';
-            document.getElementById('ai-receipt-camera').value = '';
-            document.getElementById('ai-ocr-preview-box').classList.add('hidden');
-            document.getElementById('ai-ocr-submit-btn').classList.add('hidden');
-        }
-
-        async function parseReceiptOCRWithGemini() {
-            if (!base64ReceiptImgData) return;
-
-            vibrateTouch(40);
-            const submitBtn = document.getElementById('ai-ocr-submit-btn');
-            const originalBtnText = submitBtn.innerHTML;
-
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = `<i class="fa-solid fa-circle-notch animate-spin mr-1.5"></i> Gemini scanning...`;
-
-            const userPrompt = "Parse this receipt. Extract merchant name as title, final calculated cash/card amount paid as amount, correct category, matched bank/cash wallet if visible on transaction slips (default Cash if unspecified), and the calendar transaction date.";
-            const systemPrompt = `You are a high-speed receipt visual parsing robot. You must return a single, plain JSON block. No markdown envelopes. No other text.
-            Schema rules:
-            {
-              "title": "Merchant Name String",
-              "amount": Number (decimal value of total cash paid),
-              "type": "expense",
-              "category": "Food", "Transport", "Utilities", "Entertainment", "Shopping", "Salary", "Investment", or "Other",
-              "account": "RHB Bank", "Bank Islam", or "Cash" (Identify from invoice payment tags e.g. VISA RHB, Cash, credit card Islam. If unknown, default "Cash"),
-              "date": "YYYY-MM-DD"
-            }`;
-
-            try {
-                const responseJsonText = await callGeminiVisionAPI(userPrompt, base64ReceiptImgData, systemPrompt);
-                const cleanJson = responseJsonText.replace(/```json/gi, '').replace(/```/g, '').trim();
-                const transactionPayload = JSON.parse(cleanJson);
-
-                if (transactionPayload && transactionPayload.amount) {
-                    vibrateTouch([20, 50, 20]);
-                    
-                    document.getElementById('tx-title').value = transactionPayload.title || '';
-                    document.getElementById('tx-amount').value = transactionPayload.amount || '';
-                    document.getElementById('tx-date').value = transactionPayload.date || getRecentDateOffset(0);
-                    
-                    const accSelector = document.getElementById('tx-account');
-                    accSelector.value = transactionPayload.account || 'Cash';
-
-                    expenseBtn.click(); 
-                    document.getElementById('tx-category').value = transactionPayload.category || 'Other';
-
-                    closeModal(document.getElementById('modal-ai-assistant'));
-                    clearReceiptPreview();
-                    
-                    setTimeout(() => {
-                        document.getElementById('modal-title-text').textContent = "Confirm AI Parsed Receipt";
-                        openModal(modalTx);
-                    }, 400);
-
-                    showToast("Receipt parsed! Confirm and save the record.", "success");
-                } else {
-                    throw new Error("OCR parsing mismatch");
-                }
-            } catch (err) {
-                console.error(err);
-                showToast("Failed to parse receipt. Verify picture clarity!", "error");
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
-            }
-        }
-
-        async function callGeminiAPI(userQuery, systemInstruction = "", mimeType = "text/plain", retryCount = 0) {
-            const apiKey = ""; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-
-            const payload = {
-                contents: [{ parts: [{ text: userQuery }] }],
-                systemInstruction: systemInstruction ? { parts: [{ text: systemInstruction }] } : undefined
-            };
-
-            if (mimeType === 'application/json') {
-                payload.generationConfig = { responseMimeType: "application/json" };
-            }
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (response.status === 429 && retryCount < 4) {
-                    const backoffDelay = Math.pow(2, retryCount) * 1000;
-                    await new Promise(res => setTimeout(res, backoffDelay));
-                    return callGeminiAPI(userQuery, systemInstruction, mimeType, retryCount + 1);
-                }
-
-                if (!response.ok) throw new Error("Gemini API call failed");
-                const result = await response.json();
-                return result.candidates?.[0]?.content?.parts?.[0]?.text || '';
-            } catch (err) {
-                if (retryCount < 4) {
-                    const backoffDelay = Math.pow(2, retryCount) * 1000;
-                    await new Promise(res => setTimeout(res, backoffDelay));
-                    return callGeminiAPI(userQuery, systemInstruction, mimeType, retryCount + 1);
-                }
-                throw err;
-            }
-        }
-
-        async function callGeminiVisionAPI(userQuery, base64ImgData, systemInstruction = "", retryCount = 0) {
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-
-            const payload = {
-                contents: [{
-                    role: "user",
-                    parts: [
-                        { text: userQuery },
-                        { inlineData: { mimeType: "image/png", data: base64ImgData } }
-                    ]
-                }],
-                systemInstruction: systemInstruction ? { parts: [{ text: systemInstruction }] } : undefined,
-                generationConfig: { responseMimeType: "application/json" }
-            };
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (response.status === 429 && retryCount < 4) {
-                    const backoffDelay = Math.pow(2, retryCount) * 1000;
-                    await new Promise(res => setTimeout(res, backoffDelay));
-                    return callGeminiVisionAPI(userQuery, base64ImgData, systemInstruction, retryCount + 1);
-                }
-
-                if (!response.ok) throw new Error("Gemini Vision call failed");
-                const result = await response.json();
-                return result.candidates?.[0]?.content?.parts?.[0]?.text || '';
-            } catch (err) {
-                if (retryCount < 4) {
-                    const backoffDelay = Math.pow(2, retryCount) * 1000;
-                    await new Promise(res => setTimeout(res, backoffDelay));
-                    return callGeminiVisionAPI(userQuery, base64ImgData, systemInstruction, retryCount + 1);
-                }
-                throw err;
-            }
-        }
-
-        function getUnifiedBalancesForContext() {
-            let balRHB = 0, balIslam = 0, balCash = 0;
-            transactions.forEach(tx => {
-                const amt = Number(tx.amount);
-                const isIncome = tx.type === 'income';
-                const delta = isIncome ? amt : -amt;
-                const account = tx.account || 'Cash';
-                if (account === 'RHB Bank') balRHB += delta;
-                else if (account === 'Bank Islam') balIslam += delta;
-                else balCash += delta;
-            });
-            return {
-                rhb: balRHB,
-                bankIslam: balIslam,
-                cash: balCash,
-                totalCash: balRHB + balIslam + balCash
-            };
         }
     </script>
 </body>
